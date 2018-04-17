@@ -24,34 +24,34 @@ public class Pawn extends Character
 		
 		foo[0] = 0;
 		foo[1] = 1;
-		foo = this.getMovePosition(foo[0], foo[1]);
+		foo = this.getMovePosition(foo);
 		
-		if (map.getMap()[foo[0]][foo[1]] instanceof Floor && map.isWithinBounds(foo[0], foo[1]))
+		if (map.isWithinBounds(foo) && map.getMap()[foo[1]][foo[0]] instanceof Floor)
 		{
 			ret.add(foo);
 			
 			if (moveCount == 0)
 			{	
 				foo[1] = 2;
-				foo = this.getMovePosition(foo[0], foo[1]);
+				foo = this.getMovePosition(foo);
 				
-				if (map.getMap()[foo[0]][foo[1]] instanceof Floor && map.isWithinBounds(foo[0], foo[1]))
+				if (map.isWithinBounds(foo) && map.getMap()[foo[1]][foo[0]] instanceof Floor)
 					ret.add(foo);
 			}
 		}
 
-		
+		//Capture
 		foo[0] = 1;
 		foo[1] = 1;
-		foo = this.getMovePosition(foo[0], foo[1]);
+		foo = this.getMovePosition(foo);
 		
-		if (!(map.getMap()[foo[0]][foo[1]] instanceof Floor) && map.isWithinBounds(foo[0], foo[1]))
+		if (map.isWithinBounds(foo) && !(map.getMap()[foo[1]][foo[0]] instanceof Floor) && map.getMap()[foo[1]][foo[0]].player != this.player)
 			ret.add(foo);
 		
 		foo[0] = -1;
-		foo = this.getMovePosition(foo[0], foo[1]);
+		foo = this.getMovePosition(foo);
 		
-		if (!(map.getMap()[foo[0]][foo[1]] instanceof Floor) && map.isWithinBounds(foo[0], foo[1]))
+		if (map.isWithinBounds(foo) && !(map.getMap()[foo[1]][foo[0]] instanceof Floor) && map.getMap()[foo[1]][foo[0]].player != this.player)
 			ret.add(foo);
 		
 		

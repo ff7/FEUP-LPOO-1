@@ -4,7 +4,21 @@ package chess.logic;
 
 public class Map {
 
-	private Character[][] map = {
+	private Character[][] map = 
+			{
+				
+				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+				{new Floor(), new Floor(), new Floor(), new Bishop(), new Floor(), new Queen(), new Floor(), new Floor()},
+				{new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+				{new Knight(), new Floor(), new Floor(), new Knight(), new Floor(), new King(), new Floor(), new Floor()},
+				{new Floor(), new Floor(), new King(), new Pawn(), new Floor(), new Floor(), new Floor(), new Floor()},
+				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Pawn(), new Floor(), new Floor()},
+				{new Rook(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Rook()},
+				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+	
+			};
+		/*
+		{
 			
 					{new Rook(), new Knight(), new Bishop(), new King(), new Queen(), new Bishop(), new Knight(), new Rook()},
 					{new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn()},
@@ -16,6 +30,8 @@ public class Map {
 					{new Rook(), new Knight(), new Bishop(), new King(), new Queen(), new Bishop(), new Knight(), new Rook()},
 		
 				};
+	
+	*/
 		
 	public Map() 
 	{
@@ -26,25 +42,25 @@ public class Map {
 				map[i][j].setX(j);
 				map[i][j].setY(i);
 				
-				if (i == 0 || i == 1)
-				{
-					map[i][j].setPlayer(1);
-				}
-				else if (i == 6 || i == 7)
-				{
-					map[i][j].setPlayer(0);
-				}
+//				if (i == 0 || i == 1)
+//				{
+//					map[i][j].setPlayer(1);
+//				}
+//				else if (i == 6 || i == 7)
+//				{
+//					map[i][j].setPlayer(0);
+//				}
 			}
 		}
 		
-	}; 
+	};
 	
 	public Map(Character[][] map)
 	{
 		this.map = map;
 	}
 	
-	public char[][] toCharMap()
+	public char[][] getCharMap()
 	{
 		char[][] ret = new char[8][8];
 		
@@ -80,5 +96,13 @@ public class Map {
 		return (pair[0] >= 0 && pair[0] < map[0].length && pair[1] >= 0 && pair[1] < map.length);
 	}
 	
-	
+	public void printMap()
+	{
+		char[][] charMap = this.getCharMap();
+		
+		for (int i = 0; i < charMap.length; i++)
+		{
+			System.out.println(charMap[i]);
+		}
+	}
 }

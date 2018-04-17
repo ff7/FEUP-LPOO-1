@@ -2,6 +2,8 @@ package chess.logic;
 
 import java.util.ArrayList;
 
+import com.sun.xml.internal.ws.message.RelatesToHeader;
+
 public class Rook extends Character
 {
 	int moveCount = 0;
@@ -42,48 +44,55 @@ public class Rook extends Character
 	public ArrayList<int[]> getPossible(Map map)
 	{
 		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] foo = new int[2]; // {x, y}
-		
-		foo[0] = 1;
-		foo[1] = 0;
-		foo = this.getMovePosition(foo);
-		
+		int[] relativePos = new int[2]; // {x, y}
+		int[] absolutePos = new int[2]; // {x, y}
+				
 		int xadd, yadd;
 		
 		for (int i = 0; i < 4; i++)
 		{
-			if (i == 0)
-			{
-				xadd = 0;
-				yadd = -1;
-			}
-			else if (i == 1)
-			{
-				xadd = -1;
-				yadd = 0;
-			}
-			else if (i == 2)
+			if (i == 0) //Up
 			{
 				xadd = 0;
 				yadd = 1;
 			}
-			else
+			else if (i == 1) //Left
+			{
+				xadd = -1;
+				yadd = 0;
+			}
+			else if (i == 2) //Down
+			{
+				xadd = 0;
+				yadd = -1;
+			}
+			else //Right
 			{
 				xadd = 1;
 				yadd = 0;
 			}
 			
-			for(; map.isWithinBounds(foo); foo[0] += xadd, foo[1] += yadd, foo = this.getMovePosition(foo))
+			relativePos[0] = 0;
+			relativePos[1] = 0;
+			 
+			while (true)
 			{
-				if (map.getMap()[foo[0]][foo[1]] instanceof Floor)
+				relativePos[0] += xadd;
+				relativePos[1] += yadd;
+				absolutePos = this.getMovePosition(relativePos);
+				
+				if (!map.isWithinBounds(absolutePos))
+					break;
+						
+				if (map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor)
 				{
-					ret.add(foo);
+					ret.add(absolutePos);
 				}
 				else
 				{
-					if (map.getMap()[foo[0]][foo[1]].player != this.player)
+					if (map.getMap()[absolutePos[1]][absolutePos[0]].player != this.player)
 					{
-						ret.add(foo);
+						ret.add(absolutePos);
 					}
 					
 					break;

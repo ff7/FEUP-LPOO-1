@@ -8,7 +8,7 @@ public class Floor extends Character
 	
 	public Floor()
 	{
-		super(' ');
+		super('_');
 	}
 	
 	public Floor(int x, int y)

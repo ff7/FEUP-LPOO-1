@@ -9,7 +9,7 @@ import chess.logic.Character;
 public class cli
 {
 
-	public static void main(String[] args)
+	public static void test()
 	{
 		GameState gs = new GameState();
 		
@@ -33,11 +33,12 @@ public class cli
 		{
 			System.out.println(foo.get(i)[0] + ", " + foo.get(i)[1]);
 		}
-		
-		System.out.println();
-		
-		
-		
+			
+	}
+	
+	public static void main(String[] args)
+	{
+		GameState gs = new GameState();
 	}
 
 }

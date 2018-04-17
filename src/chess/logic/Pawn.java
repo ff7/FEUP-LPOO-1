@@ -17,25 +17,44 @@ public class Pawn extends Character
 	}
 
 	@Override
-	public ArrayList<int[]> getPossible()
+	public ArrayList<int[]> getPossible(Map map)
 	{
 		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] foo = new int[2];
+		int[] foo = new int[2]; // {x, y}
 		
 		foo[0] = 0;
 		foo[1] = 1;
-		ret.add(foo);
+		foo = this.getMovePosition(foo[0], foo[1]);
 		
-		if (moveCount == 0)
-		{	
-			foo[1] = 2;
-			ret.add(foo);
-		}
-		else
+		if (map.getMap()[foo[0]][foo[1]] instanceof Floor && map.isWithinBounds(foo[0], foo[1]))
 		{
+			ret.add(foo);
 			
+			if (moveCount == 0)
+			{	
+				foo[1] = 2;
+				foo = this.getMovePosition(foo[0], foo[1]);
+				
+				if (map.getMap()[foo[0]][foo[1]] instanceof Floor && map.isWithinBounds(foo[0], foo[1]))
+					ret.add(foo);
+			}
 		}
+
 		
-		return null;
+		foo[0] = 1;
+		foo[1] = 1;
+		foo = this.getMovePosition(foo[0], foo[1]);
+		
+		if (!(map.getMap()[foo[0]][foo[1]] instanceof Floor) && map.isWithinBounds(foo[0], foo[1]))
+			ret.add(foo);
+		
+		foo[0] = -1;
+		foo = this.getMovePosition(foo[0], foo[1]);
+		
+		if (!(map.getMap()[foo[0]][foo[1]] instanceof Floor) && map.isWithinBounds(foo[0], foo[1]))
+			ret.add(foo);
+		
+		
+		return ret;
 	}
 }

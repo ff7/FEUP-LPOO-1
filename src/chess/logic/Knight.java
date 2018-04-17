@@ -16,7 +16,7 @@ public class Knight extends Character
 		super(player, x, y, 'p');
 	}
 
-	public ArrayList<int[]> getPossible()
+	public ArrayList<int[]> getPossible(Map map)
 	{
 		ArrayList<int[]> ret = new ArrayList<int[]>();
 		int[] foo = new int[2];

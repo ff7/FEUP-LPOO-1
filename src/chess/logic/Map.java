@@ -70,5 +70,15 @@ public class Map {
 		this.map = map;
 	}
 	
+	public boolean isWithinBounds(int x, int y)
+	{
+		return (x >= 0 && x < map[0].length && y >= 0 && y < map.length);
+	}
+	
+	public boolean isWithinBounds(int[] pair)
+	{
+		return (pair[0] >= 0 && pair[0] < map[0].length && pair[1] >= 0 && pair[1] < map.length);
+	}
+	
 	
 }

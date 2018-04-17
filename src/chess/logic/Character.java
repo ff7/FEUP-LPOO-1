@@ -7,7 +7,6 @@ public abstract class Character {
 		int y;
 		char ch;
 		int player;
-		char[][] map;
 		
 		public Character()
 		{
@@ -63,5 +62,37 @@ public abstract class Character {
 			this.y = y;
 		}
 		
-		public abstract ArrayList<int[]> getPossible();
+		public int[] getMovePosition(int x, int y)
+		{
+			if (this.player == 0)
+			{
+				y *= -1;
+			}
+			else
+			{
+				x *= -1;
+			}
+			
+			int[] ret = {x, y};
+			
+			return ret;
+		}
+		
+		public int[] getMovePosition(int[] pair)
+		{
+			if (this.player == 0)
+			{
+				pair[1] *= -1;
+			}
+			else
+			{
+				pair[0] *= -1;
+			}
+			
+			int[] ret = {pair[0], pair[1]};
+			
+			return ret;
+		}
+		
+		public abstract ArrayList<int[]> getPossible(Map map);
 }

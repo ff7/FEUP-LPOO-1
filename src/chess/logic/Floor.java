@@ -40,4 +40,10 @@ public class Floor extends Character
 		
 		return null;
 	}
+	
+	@Override
+	public ArrayList<int[]> getPossible(Map map)
+	{
+		return null;
+	}
 }

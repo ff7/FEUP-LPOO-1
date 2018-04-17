@@ -34,7 +34,7 @@ public class GameState
 			x *= -1;
 		}
 		
-		ArrayList<int[]> possible = ch.getPossible();
+		ArrayList<int[]> possible = ch.getPossible(this.map);
 		
 		for (int i = 0; i < possible.size(); i++)
 		{
@@ -46,6 +46,11 @@ public class GameState
 		}
 				
 		return false;
+	}
+	
+	public Map getMap()
+	{
+		return map;
 	}
 
 }

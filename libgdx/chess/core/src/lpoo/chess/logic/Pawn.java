@@ -2,8 +2,6 @@ package lpoo.chess.logic;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.Texture;
-
 public class Pawn extends Character
 {
 	int moveCount = 0;
@@ -23,6 +21,9 @@ public class Pawn extends Character
 	@Override
 	public ArrayList<int[]> getPossible(Map map)
 	{
+		if (y != 1 && y != 6) //PROVISIONAL
+			moveCount = 1;
+		
 		ArrayList<int[]> ret = new ArrayList<int[]>();
 		int[] relativePos = new int[2]; // {x, y}
 		int[] absolutePos = new int[2]; // {x, y}

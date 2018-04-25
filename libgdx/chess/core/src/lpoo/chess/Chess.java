@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import lpoo.chess.gui.Graphics;
-import lpoo.chess.gui.MyMouseHandler;
 
 public class Chess extends ApplicationAdapter {
 	SpriteBatch batch;

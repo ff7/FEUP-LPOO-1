@@ -4,35 +4,37 @@ package lpoo.chess.logic;
 
 public class Map {
 
-	private Character[][] map =  {
+	private Character[][] map =  
+		/*
+		{
 				
-						{new Rook(), new Knight(), new Bishop(), new King(), new Queen(), new Bishop(), new Knight(), new Rook()},
+						{new Rook(), new Knight(), new Bishop(), new Queen(), new King(), new Bishop(), new Knight(), new Rook()},
 						{new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn()},
 						{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 						{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 						{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 						{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 						{new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn()},
-						{new Rook(), new Knight(), new Bishop(), new King(), new Queen(), new Bishop(), new Knight(), new Rook()},
+						{new Rook(), new Knight(), new Bishop(), new Queen(), new Bishop(), new Knight(), new Rook()},
 			
 					};
-		
+					*/
 		
 			
-		/*
+		
 		{
 				
 				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 				{new Floor(), new Floor(), new Floor(), new Bishop(), new Floor(), new Queen(), new Floor(), new Floor()},
 				{new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
-				{new Knight(), new Floor(), new Floor(), new Knight(), new Floor(), new King(), new Floor(), new Floor()},
-				{new Floor(), new Floor(), new King(), new Pawn(), new Floor(), new Floor(), new Floor(), new Floor()},
+				{new Knight(), new Floor(), new Floor(), new Floor(), new Knight(), new King(), new Floor(), new Floor()},
+				{new Floor(), new Floor(), new King(), new Pawn(), new Floor(), new Floor(), new Bishop(), new Floor()},
 				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Pawn(), new Floor(), new Floor()},
-				{new Rook(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Rook()},
+				{new Rook(), new Floor(), new Pawn(), new Floor(), new Pawn(), new Floor(), new Floor(), new Rook()},
 				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 	
 			};
-		*/
+		
 		
 	public Map() 
 	{

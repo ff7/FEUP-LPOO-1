@@ -44,6 +44,11 @@ public abstract class Character {
 			return this.y;
 		}
 		
+		public int getPlayer()
+		{
+			return this.player;
+		}
+		
 		public void setPlayer(int player)
 		{
 			this.player = player;
@@ -86,20 +91,7 @@ public abstract class Character {
 		
 		public int[] getMovePosition(int[] pair) // Esquerda negativo e direita positivo
 		{
-			int[] ret = new int[2];
-			
-			if (this.player == 0)
-			{
-				ret[0] = this.x + pair[0];
-				ret[1] = this.y - pair[1];
-			}
-			else
-			{
-				ret[0] = this.x - pair[0];
-				ret[1] = this.y + pair[1];
-			}
-			
-			return ret;
+			return getMovePosition(pair[0], pair[1]);
 		}
 		
 		public void setTexture(String filename)

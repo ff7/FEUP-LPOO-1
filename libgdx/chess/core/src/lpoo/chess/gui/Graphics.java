@@ -1,15 +1,27 @@
 package lpoo.chess.gui;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import lpoo.chess.logic.GameState;
 import lpoo.chess.logic.Character;
 
-public class Graphics
+public class Graphics implements InputProcessor
 {
 	SpriteBatch batch;
 	GameState gamestate;
+	
+	int width = -1, height, widthInc, heightInc;
+	
+	Texture blackFloor = new Texture("../core/src/lpoo/chess/gui/images/black/floor.png");
+	Texture whiteFloor = new Texture("../core/src/lpoo/chess/gui/images/white/floor.png");
+	Texture redFloor = new Texture("../core/src/lpoo/chess/gui/images/highlight.png");
+	
+	ArrayList<int[]> possible = new ArrayList<int[]>();
 	
 	
 	public Graphics(SpriteBatch batch)
@@ -25,23 +37,121 @@ public class Graphics
 			
 		Character[][] map = gamestate.getMap().getMap();
 		
-		int width = 0;
-		int height = 0;
-		int widthInc = 70; //Gdx.graphics.getWidth()/map[0].length; // Increment of the width, aka image width.
-		int heightInc = 70; //Gdx.graphics.getHeight()/map.length; // Increment of the height, aka image height.
+		if (width == -1)
+		{
+			width = Gdx.graphics.getWidth();
+			height = Gdx.graphics.getHeight();
+			widthInc = width / map[0].length; //Gdx.graphics.getWidth()/map[0].length; // Increment of the width, aka image width.
+			heightInc = height / map.length;
+			
+			System.out.println(width + ", " + height);
+			System.out.println("widthInc = " + widthInc + ", heightInc = " + heightInc);
+		}
+		
 		
 		for (int i = 0; i < map.length; i++)
 		{
 			for (int j = 0; j < map[i].length; j++)
 			{
+				if ((i+j) % 2 == 0)
+				{
+					batch.draw(blackFloor, j*widthInc, height - (i+1)*heightInc, widthInc, heightInc);
+				}
+				else
+				{
+					batch.draw(whiteFloor, j*widthInc, height - (i+1)*heightInc, widthInc, heightInc);
+				}
+				
 				if (map[i][j].getTexture() != null)
-					batch.draw(map[i][j].getTexture(), j*widthInc, (map.length - 2)*heightInc - i*heightInc, widthInc, heightInc);
+				{
+					batch.draw(map[i][j].getTexture(), j*widthInc, height - (i+1)*heightInc, widthInc, heightInc);
+				}
 			}
-		}		
-
+		}
 		
-//		batch.draw(bishop.getTexture(), 0, 0, bishop.getTexture().getWidth()/4, bishop.getTexture().getHeight()/4);
+		int x, y;
+		for (int i = 0; i < possible.size(); i++)
+		{
+			x = possible.get(i)[0];
+			y = possible.get(i)[1];
+			
+//			System.out.println("x = " + x + ", y = " + y);
+			
+			batch.draw(redFloor, x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+			
+			if (map[y][x].getTexture() != null)
+			{
+				batch.draw(map[y][x].getTexture(), x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+			}
+		}
+
 		batch.end();
+	}
+	
+	@Override
+	public boolean touchDown(int x, int y, int pointer, int button)
+	{
+		Character piece = getPiece(x, y);
+		
+		System.out.println(piece.getX() + ", " + piece.getY());
+		
+		possible = piece.getPossible(gamestate.getMap());
+		
+		return true;
+	}
+	
+	
+	public Character getPiece(int x, int y)
+	{
+		return gamestate.getMap().getMap()[y/heightInc][x/widthInc];
+	}
+
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

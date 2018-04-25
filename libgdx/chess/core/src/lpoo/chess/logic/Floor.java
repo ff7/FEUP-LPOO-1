@@ -44,7 +44,7 @@ public class Floor extends Character
 	@Override
 	public ArrayList<int[]> getPossible(Map map)
 	{
-		return null;
+		return new ArrayList<int[]>();
 	}
 	
 	public void loadTexture()

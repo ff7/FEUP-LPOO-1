@@ -9,13 +9,11 @@ public class King extends Character
 	public King()
 	{
 		super('K');
-//		super.setTexture("src/lpoo/chess/gui/images/king.png");
 	}
 	
 	public King(int player, int x, int y)
 	{
 		super(player, x, y, 'p');
-//		super.setTexture("src/lpoo/chess/gui/images/kinh.png");
 	}
 
 	public ArrayList<int[]> getPossible(Map map)

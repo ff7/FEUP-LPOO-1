@@ -24,39 +24,40 @@ public class Pawn extends Character
 	public ArrayList<int[]> getPossible(Map map)
 	{
 		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] foo = new int[2]; // {x, y}
+		int[] relativePos = new int[2]; // {x, y}
+		int[] absolutePos = new int[2]; // {x, y}
 		
-		foo[0] = 0;
-		foo[1] = 1;
-		foo = this.getMovePosition(foo);
+		relativePos[0] = 0;
+		relativePos[1] = 1;
+		absolutePos = this.getMovePosition(relativePos);
 		
-		if (map.isWithinBounds(foo) && map.getMap()[foo[1]][foo[0]] instanceof Floor)
+		if (map.isWithinBounds(absolutePos) && map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor)
 		{
-			ret.add(foo);
+			ret.add(absolutePos);
 			
 			if (moveCount == 0)
 			{	
-				foo[1] = 2;
-				foo = this.getMovePosition(foo);
+				relativePos[1] = 2;
+				absolutePos = this.getMovePosition(relativePos);
 				
-				if (map.isWithinBounds(foo) && map.getMap()[foo[1]][foo[0]] instanceof Floor)
-					ret.add(foo);
+				if (map.isWithinBounds(absolutePos) && map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor)
+					ret.add(absolutePos);
 			}
 		}
 
 		//Capture
-		foo[0] = 1;
-		foo[1] = 1;
-		foo = this.getMovePosition(foo);
+		relativePos[0] = 1;
+		relativePos[1] = 1;
+		absolutePos = this.getMovePosition(relativePos);
 		
-		if (map.isWithinBounds(foo) && !(map.getMap()[foo[1]][foo[0]] instanceof Floor) && map.getMap()[foo[1]][foo[0]].player != this.player)
-			ret.add(foo);
+		if (map.isWithinBounds(absolutePos) && !(map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor) && map.getMap()[absolutePos[1]][absolutePos[0]].getPlayer() != this.player)
+			ret.add(absolutePos);
 		
-		foo[0] = -1;
-		foo = this.getMovePosition(foo);
+		relativePos[0] = -1;
+		absolutePos = this.getMovePosition(relativePos);
 		
-		if (map.isWithinBounds(foo) && !(map.getMap()[foo[1]][foo[0]] instanceof Floor) && map.getMap()[foo[1]][foo[0]].player != this.player)
-			ret.add(foo);
+		if (map.isWithinBounds(absolutePos) && !(map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor) && map.getMap()[absolutePos[1]][absolutePos[0]].getPlayer() != this.player)
+			ret.add(absolutePos);
 		
 		
 		return ret;

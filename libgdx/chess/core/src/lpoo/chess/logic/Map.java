@@ -112,5 +112,11 @@ public class Map {
 		map[ch1.getPos().getSecond()][ch1.getPos().getFirst()] = new Floor(ch1.getPos().getFirst(), ch1.getPos().getSecond());
 		
 		ch1.pos = ch2.pos;
+		
+		if (ch1 instanceof Pawn)
+		{
+			Pawn p = (Pawn)(ch1);
+			p.moveCount++;
+		}
 	}
 }

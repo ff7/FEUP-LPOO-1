@@ -9,11 +9,13 @@ public class Floor extends Character
 	public Floor()
 	{
 		super('_');
+		this.setPlayer(-1);
 	}
 	
 	public Floor(int x, int y)
 	{
-		super(-1, x, y, '_');
+		this();
+		setPos(new Pair<Integer, Integer>(x, y));
 	}
 	
 	@Override

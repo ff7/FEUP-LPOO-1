@@ -25,8 +25,6 @@ public class Pawn extends Character
 		Pair<Integer, Integer> relativePos = new Pair<Integer, Integer>();
 		Pair<Integer, Integer> absolutePos = new Pair<Integer, Integer>();
 		
-		if (pos.getSecond() != 1 && pos.getSecond() != 6) //PROVISIONAL
-			moveCount = 1;
 		
 		relativePos.setFirst(0);
 		relativePos.setSecond(1);

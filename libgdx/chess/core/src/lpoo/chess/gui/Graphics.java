@@ -3,6 +3,7 @@ package lpoo.chess.gui;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lpoo.chess.logic.GameState;
 import lpoo.chess.logic.Pair;
 import lpoo.chess.logic.Character;
-import lpoo.chess.logic.Floor;
 
 public class Graphics implements InputProcessor
 {
@@ -111,39 +111,38 @@ public class Graphics implements InputProcessor
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button)
 	{
-		Character piece = getPiece(x, y);
-		
-		if (selected == null)
+		if (button == Input.Buttons.LEFT)
 		{
-			if (piece.getPlayer() != player)
+			Character piece = getPiece(x, y);
+			
+			if (piece.equals(selected))
 			{
 				selected = null;
 				possible = null;
-				return true;
 			}
-			
-			selected = piece;
-						
-			possible = selected.getPossible(gamestate.getMap());
-			
-			if (possible.size() == 0)
+			else if (selected == null || !possible.contains(piece.getPos()))
 			{
+				if (piece.getPlayer() != player)
+				{
+					selected = null;
+					possible = null;
+					return true;
+				}
+				
+				selected = piece;					
+				possible = selected.getPossible(gamestate.getMap());
+			}
+			else
+			{
+				if (!piece.equals(selected))
+				{
+					gamestate.move(selected, piece);
+					swapPlayer();
+				}
+				
 				selected = null;
 				possible = null;
-				return true;
 			}
-		}
-		else
-		{
-
-			if (possible.size() > 0 && possible.contains(piece.getPos()))
-			{
-				gamestate.move(selected, piece);
-				swapPlayer();
-			}
-			
-			selected = null;
-			possible = null;
 		}
 		
 		return true;

@@ -10,6 +10,8 @@ public abstract class Character {
 		int player;
 		Texture texture;
 		
+		public boolean isCheck = false;
+		
 		public Character()
 		{
 

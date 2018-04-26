@@ -12,7 +12,7 @@ public class King extends Character
 		super('K');
 	}
 	
-	public King(int player, int x, int y)
+	public King(int player, int x, int y) 
 	{
 		super(player, x, y, 'p');
 	}

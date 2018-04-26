@@ -27,8 +27,6 @@ public class Graphics implements InputProcessor
 	
 	Character selected;
 	
-	int player = 0;
-	
 	
 	public Graphics(SpriteBatch batch)
 	{
@@ -98,15 +96,16 @@ public class Graphics implements InputProcessor
 	
 	public void swapPlayer()
 	{
-		if (player == 0)
+		if (gamestate.player == 0)
 		{
-			player = 1;
+			gamestate.player = 1;
 		}
 		else
 		{
-			player = 0;
+			gamestate.player = 0;
 		}
 	}
+	
 	
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button)
@@ -122,7 +121,7 @@ public class Graphics implements InputProcessor
 			}
 			else if (selected == null || !possible.contains(piece.getPos()))
 			{
-				if (piece.getPlayer() != player)
+				if (piece.getPlayer() != gamestate.player)
 				{
 					selected = null;
 					possible = null;
@@ -138,9 +137,10 @@ public class Graphics implements InputProcessor
 				{
 					gamestate.move(selected, piece);
 					swapPlayer();
+					gamestate.updateCheck();
 				}
 				
-				selected = null;
+				selected = null; 
 				possible = null;
 			}
 		}

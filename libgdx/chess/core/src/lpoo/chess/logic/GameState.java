@@ -1,10 +1,14 @@
 package lpoo.chess.logic;
 
+
 public class GameState
 {		
 	public int gameStatus = 0; // -1 = game over, 0 = normal, 1 = win
 
 	protected Map map; 
+	public int player = 0;
+	public boolean gameOver = false;
+	public int winner = 2;
 
 	
 	public GameState()
@@ -48,6 +52,42 @@ public class GameState
 	public Map getMap()
 	{
 		return map;
+	}
+	
+	public int otherPlayer()
+	{
+		if (player == 0)
+			return 1;
+		return 0;
+	}
+	
+	public void updateCheck()
+	{
+		Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
+		
+		if (verifyCheck(otherPlayer(), kingPos))
+		{
+			this.getMap().getMap()[kingPos.getFirst()][kingPos.getSecond()].isCheck = true;
+			System.out.println("Check");
+		} 
+	} 
+	
+	public boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
+	{ 
+		for (int i = 0; i < this.getMap().getMap().length; i++)
+		{
+			for (int j = 0; j < this.getMap().getMap()[i].length; j++)
+			{
+				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null)
+				{
+					if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(kingPos) && this.getMap().getMap()[j][i].getPlayer() == p)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }

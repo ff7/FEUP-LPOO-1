@@ -119,4 +119,24 @@ public class Map {
 			p.moveCount++;
 		}
 	}
+	
+	public Pair<Integer, Integer> getKingsPosition(int player)
+	{
+		int x = 0, y = 0; // Initialized to 0 to remove the warning 
+		for (int i = 0; i < map.length; i++)
+		{
+			for (int j = 0; j < map[i].length; j++)
+			{
+				if (map[j][i].ch == 'K' && map[j][i].player == player) 
+				{
+					x = i;
+					y = j;
+				}		
+			}
+		}
+		Pair<Integer, Integer> pos = new Pair<Integer, Integer>();
+		pos.setFirst(x);
+		pos.setSecond(y);
+		return pos;
+	}
 }

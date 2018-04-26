@@ -13,7 +13,7 @@ public class Rook extends Character
 	
 	public Rook(int player, int x, int y)
 	{
-		super(player, x, y, 'p');
+		super(player, x, y, 'R');
 	}
 
 	public ArrayList<int[]> getPossible()
@@ -39,11 +39,11 @@ public class Rook extends Character
 	}
 	
 	@Override
-	public ArrayList<int[]> getPossible(Map map)
+	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
-		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] relativePos = new int[2]; // {x, y}
-		int[] absolutePos = new int[2]; // {x, y}
+		ArrayList<Pair<Integer, Integer>> ret = new ArrayList<Pair<Integer, Integer>>();
+		Pair<Integer, Integer> relativePos = new Pair<Integer, Integer>();
+		Pair<Integer, Integer> absolutePos = new Pair<Integer, Integer>();
 				
 		int xadd, yadd;
 		
@@ -70,25 +70,25 @@ public class Rook extends Character
 				yadd = 0;
 			}
 			
-			relativePos[0] = 0;
-			relativePos[1] = 0;
+			relativePos.setFirst(0);
+			relativePos.setSecond(0);
 			 
 			while (true)
 			{
-				relativePos[0] += xadd;
-				relativePos[1] += yadd;
-				absolutePos = this.getMovePosition(relativePos);
+				relativePos.setFirst(relativePos.getFirst() + xadd);
+				relativePos.setSecond(relativePos.getSecond() + yadd);
+				absolutePos = getMovePosition(relativePos);
 				
 				if (!map.isWithinBounds(absolutePos))
 					break;
 						
-				if (map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor)
+				if (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor)
 				{
 					ret.add(absolutePos);
 				}
 				else
 				{
-					if (map.getMap()[absolutePos[1]][absolutePos[0]].player != this.player)
+					if (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player)
 					{
 						ret.add(absolutePos);
 					}

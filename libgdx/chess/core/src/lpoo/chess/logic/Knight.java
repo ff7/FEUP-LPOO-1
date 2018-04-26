@@ -13,14 +13,15 @@ public class Knight extends Character
 	
 	public Knight(int player, int x, int y)
 	{
-		super(player, x, y, 'p');
+		super(player, x, y, 'k');
 	}
 
-	public ArrayList<int[]> getPossible(Map map)
+	@Override
+	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
-		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] relativePos = new int[2]; // {x, y}
-		int[] absolutePos = new int[2]; // {x, y}
+		ArrayList<Pair<Integer, Integer>> ret = new ArrayList<Pair<Integer, Integer>>();
+		Pair<Integer, Integer> relativePos = new Pair<Integer, Integer>();
+		Pair<Integer, Integer> absolutePos = new Pair<Integer, Integer>();
 				
 		int xadd, yadd;
 		
@@ -67,12 +68,12 @@ public class Knight extends Character
 				yadd = 1;
 			}
 			
-			relativePos[0] = xadd;
-			relativePos[1] = yadd;
-			absolutePos = this.getMovePosition(relativePos);
+			relativePos.setFirst(xadd);
+			relativePos.setSecond(yadd);
+			absolutePos = getMovePosition(relativePos);
 
 						
-			if (map.isWithinBounds(absolutePos) && (map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor || map.getMap()[absolutePos[1]][absolutePos[0]].player != this.player))
+			if (map.isWithinBounds(absolutePos) && (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor || map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player))
 			{
 				ret.add(absolutePos);
 			}

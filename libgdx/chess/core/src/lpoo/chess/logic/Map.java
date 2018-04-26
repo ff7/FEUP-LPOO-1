@@ -5,7 +5,6 @@ package lpoo.chess.logic;
 public class Map {
 
 	private Character[][] map =  
-		/*
 		{
 				
 						{new Rook(), new Knight(), new Bishop(), new Queen(), new King(), new Bishop(), new Knight(), new Rook()},
@@ -15,26 +14,24 @@ public class Map {
 						{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 						{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
 						{new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn()},
-						{new Rook(), new Knight(), new Bishop(), new Queen(), new Bishop(), new Knight(), new Rook()},
+						{new Rook(), new Knight(), new Bishop(), new Queen(), new King(), new Bishop(), new Knight(), new Rook()}
 			
 					};
-					*/
+					
 		
-			
-		
-		{
-				
-				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
-				{new Floor(), new Floor(), new Floor(), new Bishop(), new Floor(), new Queen(), new Floor(), new Floor()},
-				{new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
-				{new Knight(), new Floor(), new Floor(), new Floor(), new Knight(), new King(), new Floor(), new Floor()},
-				{new Floor(), new Floor(), new King(), new Pawn(), new Floor(), new Floor(), new Bishop(), new Floor()},
-				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Pawn(), new Floor(), new Floor()},
-				{new Rook(), new Floor(), new Pawn(), new Floor(), new Pawn(), new Floor(), new Floor(), new Rook()},
-				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
-	
-			};
-		
+//	private Character[][] map =  
+//		{
+//				
+//				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+//				{new Floor(), new Floor(), new Floor(), new Bishop(), new Floor(), new Queen(), new Floor(), new Floor()},
+//				{new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+//				{new Knight(), new Floor(), new Floor(), new Floor(), new Knight(), new King(), new Floor(), new Floor()},
+//				{new Floor(), new Floor(), new King(), new Pawn(), new Floor(), new Floor(), new Bishop(), new Floor()},
+//				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Pawn(), new Floor(), new Floor()},
+//				{new Rook(), new Floor(), new Pawn(), new Floor(), new Pawn(), new Floor(), new Floor(), new Rook()},
+//				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()}
+//	
+//			};
 		
 	public Map() 
 	{
@@ -42,8 +39,7 @@ public class Map {
 		{
 			for (int j = 0; j < map[i].length; j++)
 			{
-				map[i][j].setX(j);
-				map[i][j].setY(i);
+				map[i][j].setPos(new Pair<Integer, Integer>(j, i));
 				
 				if (i == 0 || i == 1)
 				{
@@ -94,9 +90,9 @@ public class Map {
 		return (x >= 0 && x < map[0].length && y >= 0 && y < map.length);
 	}
 	
-	public boolean isWithinBounds(int[] pair)
+	public boolean isWithinBounds(Pair<Integer, Integer> pair)
 	{
-		return (pair[0] >= 0 && pair[0] < map[0].length && pair[1] >= 0 && pair[1] < map.length);
+		return (pair.getFirst() >= 0 && pair.getFirst() < map[0].length && pair.getSecond() >= 0 && pair.getSecond() < map.length);
 	}
 	
 	public void printMap()
@@ -107,5 +103,14 @@ public class Map {
 		{
 			System.out.println(charMap[i]);
 		}
+	}
+	
+	public void move(Character ch1, Character ch2)
+	{		
+		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()] = map[ch1.getPos().getSecond()][ch1.getPos().getFirst()];
+		
+		map[ch1.getPos().getSecond()][ch1.getPos().getFirst()] = new Floor(ch1.getPos().getFirst(), ch1.getPos().getSecond());
+		
+		ch1.pos = ch2.pos;
 	}
 }

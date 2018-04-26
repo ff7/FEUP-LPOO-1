@@ -18,11 +18,6 @@ public class MyMouseHandler implements InputProcessor
 	}
 
 
-	private void onMouseDown()
-	{
-		
-	}
-
 
 	@Override
 	public boolean keyDown(int keycode) {

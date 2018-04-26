@@ -13,42 +13,17 @@ public class Floor extends Character
 	
 	public Floor(int x, int y)
 	{
-		this();
-		
-		super.x = x;
-		super.y = y;
-	}
-
-	public ArrayList<int[]> getPossible()
-	{
-		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] foo = new int[2];
-		
-		foo[0] = 0;
-		foo[1] = 1;
-		ret.add(foo);
-		
-		if (moveCount == 0)
-		{	
-			foo[1] = 2;
-			ret.add(foo);
-		}
-		else
-		{
-			
-		}
-		
-		return null;
+		super(-1, x, y, '_');
 	}
 	
 	@Override
-	public ArrayList<int[]> getPossible(Map map)
+	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
-		return new ArrayList<int[]>();
+		return null;
 	}
 	
 	public void loadTexture()
 	{
-		
+		texture = null;
 	}
 }

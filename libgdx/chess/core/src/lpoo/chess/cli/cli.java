@@ -3,6 +3,7 @@ package lpoo.chess.cli;
 import java.util.ArrayList;
 
 import lpoo.chess.logic.GameState;
+import lpoo.chess.logic.Pair;
 
 
 public class cli
@@ -26,11 +27,11 @@ public class cli
 		
 		System.out.println("Bishop position: " + 3 + ", " + 3 + "\n");
 
-		ArrayList<int[]> foo = gs.getMap().getMap()[3][3].getPossible(gs.getMap());
+		ArrayList<Pair<Integer, Integer>> foo = gs.getMap().getMap()[3][3].getPossible(gs.getMap());
 		
 		for (int i = 0; i < foo.size(); i++)
 		{
-			System.out.println(foo.get(i)[0] + ", " + foo.get(i)[1]);
+			System.out.println(foo.get(i).getFirst() + ", " + foo.get(i).getSecond());
 		}
 			
 	}

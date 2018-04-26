@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import lpoo.chess.logic.GameState;
+import lpoo.chess.logic.Pair;
 import lpoo.chess.logic.Character;
+import lpoo.chess.logic.Floor;
 
 public class Graphics implements InputProcessor
 {
@@ -21,13 +23,18 @@ public class Graphics implements InputProcessor
 	Texture whiteFloor = new Texture("../core/src/lpoo/chess/gui/images/white/floor.png");
 	Texture redFloor = new Texture("../core/src/lpoo/chess/gui/images/highlight.png");
 	
-	ArrayList<int[]> possible = new ArrayList<int[]>();
+	ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
+	
+	Character selected;
+	
+	int player = 0;
 	
 	
 	public Graphics(SpriteBatch batch)
 	{
 		this.batch = batch; 
 		gamestate = new GameState();
+		selected = null;
 	}
 	
 	
@@ -41,11 +48,11 @@ public class Graphics implements InputProcessor
 		{
 			width = Gdx.graphics.getWidth();
 			height = Gdx.graphics.getHeight();
-			widthInc = width / map[0].length; //Gdx.graphics.getWidth()/map[0].length; // Increment of the width, aka image width.
-			heightInc = height / map.length;
+			widthInc = width / map[0].length; // Increment of the width, aka image width.
+			heightInc = height / map.length; // Increment of the height, aka image height.
 			
-			System.out.println(width + ", " + height);
-			System.out.println("widthInc = " + widthInc + ", heightInc = " + heightInc);
+//			System.out.println(width + ", " + height);
+//			System.out.println("widthInc = " + widthInc + ", heightInc = " + heightInc);
 		}
 		
 		
@@ -69,23 +76,36 @@ public class Graphics implements InputProcessor
 			}
 		}
 		
-		int x, y;
-		for (int i = 0; i < possible.size(); i++)
+		if (possible != null)
 		{
-			x = possible.get(i)[0];
-			y = possible.get(i)[1];
-			
-//			System.out.println("x = " + x + ", y = " + y);
-			
-			batch.draw(redFloor, x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
-			
-			if (map[y][x].getTexture() != null)
+			int x, y;
+			for (int i = 0; i < possible.size(); i++)
 			{
-				batch.draw(map[y][x].getTexture(), x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+				x = possible.get(i).getFirst();
+				y = possible.get(i).getSecond();
+								
+				batch.draw(redFloor, x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+				
+				if (map[y][x].getTexture() != null)
+				{
+					batch.draw(map[y][x].getTexture(), x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+				}
 			}
 		}
 
 		batch.end();
+	}
+	
+	public void swapPlayer()
+	{
+		if (player == 0)
+		{
+			player = 1;
+		}
+		else
+		{
+			player = 0;
+		}
 	}
 	
 	@Override
@@ -93,9 +113,38 @@ public class Graphics implements InputProcessor
 	{
 		Character piece = getPiece(x, y);
 		
-		System.out.println(piece.getX() + ", " + piece.getY());
-		
-		possible = piece.getPossible(gamestate.getMap());
+		if (selected == null)
+		{
+			if (piece.getPlayer() != player)
+			{
+				selected = null;
+				possible = null;
+				return true;
+			}
+			
+			selected = piece;
+						
+			possible = selected.getPossible(gamestate.getMap());
+			
+			if (possible.size() == 0)
+			{
+				selected = null;
+				possible = null;
+				return true;
+			}
+		}
+		else
+		{
+
+			if (possible.size() > 0 && possible.contains(piece.getPos()))
+			{
+				gamestate.move(selected, piece);
+				swapPlayer();
+			}
+			
+			selected = null;
+			possible = null;
+		}
 		
 		return true;
 	}

@@ -19,45 +19,45 @@ public class Pawn extends Character
 	}
 
 	@Override
-	public ArrayList<int[]> getPossible(Map map)
+	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
-		if (y != 1 && y != 6) //PROVISIONAL
+		ArrayList<Pair<Integer, Integer>> ret = new ArrayList<Pair<Integer, Integer>>();
+		Pair<Integer, Integer> relativePos = new Pair<Integer, Integer>();
+		Pair<Integer, Integer> absolutePos = new Pair<Integer, Integer>();
+		
+		if (pos.getSecond() != 1 && pos.getSecond() != 6) //PROVISIONAL
 			moveCount = 1;
 		
-		ArrayList<int[]> ret = new ArrayList<int[]>();
-		int[] relativePos = new int[2]; // {x, y}
-		int[] absolutePos = new int[2]; // {x, y}
-		
-		relativePos[0] = 0;
-		relativePos[1] = 1;
+		relativePos.setFirst(0);
+		relativePos.setSecond(1);
 		absolutePos = this.getMovePosition(relativePos);
 		
-		if (map.isWithinBounds(absolutePos) && map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor)
+		if (map.isWithinBounds(absolutePos) && map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor)
 		{
 			ret.add(absolutePos);
 			
 			if (moveCount == 0)
 			{	
-				relativePos[1] = 2;
+				relativePos.setSecond(2);
 				absolutePos = this.getMovePosition(relativePos);
 				
-				if (map.isWithinBounds(absolutePos) && map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor)
+				if (map.isWithinBounds(absolutePos) && map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor)
 					ret.add(absolutePos);
 			}
 		}
 
 		//Capture
-		relativePos[0] = 1;
-		relativePos[1] = 1;
+		relativePos.setFirst(1);
+		relativePos.setSecond(1);
 		absolutePos = this.getMovePosition(relativePos);
 		
-		if (map.isWithinBounds(absolutePos) && !(map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor) && map.getMap()[absolutePos[1]][absolutePos[0]].getPlayer() != this.player)
+		if (map.isWithinBounds(absolutePos) && !(map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor) && map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].getPlayer() != this.player)
 			ret.add(absolutePos);
 		
-		relativePos[0] = -1;
+		relativePos.setFirst(-1);
 		absolutePos = this.getMovePosition(relativePos);
 		
-		if (map.isWithinBounds(absolutePos) && !(map.getMap()[absolutePos[1]][absolutePos[0]] instanceof Floor) && map.getMap()[absolutePos[1]][absolutePos[0]].getPlayer() != this.player)
+		if (map.isWithinBounds(absolutePos) && !(map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor) && map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].getPlayer() != this.player)
 			ret.add(absolutePos);
 		
 		

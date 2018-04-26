@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 
 public abstract class Character {
-		int x;
-		int y;
+		Pair<Integer, Integer> pos;
 		char ch;
 		int player;
 		Texture texture;
@@ -24,8 +23,7 @@ public abstract class Character {
 		public Character(int player, int x, int y, char ch)
 		{
 			setPlayer(player);
-			this.x = x;
-			this.y = y; 
+			pos = new Pair<Integer, Integer>(x, y);
 			this.ch = ch;
 		}
 		
@@ -34,14 +32,9 @@ public abstract class Character {
 			return this.ch;
 		}
 		
-		public int getX()
+		public Pair<Integer, Integer> getPos()
 		{
-			return this.x;
-		}
-		
-		public int getY()
-		{
-			return this.y;
+			return pos;
 		}
 		
 		public int getPlayer()
@@ -55,43 +48,38 @@ public abstract class Character {
 			loadTexture();
 		}
 		
-		public void setX(int x)
+		public void setPos(Pair<Integer, Integer> pos)
 		{
-			this.x = x;
-		}
-		
-		public void setY(int y)
-		{
-			this.y = y;
+			this.pos = pos;
 		}
 		
 		public void move(int x, int y)
 		{
-			this.x = x;
-			this.y = y;
+			pos.setFirst(x);
+			pos.setSecond(y);
 		}
 		
-		public int[] getMovePosition(int x, int y) // Esquerda negativo e direita positivo
+		public Pair<Integer, Integer> getMovePosition(int x, int y) // Esquerda negativo e direita positivo
 		{
-			int[] ret = new int[2];
+			Pair<Integer, Integer> ret = new Pair<Integer, Integer>(x, y);
 			
 			if (this.player == 0)
 			{
-				ret[0] = this.x + x;
-				ret[1] = this.y - y;
+				ret.setFirst(pos.getFirst() + x);
+				ret.setSecond(pos.getSecond() - y);
 			}
 			else
 			{
-				ret[0] = this.x - x;
-				ret[1] = this.y + y;
+				ret.setFirst(pos.getFirst() - x);
+				ret.setSecond(pos.getSecond() + y);
 			}
 			
 			return ret;
 		}
 		
-		public int[] getMovePosition(int[] pair) // Esquerda negativo e direita positivo
+		public Pair<Integer, Integer> getMovePosition(Pair<Integer, Integer> pos) // Esquerda negativo e direita positivo
 		{
-			return getMovePosition(pair[0], pair[1]);
+			return getMovePosition(pos.getFirst(), pos.getSecond());
 		}
 		
 		public void setTexture(String filename)
@@ -105,7 +93,11 @@ public abstract class Character {
 		}
 		
 
-		public abstract ArrayList<int[]> getPossible(Map map);
+		public abstract ArrayList<Pair<Integer, Integer>> getPossible(Map map);
 		
 		public abstract void loadTexture();
+
+		
+		
+		
 }

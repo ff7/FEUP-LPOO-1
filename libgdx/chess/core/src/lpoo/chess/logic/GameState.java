@@ -1,5 +1,7 @@
 package lpoo.chess.logic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameState
 {		
@@ -68,8 +70,17 @@ public class GameState
 		if (verifyCheck(otherPlayer(), kingPos))
 		{
 			this.getMap().getMap()[kingPos.getFirst()][kingPos.getSecond()].isCheck = true;
-			System.out.println("Check");
-		} 
+			if (verifyCheckMate(otherPlayer(), kingPos))
+			{
+				System.out.println("CheckMate");
+				winner = otherPlayer();
+				gameOver = true;
+			}
+		}
+		else 
+		{
+			this.getMap().getMap()[kingPos.getFirst()][kingPos.getSecond()].isCheck = false;
+		}
 	} 
 	
 	public boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
@@ -88,6 +99,83 @@ public class GameState
 			}
 		}
 		return false;
+	}
+	
+//	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
+//	{
+//		int count = 0;
+//		for (int i = 0; i < this.getMap().getMap().length; i++)
+//		{
+//			for (int j = 0; j < this.getMap().getMap()[i].length; j++)
+//			{
+//				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null)
+//				{
+//					for (int k = 0; k < this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size(); k++)
+//					{ 
+//						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k)) && this.getMap().getMap()[j][i].getPlayer() == p)
+//						{
+//							count++;
+//						}
+//						if (count == this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size())
+//							return true;
+//					}
+//				}
+//			}
+//		}
+//		return false;
+//	}
+	
+	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
+	{
+		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
+		 
+		for (int k = 0; k < this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size(); k++)
+		{ 
+			possibleMoves.put(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
+		}
+		
+		for (int i = 0; i < this.getMap().getMap().length; i++)
+		{
+			for (int j = 0; j < this.getMap().getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
+			{
+				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null) 
+				{
+					for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet()) // Percorre os moves possiveis do rei em check
+					{
+						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(entry.getKey())) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
+						{
+							testA(this.getMap().getMap()[j][i].getPossible(getMap()), this.getMap().getMap()[j][i]);
+							entry.setValue(true);
+						}
+					}
+				}
+			}
+		}
+		
+		for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet())
+		{
+			testValues(entry.getKey(), entry.getValue());
+			if (entry.getValue() == false)
+				return false;
+		}
+		return true;
+	}
+	
+	public void testValues(Pair<Integer, Integer> key, boolean value)
+	{
+		System.out.println(key.getFirst() + "-" + key.getSecond() + " : " + value);
+	}
+	
+	public void testA(ArrayList<Pair<Integer, Integer>> a, Character b)
+	{
+		System.out.println("t");
+		for (int i = 0; i < a.size(); i++)
+		{
+			if (a.get(i).getFirst() == 3 && a.get(i).getFirst() == 1)
+			{
+				System.out.println(b.getChar() + " " + b.getPlayer());
+			}
+		}
 	}
 
 }

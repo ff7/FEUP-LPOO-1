@@ -142,7 +142,7 @@ public class GameState
 				{
 					for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet()) // Percorre os moves possiveis do rei em check
 					{
-						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(entry.getKey())) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
+						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(entry.getKey()) && this.getMap().getMap()[j][i].getPlayer() == p) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
 						{
 							testA(this.getMap().getMap()[j][i].getPossible(getMap()), this.getMap().getMap()[j][i]);
 							entry.setValue(true);
@@ -168,9 +168,9 @@ public class GameState
 	
 	public void testA(ArrayList<Pair<Integer, Integer>> a, Character b)
 	{
-		System.out.println("t");
 		for (int i = 0; i < a.size(); i++)
 		{
+			System.out.println(a.get(i).getFirst() + " - " + a.get(i).getSecond() + " - " + b.getPlayer());
 			if (a.get(i).getFirst() == 3 && a.get(i).getFirst() == 1)
 			{
 				System.out.println(b.getChar() + " " + b.getPlayer());

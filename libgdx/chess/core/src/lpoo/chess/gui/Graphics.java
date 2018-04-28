@@ -138,6 +138,7 @@ public class Graphics implements InputProcessor
 					gamestate.move(selected, piece);
 					swapPlayer();
 					gamestate.updateCheck();
+					endGame();
 				}
 				
 				selected = null; 
@@ -152,6 +153,21 @@ public class Graphics implements InputProcessor
 	public Character getPiece(int x, int y)
 	{
 		return gamestate.getMap().getMap()[y/heightInc][x/widthInc];
+	}
+	
+	public void endGame()
+	{
+		if (gamestate.gameOver == true)
+		{
+			String winner;
+			if (gamestate.winner == 0)
+				winner = "White Pieces";
+			else
+				winner = "Black Pieces";
+			System.out.println("This game is finished. " + winner + " won!");
+			
+			System.exit(0);
+		}
 	}
 
 

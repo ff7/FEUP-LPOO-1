@@ -63,7 +63,7 @@ public class GameState
 		return 0;
 	}
 	
-	public void updateCheck()
+	public void updateGameStatus()
 	{
 		Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
 		
@@ -101,29 +101,6 @@ public class GameState
 		return false;
 	}
 	
-//	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
-//	{
-//		int count = 0;
-//		for (int i = 0; i < this.getMap().getMap().length; i++)
-//		{
-//			for (int j = 0; j < this.getMap().getMap()[i].length; j++)
-//			{
-//				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null)
-//				{
-//					for (int k = 0; k < this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size(); k++)
-//					{ 
-//						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k)) && this.getMap().getMap()[j][i].getPlayer() == p)
-//						{
-//							count++;
-//						}
-//						if (count == this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size())
-//							return true;
-//					}
-//				}
-//			}
-//		}
-//		return false;
-//	}
 	
 	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
 	{
@@ -176,6 +153,24 @@ public class GameState
 				System.out.println(b.getChar() + " " + b.getPlayer());
 			}
 		}
+	}
+	
+	public ArrayList<Pair<Integer, Integer>> trimGetPossible(Character ch, ArrayList<Pair<Integer, Integer>> arr)
+	{
+		if (ch.getChar() == 'K') // O rei nao pode movimentar-se para um eventual check
+		{
+			for (int i = 0; i < arr.size(); i++)
+			{
+				Pair<Integer, Integer> kingPos = arr.get(i);
+				if (verifyCheck(otherPlayer(), kingPos))
+				{
+					arr.remove(i);
+					i--;
+				}
+			}
+		}
+		 
+		return arr;
 	}
 
 }

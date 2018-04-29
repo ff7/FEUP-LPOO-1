@@ -1,6 +1,6 @@
 package lpoo.chess.logic;
 
-import java.awt.RadialGradientPaint;
+//import java.awt.RadialGradientPaint;
 import java.util.ArrayList;
 
 public class King extends Character

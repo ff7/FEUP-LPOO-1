@@ -129,7 +129,7 @@ public class Graphics implements InputProcessor
 				}
 				
 				selected = piece;					
-				possible = selected.getPossible(gamestate.getMap());
+				possible = gamestate.trimGetPossible(selected, selected.getPossible(gamestate.getMap()));
 			}
 			else
 			{
@@ -137,7 +137,7 @@ public class Graphics implements InputProcessor
 				{
 					gamestate.move(selected, piece);
 					swapPlayer();
-					gamestate.updateCheck();
+					gamestate.updateGameStatus();
 					endGame();
 				}
 				

@@ -1,27 +1,27 @@
-package lpoo.chess.gui;
+package view;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import lpoo.chess.logic.GameState;
-import lpoo.chess.logic.Pair;
-import lpoo.chess.logic.Character;
+import controller.MouseHandler;
+import model.Character;
+import model.GameState;
+import model.Pair;
 
-public class Graphics implements InputProcessor
+public class Graphics
 {
 	SpriteBatch batch;
 	GameState gamestate;
+	MouseHandler mousehandler;
 	
 	int width = -1, height, widthInc, heightInc;
 	
-	Texture blackFloor = new Texture("../core/src/lpoo/chess/gui/images/black/floor.png");
-	Texture whiteFloor = new Texture("../core/src/lpoo/chess/gui/images/white/floor.png");
-	Texture redFloor = new Texture("../core/src/lpoo/chess/gui/images/highlight.png");
+	Texture blackFloor = new Texture("../core/src/view/images/black/floor.png");
+	Texture whiteFloor = new Texture("../core/src/view/images/white/floor.png");
+	Texture redFloor = new Texture("../core/src/view/images/highlight.png");
 	
 	ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
 	
@@ -33,6 +33,8 @@ public class Graphics implements InputProcessor
 		this.batch = batch; 
 		gamestate = new GameState();
 		selected = null;
+		mousehandler = new MouseHandler(this);
+	    Gdx.input.setInputProcessor(mousehandler);
 	}
 	
 	
@@ -107,46 +109,40 @@ public class Graphics implements InputProcessor
 	}
 	
 	
-	@Override
-	public boolean touchDown(int x, int y, int pointer, int button)
+	public void click(int x, int y)
 	{
-		if (button == Input.Buttons.LEFT)
+		Character piece = getPiece(x, y);
+		
+		if (piece.equals(selected))
 		{
-			Character piece = getPiece(x, y);
-			
-			if (piece.equals(selected))
+			selected = null;
+			possible = null;
+		}
+		else if (selected == null || !possible.contains(piece.getPos()))
+		{
+			if (piece.getPlayer() != gamestate.player)
 			{
 				selected = null;
 				possible = null;
+				return;
 			}
-			else if (selected == null || !possible.contains(piece.getPos()))
-			{
-				if (piece.getPlayer() != gamestate.player)
-				{
-					selected = null;
-					possible = null;
-					return true;
-				}
-				
-				selected = piece;					
-				possible = gamestate.trimGetPossible(selected, selected.getPossible(gamestate.getMap()));
-			}
-			else
-			{
-				if (!piece.equals(selected))
-				{
-					gamestate.move(selected, piece);
-					swapPlayer();
-					gamestate.updateGameStatus();
-					endGame();
-				}
-				
-				selected = null; 
-				possible = null;
-			}
+			
+			selected = piece;					
+			possible = gamestate.trimGetPossible(selected, selected.getPossible(gamestate.getMap()));
 		}
-		
-		return true;
+		else
+		{
+			if (!piece.equals(selected))
+			{
+				gamestate.move(selected, piece);
+				swapPlayer();
+				gamestate.updateGameStatus();
+				endGame();
+			}
+			
+			selected = null; 
+			possible = null;
+		}
 	}
 	
 	
@@ -168,54 +164,6 @@ public class Graphics implements InputProcessor
 			
 			System.exit(0);
 		}
-	}
-
-
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	
 }

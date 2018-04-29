@@ -1,4 +1,4 @@
-package lpoo.chess.logic;
+package model;
 
 //import java.util.ArrayList;
 

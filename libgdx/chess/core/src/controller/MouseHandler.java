@@ -1,16 +1,25 @@
-package lpoo.chess.gui;
+package controller;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-public class MyMouseHandler implements InputProcessor
+import view.Graphics;
+
+public class MouseHandler implements InputProcessor
 {
+	Graphics graphics;
+	
+	public MouseHandler(Graphics graphics)
+	{
+		this.graphics = graphics;
+	}
+	
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button)
 	{
 		if (button == Input.Buttons.LEFT)
 		{
-			System.out.println("x = " + x + ", y = " + y);
+			graphics.click(x, y);
 			return true;
 		}
 		

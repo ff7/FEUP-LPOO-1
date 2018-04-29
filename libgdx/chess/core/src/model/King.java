@@ -1,22 +1,22 @@
-package lpoo.chess.logic;
+package model;
 
+//import java.awt.RadialGradientPaint;
 import java.util.ArrayList;
 
-public class Knight extends Character
+public class King extends Character
 {
 	int moveCount = 0;
 	
-	public Knight()
+	public King()
 	{
-		super('k');
+		super('K');
 	}
 	
-	public Knight(int player, int x, int y)
+	public King(int player, int x, int y) 
 	{
-		super(player, x, y, 'k');
+		super(player, x, y, 'p');
 	}
 
-	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
 		ArrayList<Pair<Integer, Integer>> ret = new ArrayList<Pair<Integer, Integer>>();
@@ -27,51 +27,50 @@ public class Knight extends Character
 		
 		for (int i = 0; i < 8; i++)
 		{
-			if (i == 0) //Up-Left
+			if (i == 0) //Up
 			{
-				xadd = -1;
-				yadd = 2;
+				xadd = 0;
+				yadd = 1;
 			}
 			else if (i == 1) //Up-Right
 			{
 				xadd = 1;
-				yadd = 2;
-			}
-			else if (i == 2) //Right-Up
-			{
-				xadd = 2;
 				yadd = 1;
 			}
-			else if (i == 3) //Right-Down
-			{
-				xadd = 2;
-				yadd = -1;
-			}
-			else if (i == 4) //Down-Right
+			else if (i == 2) //Right
 			{
 				xadd = 1;
-				yadd = -2;
+				yadd = 0;
+			}
+			else if (i == 3) //Down-Right
+			{
+				xadd = 1;
+				yadd = -1;
+			}
+			else if (i == 4) //Down
+			{
+				xadd = 0;
+				yadd = -1;
 			}
 			else if (i == 5) //Down-Left
 			{
 				xadd = -1;
-				yadd = -2;
-			}
-			else if (i == 6) //Left-Down
-			{
-				xadd = -2;
 				yadd = -1;
 			}
-			else // Left-Up
+			else if (i == 6) //Left
 			{
-				xadd = -2;
+				xadd = -1;
+				yadd = 0;
+			}
+			else // Up-Left
+			{
+				xadd = -1;
 				yadd = 1;
 			}
 			
 			relativePos.setFirst(xadd);
 			relativePos.setSecond(yadd);
 			absolutePos = getMovePosition(relativePos);
-
 						
 			if (map.isWithinBounds(absolutePos) && (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor || map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player))
 			{
@@ -87,11 +86,13 @@ public class Knight extends Character
 	{
 		if (player == 0)//White
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/white/knight.png");
+			filename += "white/";
 		}
 		else			//Black
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/black/knight.png");
+			filename += "black/";
 		}
+		
+		super.setTexture(filename + "king.png");
 	}
 }

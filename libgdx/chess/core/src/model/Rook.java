@@ -1,4 +1,4 @@
-package lpoo.chess.logic;
+package model;
 
 import java.util.ArrayList;
 
@@ -108,11 +108,13 @@ public class Rook extends Character
 	{
 		if (player == 0)//White
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/white/rook.png");
+			filename += "white/";
 		}
 		else			//Black
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/black/rook.png");
+			filename += "black/";
 		}
+		
+		super.setTexture(filename + "rook.png");
 	}
 }

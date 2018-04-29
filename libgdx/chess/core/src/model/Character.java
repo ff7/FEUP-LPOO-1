@@ -1,4 +1,4 @@
-package lpoo.chess.logic;
+package model;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ public abstract class Character {
 		char ch;
 		int player;
 		Texture texture;
+		String filename = "../core/src/view/images/";
 		
 		public boolean isCheck = false;
 		

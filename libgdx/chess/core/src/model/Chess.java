@@ -1,16 +1,17 @@
-package lpoo.chess;
+package model;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import lpoo.chess.gui.Graphics;
+import view.Graphics;
 
 public class Chess extends ApplicationAdapter {
 	SpriteBatch batch;
-		
+	
 	Graphics graphics;
+	
 	
 	@Override
 	public void create () {
@@ -18,7 +19,6 @@ public class Chess extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 	    graphics = new Graphics(batch);
-	    Gdx.input.setInputProcessor(graphics);
 	}
 
 	

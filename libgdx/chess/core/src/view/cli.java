@@ -1,15 +1,15 @@
-package lpoo.chess.cli;
+package view;
 
 import java.util.ArrayList;
 
-import lpoo.chess.logic.GameState;
-import lpoo.chess.logic.Pair;
+import model.GameState;
+import model.Pair;
 
 
 public class cli
 {
-
-	public static void test()
+	
+	public static void main(String[] args)
 	{
 		GameState gs = new GameState();
 		
@@ -33,12 +33,6 @@ public class cli
 		{
 			System.out.println(foo.get(i).getFirst() + ", " + foo.get(i).getSecond());
 		}
-			
-	}
-	
-	public static void main(String[] args)
-	{
-		GameState gs = new GameState();
 	}
 
 }

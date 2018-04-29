@@ -1,4 +1,4 @@
-package lpoo.chess.logic;
+package model;
 
 public class Pair<T1, T2>
 {

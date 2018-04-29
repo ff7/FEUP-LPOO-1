@@ -2,7 +2,7 @@ package lpoo.chess.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import lpoo.chess.Chess;
+import model.Chess;;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {		

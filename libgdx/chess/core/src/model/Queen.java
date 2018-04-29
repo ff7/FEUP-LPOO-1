@@ -1,22 +1,22 @@
-package lpoo.chess.logic;
+package model;
 
-//import java.awt.RadialGradientPaint;
 import java.util.ArrayList;
 
-public class King extends Character
+public class Queen extends Character
 {
 	int moveCount = 0;
 	
-	public King()
+	public Queen()
 	{
-		super('K');
+		super('Q');
 	}
 	
-	public King(int player, int x, int y) 
+	public Queen(int player, int x, int y)
 	{
-		super(player, x, y, 'p');
+		super(player, x, y, 'Q');
 	}
 
+	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
 		ArrayList<Pair<Integer, Integer>> ret = new ArrayList<Pair<Integer, Integer>>();
@@ -68,13 +68,31 @@ public class King extends Character
 				yadd = 1;
 			}
 			
-			relativePos.setFirst(xadd);
-			relativePos.setSecond(yadd);
-			absolutePos = getMovePosition(relativePos);
-						
-			if (map.isWithinBounds(absolutePos) && (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor || map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player))
+			relativePos.setFirst(0);
+			relativePos.setSecond(0);
+			 
+			while (true)
 			{
-				ret.add(absolutePos);
+				relativePos.setFirst(relativePos.getFirst() + xadd);
+				relativePos.setSecond(relativePos.getSecond() + yadd);
+				absolutePos = getMovePosition(relativePos);
+				
+				if (!map.isWithinBounds(absolutePos))
+					break;
+						
+				if (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor)
+				{
+					ret.add(absolutePos);
+				}
+				else
+				{
+					if (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player)
+					{
+						ret.add(absolutePos);
+					}
+					
+					break;
+				}
 			}
 		}
 		
@@ -86,11 +104,13 @@ public class King extends Character
 	{
 		if (player == 0)//White
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/white/king.png");
+			filename += "white/";
 		}
 		else			//Black
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/black/king.png");
+			filename += "black/";
 		}
+		
+		super.setTexture(filename + "queen.png");
 	}
 }

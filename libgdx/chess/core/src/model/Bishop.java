@@ -1,4 +1,4 @@
-package lpoo.chess.logic;
+package model;
 
 import java.util.ArrayList;
 
@@ -85,11 +85,13 @@ public class Bishop extends Character
 	{
 		if (player == 0)//White
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/white/bishop.png");
+			filename += "white/";
 		}
 		else			//Black
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/black/bishop.png");
+			filename += "black/";
 		}
+		
+		super.setTexture(filename + "rook.png");
 	}
 }

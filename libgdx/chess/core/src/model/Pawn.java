@@ -1,4 +1,4 @@
-package lpoo.chess.logic;
+package model;
 
 import java.util.ArrayList;
 
@@ -66,11 +66,13 @@ public class Pawn extends Character
 	{
 		if (player == 0)//White
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/white/pawn.png");
+			filename += "white/";
 		}
 		else			//Black
 		{
-			super.setTexture("../core/src/lpoo/chess/gui/images/black/pawn.png");
+			filename += "black/";
 		}
+		
+		super.setTexture(filename + "pawn.png");
 	}
 }

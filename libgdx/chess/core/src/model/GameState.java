@@ -104,6 +104,16 @@ public class GameState
 	
 	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
 	{
+		//System.out.println(isKingCornered(p, kingPos) + "-" + isKingIndefensible(p, kingPos));
+		if (isKingCornered(p, kingPos) && isKingIndefensible(p, kingPos))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isKingCornered(int p, Pair<Integer, Integer> kingPos) // True se o rei esta encurralado
+	{
 		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
 		 
 		for (int k = 0; k < this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size(); k++)
@@ -121,7 +131,6 @@ public class GameState
 					{
 						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(entry.getKey()) && this.getMap().getMap()[j][i].getPlayer() == p) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
 						{
-							testA(this.getMap().getMap()[j][i].getPossible(getMap()), this.getMap().getMap()[j][i]);
 							entry.setValue(true);
 						}
 					}
@@ -131,30 +140,49 @@ public class GameState
 		
 		for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet())
 		{
-			testValues(entry.getKey(), entry.getValue());
 			if (entry.getValue() == false)
 				return false;
 		}
 		return true;
 	}
 	
-	public void testValues(Pair<Integer, Integer> key, boolean value)
+	public boolean isKingIndefensible(int p, Pair<Integer, Integer> kingPos) // True se nenhuma peca conseguir evitar o cheque mate
 	{
-		System.out.println(key.getFirst() + "-" + key.getSecond() + " : " + value);
-	}
-	
-	public void testA(ArrayList<Pair<Integer, Integer>> a, Character b)
-	{
-		for (int i = 0; i < a.size(); i++)
+		for (int i = 0; i < this.getMap().getMap().length; i++)
 		{
-			System.out.println(a.get(i).getFirst() + " - " + a.get(i).getSecond() + " - " + b.getPlayer());
-			if (a.get(i).getFirst() == 3 && a.get(i).getFirst() == 1)
+			for (int j = 0; j < this.getMap().getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
 			{
-				System.out.println(b.getChar() + " " + b.getPlayer());
+				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null && this.getMap().getMap()[j][i].getPlayer() == player && this.getMap().getMap()[j][i].getChar() != 'K')  
+				{
+					ArrayList<Pair<Integer, Integer>> arr = this.getMap().getMap()[j][i].getPossible(getMap());
+					
+					for (int k = 0 ; k < arr.size(); k++)
+					{
+						int xt = arr.get(k).getFirst(), yt = arr.get(k).getSecond();
+						
+						Character temp = this.getMap().getMap()[yt][xt];
+						Character ch = this.getMap().getMap()[j][i];
+						
+						this.getMap().getMap()[j][i] = new Floor();
+						this.getMap().getMap()[yt][xt] = ch; 
+						
+						if (!verifyCheck(otherPlayer(), kingPos))
+						{
+							this.getMap().getMap()[j][i] = ch;
+							this.getMap().getMap()[yt][xt] = temp;
+							System.out.println(ch.getChar() + ":" + xt +":" + yt);
+							return false;
+						}
+						this.getMap().getMap()[j][i] = ch;
+						this.getMap().getMap()[yt][xt] = temp;
+					}
+				}
 			}
 		}
+		
+		return true;
 	}
-	
+		
 	public ArrayList<Pair<Integer, Integer>> trimGetPossible(Character ch, ArrayList<Pair<Integer, Integer>> arr)
 	{
 		if (ch.getChar() == 'K') // O rei nao pode movimentar-se para um eventual check

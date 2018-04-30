@@ -92,6 +92,6 @@ public class Bishop extends Character
 			filename += "black/";
 		}
 		
-		super.setTexture(filename + "rook.png");
+		super.setTexture(filename + "bishop.png");
 	}
 }

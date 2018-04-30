@@ -169,6 +169,29 @@ public class GameState
 				}
 			}
 		}
+		else
+		{
+			int x = ch.getPos().getFirst(), y = ch.getPos().getSecond();
+			Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
+			
+			for (int i = 0; i < arr.size(); i++)
+			{		
+				int xt = arr.get(i).getFirst(), yt = arr.get(i).getSecond();
+				Character temp = this.getMap().getMap()[yt][xt];
+				
+				this.getMap().getMap()[y][x] = new Floor();
+				this.getMap().getMap()[yt][xt] = ch; 
+				
+				if (verifyCheck(otherPlayer(), kingPos))
+				{
+					arr.remove(i);
+					i--;
+				}
+				this.getMap().getMap()[y][x] = ch;
+				this.getMap().getMap()[yt][xt] = temp;
+			}
+			
+		}
 		 
 		return arr;
 	}

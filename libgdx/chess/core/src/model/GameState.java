@@ -17,20 +17,6 @@ public class GameState
 	{ 
 		map = new Map();
 		
-//		getMap().getMap()[3][4].setPlayer(0);	//Knight
-//		getMap().getMap()[5][1].setPlayer(0);	//Queen
-//		getMap().getMap()[4][2].setPlayer(0);	//King
-//		getMap().getMap()[2][2].setPlayer(1);	//Knight
-//		getMap().getMap()[5][5].setPlayer(1);	//Pawn
-//		getMap().getMap()[1][3].setPlayer(1);	//Bishop
-//		getMap().getMap()[4][3].setPlayer(0);	//Pawn
-//		getMap().getMap()[3][0].setPlayer(1);	//Knight
-//		getMap().getMap()[3][5].setPlayer(1);	//King
-//		getMap().getMap()[6][0].setPlayer(1);	//Rook
-//		getMap().getMap()[6][2].setPlayer(0);	//Pawn
-//		getMap().getMap()[6][4].setPlayer(0);	//Pawn
-//		getMap().getMap()[4][6].setPlayer(0);	//Bishop
-		
 	}
 
 	
@@ -63,7 +49,33 @@ public class GameState
 		return 0;
 	}
 	
-	public void updateGameStatus()
+	public void updatePawns()
+	{
+		for (int i = 0; i < this.getMap().getMap().length; i++)
+		{
+			for (int j = 0; j < this.getMap().getMap()[i].length; j++)
+			{
+				Character ch = this.getMap().getMap()[j][i];
+				
+				if (ch.getPlayer() == 0)
+				{
+					if (ch.getChar() == 'p' && ch.getPos().getSecond() == 0)
+					{
+						this.getMap().getMap()[j][i] = new Queen(0,ch.getPos().getFirst(), ch.getPos().getSecond());
+					}
+				}
+				else if (ch.getPlayer() == 1)
+				{
+					if (ch.getChar() == 'p' && ch.getPos().getSecond() == 7)
+					{
+						this.getMap().getMap()[j][i] = new Queen(1,ch.getPos().getFirst(), ch.getPos().getSecond());
+					}
+				}
+			}
+		}
+	}
+	
+	public void updateGameStatus() // Trata de ver se ha cheques e cheque-mates
 	{
 		Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
 		
@@ -100,11 +112,10 @@ public class GameState
 		}
 		return false;
 	}
-	
-	
+		
 	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
 	{
-		//System.out.println(isKingCornered(p, kingPos) + "-" + isKingIndefensible(p, kingPos));
+		System.out.println(isKingCornered(p, kingPos) + "-" + isKingIndefensible(p, kingPos));
 		if (isKingCornered(p, kingPos) && isKingIndefensible(p, kingPos))
 		{
 			return true;
@@ -116,7 +127,7 @@ public class GameState
 	{
 		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
 		 
-		for (int k = 0; k < this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).size(); k++)
+		for (int k = 0; k < trimGetPossible(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()], this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap())).size(); k++)
 		{ 
 			possibleMoves.put(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
 		}
@@ -141,7 +152,10 @@ public class GameState
 		for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet())
 		{
 			if (entry.getValue() == false)
+			{
+				System.out.println(entry.getKey().getFirst() + ":" + entry.getKey().getSecond());
 				return false;
+			}
 		}
 		return true;
 	}
@@ -187,15 +201,25 @@ public class GameState
 	{
 		if (ch.getChar() == 'K') // O rei nao pode movimentar-se para um eventual check
 		{
+			int x = ch.getPos().getFirst(), y = ch.getPos().getSecond();
 			for (int i = 0; i < arr.size(); i++)
 			{
 				Pair<Integer, Integer> kingPos = arr.get(i);
+				int xt = arr.get(i).getFirst(), yt = arr.get(i).getSecond();
+				Character temp = this.getMap().getMap()[yt][xt];
+				
+				this.getMap().getMap()[y][x] = new Floor();
+				this.getMap().getMap()[yt][xt] = ch; 
+				
 				if (verifyCheck(otherPlayer(), kingPos))
 				{
 					arr.remove(i);
 					i--;
-				}
-			}
+				}	
+				
+				this.getMap().getMap()[y][x] = ch;
+				this.getMap().getMap()[yt][xt] = temp;
+			}		
 		}
 		else
 		{

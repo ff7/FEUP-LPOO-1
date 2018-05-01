@@ -51,8 +51,6 @@ public class Graphics
 			widthInc = width / map[0].length; // Increment of the width, aka image width.
 			heightInc = height / map.length; // Increment of the height, aka image height.
 			
-//			System.out.println(width + ", " + height);
-//			System.out.println("widthInc = " + widthInc + ", heightInc = " + heightInc);
 		}
 		
 		
@@ -137,6 +135,7 @@ public class Graphics
 				gamestate.move(selected, piece);
 				swapPlayer();
 				gamestate.updateGameStatus();
+				gamestate.updatePawns();
 				endGame();
 			}
 			

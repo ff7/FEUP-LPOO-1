@@ -14,7 +14,7 @@ public class King extends Character
 	
 	public King(int player, int x, int y) 
 	{
-		super(player, x, y, 'p');
+		super(player, x, y, 'K');
 	}
 
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)

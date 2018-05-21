@@ -9,7 +9,7 @@ public abstract class Character {
 		char ch;
 		int player;
 		Texture texture;
-		String filename = "../core/src/view/images/";
+		String filename = "images/";
 		
 		public boolean isCheck = false;
 		

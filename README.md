@@ -1,2 +1,0 @@
-# FEUP-LPOO
-Lpoo FEUP

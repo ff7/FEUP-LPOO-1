@@ -74,6 +74,46 @@ public class GameState
 			}
 		}
 	}
+
+	public void updateCastling() // Jogada especial em que o rei troca de posicao com a torre
+	{
+		if (this.getMap().getCharMap()[7][5] == 'K' && this.getMap().getMap()[7][5].player == 0)
+		{
+			if (this.getMap().getCharMap()[7][6] == '_' && this.getMap().getCharMap()[7][7] == 'R' && this.getMap().getMap()[7][7].player == 0)
+			{
+				this.getMap().getMap()[7][6] = new King(0, 6,7);
+				this.getMap().getMap()[7][5] = new Rook(0, 5,7);
+				this.getMap().getMap()[7][7] = new Floor(7,7);
+			}
+		}
+		else if (this.getMap().getCharMap()[7][2] == 'K' && this.getMap().getMap()[7][2].player == 0)
+		{
+			if (this.getMap().getCharMap()[7][1] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0)
+			{
+				this.getMap().getMap()[7][2] = new Rook(0, 2,7);
+                this.getMap().getMap()[7][1] = new King(0, 1,7);
+				this.getMap().getMap()[7][0] = new Floor(0,7);
+			}
+		}
+		else if (this.getMap().getCharMap()[0][5] == 'K' && this.getMap().getMap()[0][5].player == 1)
+		{
+			if (this.getMap().getCharMap()[0][6] == '_' && this.getMap().getCharMap()[0][7] == 'R' && this.getMap().getMap()[0][7].player == 1)
+			{
+				this.getMap().getMap()[0][6] = new King(1, 6,0);
+				this.getMap().getMap()[0][5] = new Rook(1, 5,0);
+				this.getMap().getMap()[0][7] = new Floor(7,0);
+			}
+		}
+		else if (this.getMap().getCharMap()[0][2] == 'K' && this.getMap().getMap()[0][2].player == 1)
+		{
+			if (this.getMap().getCharMap()[0][1] == '_' && this.getMap().getCharMap()[0][0] == 'R' && this.getMap().getMap()[0][0].player == 1)
+			{
+				this.getMap().getMap()[0][2] = new Rook(1, 2,0);
+				this.getMap().getMap()[0][1] = new King(1, 1,0);
+				this.getMap().getMap()[0][0] = new Floor(0,0);
+			}
+		}
+	}
 	
 	public void updateGameStatus() // Trata de ver se ha cheques e cheque-mates
 	{

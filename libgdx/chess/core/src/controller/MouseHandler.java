@@ -8,18 +8,20 @@ import view.Graphics;
 public class MouseHandler implements InputProcessor
 {
 	Graphics graphics;
-	
+	public int flag = 0;
+
+
 	public MouseHandler(Graphics graphics)
 	{
 		this.graphics = graphics;
 	}
+
 	
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button)
 	{
 		if (button == Input.Buttons.LEFT)
 		{
-			graphics.click(x, y);
 			return true;
 		}
 		

@@ -1,0 +1,4 @@
+#Sun May 20 22:57:13 WEST 2018
+base.0=/Users/ff/Desktop/LPOO/IntelliJP/android/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0
+renamed.0=classes.dex
+file.0=/Users/ff/Desktop/LPOO/IntelliJP/android/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex

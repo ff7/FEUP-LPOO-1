@@ -2,43 +2,46 @@ package view;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import controller.MouseHandler;
 import model.Character;
+import model.Chess;
 import model.GameState;
 import model.Pair;
 
-public class Graphics
+public class Graphics extends ScreenAdapter implements InputProcessor
 {
 	SpriteBatch batch;
 	GameState gamestate;
 	MouseHandler mousehandler;
+	Chess game;
 	
 	int width = -1, height, widthInc, heightInc;
 	
-	Texture blackFloor = new Texture("../core/src/view/images/black/floor.png");
-	Texture whiteFloor = new Texture("../core/src/view/images/white/floor.png");
-	Texture redFloor = new Texture("../core/src/view/images/highlight.png");
+	Texture blackFloor = new Texture("images/black/floor.png");
+	Texture whiteFloor = new Texture("images/white/floor.png");
+	Texture redFloor = new Texture("images/highlight.png");
 	
 	ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
 	
 	Character selected;
 	
 	
-	public Graphics(SpriteBatch batch)
+	public Graphics(Chess game)
 	{
-		this.batch = batch; 
+		this.game = game;
+		this.batch = game.getBatch();
 		gamestate = new GameState();
 		selected = null;
 		mousehandler = new MouseHandler(this);
-	    Gdx.input.setInputProcessor(mousehandler);
+	    Gdx.input.setInputProcessor(this);
 	}
-	
-	
-	public void display()
+
+	@Override
+	public void render(float delta)
 	{		
 		batch.begin();
 			
@@ -93,6 +96,18 @@ public class Graphics
 
 		batch.end();
 	}
+
+	@Override
+	public boolean touchDown(int x, int y, int pointer, int button){
+
+		if (button == Input.Buttons.LEFT)
+		{
+			this.click(x,y);
+			return true;
+		}
+
+		return false;
+	}
 	
 	public void swapPlayer()
 	{
@@ -110,7 +125,7 @@ public class Graphics
 	public void click(int x, int y)
 	{
 		Character piece = getPiece(x, y);
-		
+
 		if (piece.equals(selected))
 		{
 			selected = null;
@@ -124,8 +139,8 @@ public class Graphics
 				possible = null;
 				return;
 			}
-			
-			selected = piece;					
+
+			selected = piece;
 			possible = gamestate.trimGetPossible(selected, selected.getPossible(gamestate.getMap()));
 		}
 		else
@@ -134,12 +149,13 @@ public class Graphics
 			{
 				gamestate.move(selected, piece);
 				swapPlayer();
-				gamestate.updateGameStatus();
 				gamestate.updatePawns();
+				gamestate.updateCastling();
+				gamestate.updateGameStatus();
 				endGame();
 			}
-			
-			selected = null; 
+
+			selected = null;
 			possible = null;
 		}
 	}
@@ -160,9 +176,58 @@ public class Graphics
 			else
 				winner = "Black Pieces";
 			System.out.println("This game is finished. " + winner + " won!");
-			
+
+			Gdx.app.exit();
 			System.exit(0);
 		}
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

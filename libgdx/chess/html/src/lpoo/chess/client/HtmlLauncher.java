@@ -3,7 +3,6 @@ package lpoo.chess.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import lpoo.chess.Chess;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +45,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new Chess();
+                return new model.Chess();
         }
 }

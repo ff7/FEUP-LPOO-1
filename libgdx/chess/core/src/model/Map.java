@@ -122,7 +122,7 @@ public class Map {
 	
 	public Pair<Integer, Integer> getKingsPosition(int player)
 	{
-		int x = 0, y = 0; // Initialized to 0 to remove the warning 
+		int x = 0, y = 0; // Initialized to 0 to remove the warning
 		for (int i = 0; i < map.length; i++)
 		{
 			for (int j = 0; j < map[i].length; j++)

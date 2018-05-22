@@ -1,5 +1,6 @@
 package view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import model.GameState;
@@ -9,9 +10,9 @@ import model.Pair;
 public class cli
 {
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		GameState gs = new GameState();
+		GameState gs = new GameState(false);
 		
 		gs.getMap().getMap()[3][3].setPlayer(0);	//Queen
 		gs.getMap().getMap()[5][1].setPlayer(0);	//Queen

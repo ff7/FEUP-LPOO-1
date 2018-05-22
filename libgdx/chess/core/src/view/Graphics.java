@@ -1,5 +1,6 @@
 package view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.*;
@@ -28,13 +29,18 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
 	
 	Character selected;
-	
-	
-	public Graphics(Chess game)
+
+	public Graphics(Chess game, boolean singlePlayer)
 	{
 		this.game = game;
 		this.batch = game.getBatch();
-		gamestate = new GameState();
+
+		try {
+			gamestate = new GameState(singlePlayer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		selected = null;
 		mousehandler = new MouseHandler(this);
 	    Gdx.input.setInputProcessor(this);
@@ -109,18 +115,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 		return false;
 	}
 	
-	public void swapPlayer()
-	{
-		if (gamestate.player == 0)
-		{
-			gamestate.player = 1;
-		}
-		else
-		{
-			gamestate.player = 0;
-		}
-	}
-	
+
 	
 	public void click(int x, int y)
 	{
@@ -148,7 +143,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 			if (!piece.equals(selected))
 			{
 				gamestate.move(selected, piece);
-				swapPlayer();
+				gamestate.swapPlayer();
 				gamestate.updatePawns();
 				gamestate.updateCastling();
 				gamestate.updateGameStatus();
@@ -159,8 +154,8 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 			possible = null;
 		}
 	}
-	
-	
+
+
 	public Character getPiece(int x, int y)
 	{
 		return gamestate.getMap().getMap()[y/heightInc][x/widthInc];

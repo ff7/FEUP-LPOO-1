@@ -8,6 +8,9 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import java.io.IOException;
+
 import model.Chess;
 
 
@@ -41,22 +44,24 @@ public class playerMenuGraphics extends ScreenAdapter implements InputProcessor 
 
 
     @Override
-    public boolean touchDown(int x, int y, int pointer, int button){
+    public boolean touchDown(int x, int y, int pointer, int button) {
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        if (button == Input.Buttons.LEFT)
-        {
-            if (x > 0.19*width && x < (0.19 + 0.58) * width && y > 0.41*height && y < 0.51*height) //Single Player Menu
-                game.setScreen(new Graphics(game));
-            else if (x > 0.19*width && x < (0.19 + 0.58) * width && y > 0.62*height && y < 0.72*height) //MultiPlayer Menu
-                game.setScreen(new Graphics(game));
-            else if (x > 0.19*width && x < (0.19 + 0.58) * width && y > 0.82*height && y < 0.92*height) //Exit Menu
-                game.setScreen(new mainMenuGraphics(game));
-            return true;
+        if (button == Input.Buttons.LEFT) {
+            try {
+                if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.41 * height && y < 0.51 * height) //Same Device Menu
+                    game.setScreen(new Graphics(game, false));
+                else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.62 * height && y < 0.72 * height) //Different Devices Menu
+                    game.setScreen(new Graphics(game, false));
+                else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.82 * height && y < 0.92 * height) //Go Back
+                    game.setScreen(new mainMenuGraphics(game));
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
         return false;
     }
 

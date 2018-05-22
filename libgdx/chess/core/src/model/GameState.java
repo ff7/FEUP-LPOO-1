@@ -1,7 +1,15 @@
 package model;
 
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.util.Scanner;
 
 public class GameState
 {		
@@ -12,11 +20,40 @@ public class GameState
 	public boolean gameOver = false;
 	public int winner = 2;
 
-	
-	public GameState()
-	{ 
+	private boolean singlePlayer;
+	private Runtime runtime;
+	private Process stockfish;
+	private DataInputStream istream;
+	private DataOutputStream ostream;
+
+	private ArrayList<String> moves;
+
+	public GameState(boolean singlePlayer) throws IOException
+	{
 		map = new Map();
-		
+		this.singlePlayer = singlePlayer;
+
+		if (singlePlayer)
+		{
+			runtime = Runtime.getRuntime();
+			stockfish = runtime.exec("stockfish");
+			istream = new DataInputStream(stockfish.getInputStream());
+			ostream = new DataOutputStream(stockfish.getOutputStream());
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(istream));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ostream));
+
+			moves = new ArrayList<String>();
+
+			writer.write("uci\n");
+			writer.write("ucinewgame\n");
+			writer.write("isready\n");
+			writer.flush();
+			writer.close();
+
+			printAIAnswer();
+		}
+
 	}
 
 	
@@ -34,7 +71,69 @@ public class GameState
 	
 	public void move(Character ch1, Character ch2) // Moves ch1 to ch2
 	{
+		moves.add(getMoveSymbol(ch1, ch2));
 		map.move(ch1, ch2);
+
+		if (singlePlayer) {
+			try {
+				moveAI();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void moveAI() throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(istream));
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ostream));
+
+		writer.write("position startpos moves");
+		for (int i = 0; i < moves.size(); i++)
+		{
+			writer.write(" " + moves.get(i));
+		}
+		writer.flush();
+
+		writer.write("go");
+		writer.flush();
+		writer.close();
+
+		printAIAnswer();
+	}
+
+	private ArrayList<String> getAIAnswer()
+	{
+		ArrayList<String> ret = new ArrayList<String>();
+
+		Scanner scanner = new Scanner(istream);
+		while (scanner.hasNextLine())
+		{
+			ret.add(scanner.nextLine());
+		}
+
+		return ret;
+	}
+
+	private void printAIAnswer()
+	{
+		ArrayList<String> answer = getAIAnswer();
+
+		for (int i = 0; i < answer.size(); i++)
+		{
+			System.out.println(answer.get(i));
+		}
+	}
+
+	public String getMoveSymbol(Character ch1, Character ch2)
+	{
+		String str = "";
+
+		str += (char)('a' + ch1.getPos().getFirst());
+		str += 8 - ch1.getPos().getSecond();
+		str += (char)('a' + ch2.getPos().getFirst());
+		str += 8 - ch2.getPos().getSecond();
+
+		return str;
 	}
 	
 	public Map getMap()
@@ -48,7 +147,20 @@ public class GameState
 			return 1;
 		return 0;
 	}
-	
+
+	public void swapPlayer()
+	{
+		if (player == 0)
+		{
+			player = 1;
+		}
+		else
+		{
+			player = 0;
+		}
+	}
+
+
 	public void updatePawns()
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
@@ -288,4 +400,13 @@ public class GameState
 		return arr;
 	}
 
+	@Override
+	public String toString()
+	{
+		String str = new String();
+
+
+
+		return str;
+	}
 }

@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.io.IOException;
+
 import model.Chess;
 
 
@@ -52,13 +54,19 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
 
         if (button == Input.Buttons.LEFT)
         {
-            if (x > 0.21*width && x < (0.21 + 0.58) * width && y > 0.44*height && y < 0.54*height) //Single Player Menu
-                game.setScreen(new Graphics(game));
-            else if (x > 0.21*width && x < (0.21 + 0.58) * width && y > 0.64*height && y < 0.74*height) //MultiPlayer Menu
-                game.setScreen(new playerMenuGraphics(game));
-            else if (x > 0.21*width && x < (0.21 + 0.58) * width && y > 0.86*height && y < 0.96*height) //Exit Menu
-                Gdx.app.exit();
-            return true;
+            try
+            {
+                if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.44 * height && y < 0.54 * height) //Single Player Menu
+                    game.setScreen(new Graphics(game, true));
+                else if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.64 * height && y < 0.74 * height) //MultiPlayer Menu
+                    game.setScreen(new playerMenuGraphics(game));
+                else if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.86 * height && y < 0.96 * height) //Exit Menu
+                    Gdx.app.exit();
+                return true;
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;

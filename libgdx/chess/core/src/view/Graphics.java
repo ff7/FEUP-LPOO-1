@@ -163,7 +163,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	
 	public void endGame()
 	{
-		if (gamestate.gameOver == true)
+		if (gamestate.gameOver)
 		{
 			String winner;
 			if (gamestate.winner == 0)
@@ -172,14 +172,19 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 				winner = "Black Pieces";
 			System.out.println("This game is finished. " + winner + " won!");
 
-			Gdx.app.exit();
-			System.exit(0);
+			game.setScreen(new mainMenuGraphics(game));
 		}
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+
+		if (keycode == Input.Keys.ESCAPE)
+		{
+			game.setScreen(new mainMenuGraphics(game));
+			return true;
+		}
+
 		return false;
 	}
 

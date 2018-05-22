@@ -50,17 +50,13 @@ public class playerMenuGraphics extends ScreenAdapter implements InputProcessor 
         int height = Gdx.graphics.getHeight();
 
         if (button == Input.Buttons.LEFT) {
-            try {
-                if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.41 * height && y < 0.51 * height) //Same Device Menu
-                    game.setScreen(new Graphics(game, false));
-                else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.62 * height && y < 0.72 * height) //Different Devices Menu
-                    game.setScreen(new Graphics(game, false));
-                else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.82 * height && y < 0.92 * height) //Go Back
-                    game.setScreen(new mainMenuGraphics(game));
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.41 * height && y < 0.51 * height) //Same Device Menu
+                game.setScreen(new Graphics(game, false));
+            else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.62 * height && y < 0.72 * height) //Different Devices Menu
+                game.setScreen(new Graphics(game, false));
+            else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.82 * height && y < 0.92 * height) //Go Back
+                game.setScreen(new mainMenuGraphics(game));
+            return true;
         }
         return false;
     }

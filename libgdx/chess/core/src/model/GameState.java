@@ -1,8 +1,6 @@
 package model;
 
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -23,8 +21,9 @@ public class GameState
 	private boolean singlePlayer;
 	private Runtime runtime;
 	private Process stockfish;
-	private DataInputStream istream;
-	private DataOutputStream ostream;
+	private BufferedReader reader;
+	private BufferedWriter writer;
+	private Scanner scanner;
 
 	private ArrayList<String> moves;
 
@@ -35,21 +34,20 @@ public class GameState
 
 		if (singlePlayer)
 		{
-			runtime = Runtime.getRuntime();
-			stockfish = runtime.exec("stockfish");
-			istream = new DataInputStream(stockfish.getInputStream());
-			ostream = new DataOutputStream(stockfish.getOutputStream());
+			ProcessBuilder ola = new ProcessBuilder("stockfish");
+			stockfish = ola.start();
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(istream));
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ostream));
+			reader = new BufferedReader(new InputStreamReader(stockfish.getInputStream()));
+			writer = new BufferedWriter(new OutputStreamWriter(stockfish.getOutputStream()));
 
 			moves = new ArrayList<String>();
 
-			writer.write("uci\n");
-			writer.write("ucinewgame\n");
-			writer.write("isready\n");
+			String foobar = "uci";
+			foobar += "\nucinewgame";
+			foobar += "\nisready\n";
+
+			writer.write(foobar, 0, foobar.length());
 			writer.flush();
-			writer.close();
 
 			printAIAnswer();
 		}
@@ -63,6 +61,11 @@ public class GameState
 			return;
 
 	}
+
+	public void move(int x1, int y1, int x2, int y2)
+	{
+		move(map.getMap()[y1][x1], map.getMap()[y2][x2]);
+	}
 	
 	public void move(Character ch, int x, int y)
 	{
@@ -74,41 +77,68 @@ public class GameState
 		moves.add(getMoveSymbol(ch1, ch2));
 		map.move(ch1, ch2);
 
-		if (singlePlayer) {
+		if (player == 0 && singlePlayer) {
 			try {
 				moveAI();
+				printAIAnswer();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private void moveAI() throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(istream));
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(ostream));
+	private void move(String symbol)
+	{
+		int x1 = symbol.substring(0,1).charAt(0) - 'a', y1 = 8 - Integer.parseInt(symbol.substring(1,2)), x2 = symbol.substring(2,3).charAt(0) - 'a', y2 = 8 - Integer.parseInt(symbol.substring(3,4));
 
-		writer.write("position startpos moves");
-		for (int i = 0; i < moves.size(); i++)
-		{
-			writer.write(" " + moves.get(i));
-		}
-		writer.flush();
+//		System.out.println("x1 = " + x1);
+//		System.out.println("y1 = " + y1);
+//		System.out.println("x2 = " + x2);
+//		System.out.println("y2 = " + y2);
 
-		writer.write("go");
-		writer.flush();
-		writer.close();
+		swapPlayer();
 
-		printAIAnswer();
+		move(x1, y1, x2, y2);
 	}
 
-	private ArrayList<String> getAIAnswer()
+	private void moveAI() throws IOException {
+
+		String foobar = "position startpos moves";
+
+		for (int i = 0; i < moves.size(); i++)
+		{
+			foobar += " " + moves.get(i);
+		}
+		foobar += "\ngo\n";
+
+		writer.write(foobar, 0, foobar.length());
+		writer.flush();
+
+		ArrayList<String> answer = getAIAnswer();
+
+		printAIAnswer(answer);
+
+		foobar = answer.get(answer.size()-1);
+
+		foobar = foobar.substring(9, 13);
+
+		move(foobar);
+	}
+
+
+
+	private ArrayList<String> getAIAnswer() throws IOException
 	{
 		ArrayList<String> ret = new ArrayList<String>();
 
-		Scanner scanner = new Scanner(istream);
-		while (scanner.hasNextLine())
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		while (reader.ready())
 		{
-			ret.add(scanner.nextLine());
+			ret.add(reader.readLine());
 		}
 
 		return ret;
@@ -116,8 +146,22 @@ public class GameState
 
 	private void printAIAnswer()
 	{
-		ArrayList<String> answer = getAIAnswer();
 
+		ArrayList<String> answer = new ArrayList<String>();
+		try {
+			answer = getAIAnswer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < answer.size(); i++)
+		{
+			System.out.println(answer.get(i));
+		}
+	}
+
+	private void printAIAnswer(ArrayList<String> answer)
+	{
 		for (int i = 0; i < answer.size(); i++)
 		{
 			System.out.println(answer.get(i));

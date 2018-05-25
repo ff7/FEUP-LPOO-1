@@ -80,10 +80,11 @@ public class GameState
 		if (player == 0 && singlePlayer) {
 			try {
 				moveAI();
-				printAIAnswer();
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			printAIAnswer();
 		}
 	}
 
@@ -91,34 +92,49 @@ public class GameState
 	{
 		int x1 = symbol.substring(0,1).charAt(0) - 'a', y1 = 8 - Integer.parseInt(symbol.substring(1,2)), x2 = symbol.substring(2,3).charAt(0) - 'a', y2 = 8 - Integer.parseInt(symbol.substring(3,4));
 
-//		System.out.println("x1 = " + x1);
-//		System.out.println("y1 = " + y1);
-//		System.out.println("x2 = " + x2);
-//		System.out.println("y2 = " + y2);
-
 		swapPlayer();
 
 		move(x1, y1, x2, y2);
 	}
 
-	private void moveAI() throws IOException {
+	private void printBoard()
+	{
 
+		String foobar = "d\n";
+
+		try {
+			writer.write(foobar, 0, foobar.length());
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void updateAIBoard() throws IOException
+	{
 		String foobar = "position startpos moves";
 
 		for (int i = 0; i < moves.size(); i++)
 		{
 			foobar += " " + moves.get(i);
 		}
-		foobar += "\ngo\n";
+		foobar += "\ngo\nd\n";
+
 
 		writer.write(foobar, 0, foobar.length());
 		writer.flush();
+	}
+ 	
+	private void moveAI() throws IOException {
+
+		updateAIBoard();
 
 		ArrayList<String> answer = getAIAnswer();
 
 		printAIAnswer(answer);
 
-		foobar = answer.get(answer.size()-1);
+		String foobar = answer.get(answer.size()-1);
 
 		foobar = foobar.substring(9, 13);
 

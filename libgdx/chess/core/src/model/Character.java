@@ -10,7 +10,9 @@ public abstract class Character {
 		int player;
 		Texture texture;
 		String filename = "images/";
-		
+
+		public int moveCount = 0;
+
 		public boolean isCheck = false;
 		
 		public Character()

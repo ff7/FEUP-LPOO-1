@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class King extends Character
 {
-	int moveCount = 0;
+	public int moveCount = 0;
 	
 	public King()
 	{
@@ -72,9 +72,42 @@ public class King extends Character
 			relativePos.setSecond(yadd);
 			absolutePos = getMovePosition(relativePos);
 						
-			if (map.isWithinBounds(absolutePos) && (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor || map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player))
-			{
+			if (map.isWithinBounds(absolutePos) && (map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()] instanceof Floor || map.getMap()[absolutePos.getSecond()][absolutePos.getFirst()].player != this.player)) {
 				ret.add(absolutePos);
+			}
+
+			if (map.getCharMap()[7][4] == 'K' && map.getMap()[7][4].player == 0 && map.getCharMap()[7][7] == 'R' && map.getMap()[7][7].player == 0 & this.player == 0 && moveCount == 0)
+			{
+				if (map.getCharMap()[7][5] == '_' && map.getCharMap()[7][6] == '_')
+				{
+					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(6,7);
+					ret.add(castleOption);
+				}
+			}
+			else if (map.getCharMap()[7][3] == 'K' && map.getMap()[7][3].player == 0 && map.getCharMap()[7][0] == 'R' && map.getMap()[7][0].player == 0 && this.player == 0 && moveCount == 0)
+			{
+				if (map.getCharMap()[7][1] == '_' && map.getCharMap()[7][2] == '_')
+				{
+					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(1,7);
+					ret.add(castleOption);
+				}
+			}
+
+			if (map.getCharMap()[0][4] == 'K' && map.getMap()[0][4].player == 1 && map.getCharMap()[0][7] == 'R' && map.getMap()[0][7].player == 1 && this.player == 1 && moveCount == 0)
+			{
+				if (map.getCharMap()[0][5] == '_' && map.getCharMap()[0][6] == '_')
+				{
+					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(6,0);
+					ret.add(castleOption);
+				}
+			}
+			else if (map.getCharMap()[0][3] == 'K' && map.getMap()[0][3].player == 1 && map.getCharMap()[0][0] == 'R' && map.getMap()[0][0].player == 1 && this.player == 1 && moveCount == 0)
+			{
+				if (map.getCharMap()[0][1] == '_' && map.getCharMap()[0][2] == '_')
+				{
+					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(0,7);
+					ret.add(castleOption);
+				}
 			}
 		}
 		

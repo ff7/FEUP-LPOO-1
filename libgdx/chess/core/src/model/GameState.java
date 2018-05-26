@@ -34,8 +34,10 @@ public class GameState
 
 		if (singlePlayer)
 		{
-			ProcessBuilder ola = new ProcessBuilder("stockfish");
-			stockfish = ola.start();
+//			ProcessBuilder ola = new ProcessBuilder("stockfish");
+//			stockfish = ola.start();
+
+			stockfish = Runtime.getRuntime().exec("/Users/ff/Desktop/LPOO/IntelliJP/android/assets/stockfish");
 
 			reader = new BufferedReader(new InputStreamReader(stockfish.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(stockfish.getOutputStream()));
@@ -249,36 +251,36 @@ public class GameState
 
 	public void updateCastling() // Jogada especial em que o rei troca de posicao com a torre
 	{
-		if (this.getMap().getCharMap()[7][5] == 'K' && this.getMap().getMap()[7][5].player == 0)
+		if (this.getMap().getCharMap()[7][6] == 'K' && this.getMap().getMap()[7][6].player == 0)
 		{
-			if (this.getMap().getCharMap()[7][6] == '_' && this.getMap().getCharMap()[7][7] == 'R' && this.getMap().getMap()[7][7].player == 0)
+			if (this.getMap().getCharMap()[7][5] == '_' && this.getMap().getCharMap()[7][7] == 'R' && this.getMap().getMap()[7][7].player == 0 && this.getMap().getMap()[7][7].moveCount == 0)
 			{
 				this.getMap().getMap()[7][6] = new King(0, 6,7);
 				this.getMap().getMap()[7][5] = new Rook(0, 5,7);
 				this.getMap().getMap()[7][7] = new Floor(7,7);
 			}
 		}
-		else if (this.getMap().getCharMap()[7][2] == 'K' && this.getMap().getMap()[7][2].player == 0)
+		else if (this.getMap().getCharMap()[7][1] == 'K' && this.getMap().getMap()[7][1].player == 0)
 		{
-			if (this.getMap().getCharMap()[7][1] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0)
+			if (this.getMap().getCharMap()[7][2] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0 && this.getMap().getMap()[7][0].moveCount == 0)
 			{
 				this.getMap().getMap()[7][2] = new Rook(0, 2,7);
                 this.getMap().getMap()[7][1] = new King(0, 1,7);
 				this.getMap().getMap()[7][0] = new Floor(0,7);
 			}
 		}
-		else if (this.getMap().getCharMap()[0][5] == 'K' && this.getMap().getMap()[0][5].player == 1)
+		else if (this.getMap().getCharMap()[0][6] == 'K' && this.getMap().getMap()[0][6].player == 1)
 		{
-			if (this.getMap().getCharMap()[0][6] == '_' && this.getMap().getCharMap()[0][7] == 'R' && this.getMap().getMap()[0][7].player == 1)
+			if (this.getMap().getCharMap()[0][5] == '_' && this.getMap().getCharMap()[0][7] == 'R' && this.getMap().getMap()[0][7].player == 1 && this.getMap().getMap()[0][7].moveCount == 0)
 			{
 				this.getMap().getMap()[0][6] = new King(1, 6,0);
 				this.getMap().getMap()[0][5] = new Rook(1, 5,0);
 				this.getMap().getMap()[0][7] = new Floor(7,0);
 			}
 		}
-		else if (this.getMap().getCharMap()[0][2] == 'K' && this.getMap().getMap()[0][2].player == 1)
+		else if (this.getMap().getCharMap()[0][1] == 'K' && this.getMap().getMap()[0][1].player == 1)
 		{
-			if (this.getMap().getCharMap()[0][1] == '_' && this.getMap().getCharMap()[0][0] == 'R' && this.getMap().getMap()[0][0].player == 1)
+			if (this.getMap().getCharMap()[0][2] == '_' && this.getMap().getCharMap()[0][0] == 'R' && this.getMap().getMap()[0][0].player == 1 && this.getMap().getMap()[0][0].moveCount == 0)
 			{
 				this.getMap().getMap()[0][2] = new Rook(1, 2,0);
 				this.getMap().getMap()[0][1] = new King(1, 1,0);
@@ -431,7 +433,8 @@ public class GameState
 				
 				this.getMap().getMap()[y][x] = ch;
 				this.getMap().getMap()[yt][xt] = temp;
-			}		
+			}
+
 		}
 		else
 		{

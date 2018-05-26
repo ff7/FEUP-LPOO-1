@@ -118,6 +118,16 @@ public class Map {
 			Pawn p = (Pawn)(ch1);
 			p.moveCount++;
 		}
+		else if (ch1 instanceof  King)
+		{
+			King k = (King)(ch1);
+			k.moveCount++;
+		}
+		else if (ch1 instanceof  Rook)
+		{
+			Rook r = (Rook)(ch1);
+			r.moveCount++;
+		}
 	}
 	
 	public Pair<Integer, Integer> getKingsPosition(int player)

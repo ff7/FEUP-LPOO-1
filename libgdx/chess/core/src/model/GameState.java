@@ -76,7 +76,8 @@ public class GameState
 	
 	public void move(Character ch1, Character ch2) // Moves ch1 to ch2
 	{
-		moves.add(getMoveSymbol(ch1, ch2));
+		if (singlePlayer)
+			moves.add(getMoveSymbol(ch1, ch2));
 		map.move(ch1, ch2);
 
 		if (player == 0 && singlePlayer) {
@@ -435,6 +436,96 @@ public class GameState
 				this.getMap().getMap()[yt][xt] = temp;
 			}
 
+			if (this.player == 0 ) // Caso especial do rei
+			{
+				if (map.getCharMap()[7][4] == 'K' )
+				{
+					Pair<Integer, Integer> pos = new Pair<Integer, Integer>();
+					pos.setFirst(5);
+					pos.setSecond(7);
+					if (!isPossible(pos, arr))
+					{
+						for (int i = 0; i < arr.size(); i++)
+						{
+							Pair<Integer, Integer> castlePos = new Pair<Integer, Integer>();
+							castlePos.setFirst(6);
+							castlePos.setSecond(7);
+							if (arr.get(i).equals(castlePos))
+							{
+								arr.remove(i);
+								i--;
+							}
+						}
+					}
+				}
+
+				else if (map.getCharMap()[7][3] == 'K' )
+				{
+					Pair<Integer, Integer> pos = new Pair<Integer, Integer>();
+					pos.setFirst(2);
+					pos.setSecond(7);
+					if (!isPossible(pos, arr))
+					{
+						for (int i = 0; i < arr.size(); i++)
+						{
+							Pair<Integer, Integer> castlePos = new Pair<Integer, Integer>();
+							castlePos.setFirst(1);
+							castlePos.setSecond(7);
+							if (arr.get(i).equals(castlePos))
+							{
+								arr.remove(i);
+								i--;
+							}
+						}
+					}
+				}
+			}
+
+			else if (this.player == 1)
+			{
+				if (map.getCharMap()[0][4] == 'K' )
+				{
+					Pair<Integer, Integer> pos = new Pair<Integer, Integer>();
+					pos.setFirst(5);
+					pos.setSecond(0);
+					if (!isPossible(pos, arr))
+					{
+						for (int i = 0; i < arr.size(); i++)
+						{
+							Pair<Integer, Integer> castlePos = new Pair<Integer, Integer>();
+							castlePos.setFirst(6);
+							castlePos.setSecond(0);
+							if (arr.get(i).equals(castlePos))
+							{
+								arr.remove(i);
+								i--;
+							}
+						}
+					}
+				}
+
+				else if (map.getCharMap()[0][3] == 'K' )
+				{
+					Pair<Integer, Integer> pos = new Pair<Integer, Integer>();
+					pos.setFirst(2);
+					pos.setSecond(0);
+					if (!isPossible(pos, arr))
+					{
+						for (int i = 0; i < arr.size(); i++)
+						{
+							Pair<Integer, Integer> castlePos = new Pair<Integer, Integer>();
+							castlePos.setFirst(1);
+							castlePos.setSecond(0);
+							if (arr.get(i).equals(castlePos))
+							{
+								arr.remove(i);
+								i--;
+							}
+						}
+					}
+				}
+			}
+
 		}
 		else
 		{
@@ -461,6 +552,11 @@ public class GameState
 		}
 		 
 		return arr;
+	}
+
+	public boolean isPossible(Pair<Integer, Integer> pos, ArrayList<Pair<Integer, Integer>> arr)
+	{
+		return arr.contains(pos);
 	}
 
 	@Override

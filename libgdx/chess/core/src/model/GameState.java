@@ -37,7 +37,9 @@ public class GameState
 //			ProcessBuilder ola = new ProcessBuilder("stockfish");
 //			stockfish = ola.start();
 
-			stockfish = Runtime.getRuntime().exec("/Users/ff/Desktop/LPOO/IntelliJP/android/assets/stockfish");
+			//stockfish = Runtime.getRuntime().exec("/Users/ff/Desktop/LPOO/IntelliJP/android/assets/stockfish");
+			stockfish = Runtime.getRuntime().exec("stockfish");
+
 
 			reader = new BufferedReader(new InputStreamReader(stockfish.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(stockfish.getOutputStream()));
@@ -261,16 +263,16 @@ public class GameState
 				this.getMap().getMap()[7][7] = new Floor(7,7);
 			}
 		}
-		else if (this.getMap().getCharMap()[7][1] == 'K' && this.getMap().getMap()[7][1].player == 0)
+		if (this.getMap().getCharMap()[7][2] == 'K' && this.getMap().getMap()[7][2].player == 0)
 		{
-			if (this.getMap().getCharMap()[7][2] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0 && this.getMap().getMap()[7][0].moveCount == 0)
+			if (this.getMap().getCharMap()[7][3] == '_' && this.getMap().getCharMap()[7][1] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0 && this.getMap().getMap()[7][0].moveCount == 0)
 			{
-				this.getMap().getMap()[7][2] = new Rook(0, 2,7);
-                this.getMap().getMap()[7][1] = new King(0, 1,7);
+				this.getMap().getMap()[7][3] = new Rook(0, 3,7);
+                this.getMap().getMap()[7][2] = new King(0, 2,7);
 				this.getMap().getMap()[7][0] = new Floor(0,7);
 			}
 		}
-		else if (this.getMap().getCharMap()[0][6] == 'K' && this.getMap().getMap()[0][6].player == 1)
+		if (this.getMap().getCharMap()[0][6] == 'K' && this.getMap().getMap()[0][6].player == 1)
 		{
 			if (this.getMap().getCharMap()[0][5] == '_' && this.getMap().getCharMap()[0][7] == 'R' && this.getMap().getMap()[0][7].player == 1 && this.getMap().getMap()[0][7].moveCount == 0)
 			{
@@ -279,12 +281,12 @@ public class GameState
 				this.getMap().getMap()[0][7] = new Floor(7,0);
 			}
 		}
-		else if (this.getMap().getCharMap()[0][1] == 'K' && this.getMap().getMap()[0][1].player == 1)
+		if (this.getMap().getCharMap()[0][2] == 'K' && this.getMap().getMap()[0][2].player == 1)
 		{
-			if (this.getMap().getCharMap()[0][2] == '_' && this.getMap().getCharMap()[0][0] == 'R' && this.getMap().getMap()[0][0].player == 1 && this.getMap().getMap()[0][0].moveCount == 0)
+			if (this.getMap().getCharMap()[0][3] == '_' && this.getMap().getCharMap()[0][1] == '_' && this.getMap().getCharMap()[0][0] == 'R' && this.getMap().getMap()[0][0].player == 1 && this.getMap().getMap()[0][0].moveCount == 0)
 			{
-				this.getMap().getMap()[0][2] = new Rook(1, 2,0);
-				this.getMap().getMap()[0][1] = new King(1, 1,0);
+				this.getMap().getMap()[0][3] = new Rook(1, 3,0);
+				this.getMap().getMap()[0][2] = new King(1, 2,0);
 				this.getMap().getMap()[0][0] = new Floor(0,0);
 			}
 		}

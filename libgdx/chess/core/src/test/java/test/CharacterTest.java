@@ -31,4 +31,13 @@ public class CharacterTest {
     public void getChar() {
         assertEquals('K',this.map[4][3].getChar());
     }
+
+    @Test
+    public void getMovePosition()
+    {
+        Map map = new Map();
+        map.setMap(this.map);
+        assertEquals(this.map[4][3].getPossible(map).size(), 8);
+    }
+
 }

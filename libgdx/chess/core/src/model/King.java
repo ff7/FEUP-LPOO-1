@@ -84,11 +84,11 @@ public class King extends Character
 					ret.add(castleOption);
 				}
 			}
-			else if (map.getCharMap()[7][3] == 'K' && map.getMap()[7][3].player == 0 && map.getCharMap()[7][0] == 'R' && map.getMap()[7][0].player == 0 && this.player == 0 && moveCount == 0)
+			if (map.getCharMap()[7][4] == 'K' && map.getMap()[7][4].player == 0 && map.getCharMap()[7][0] == 'R' && map.getMap()[7][0].player == 0 && this.player == 0 && moveCount == 0)
 			{
-				if (map.getCharMap()[7][1] == '_' && map.getCharMap()[7][2] == '_')
+				if (map.getCharMap()[7][1] == '_' && map.getCharMap()[7][2] == '_' && map.getCharMap()[7][3] == '_')
 				{
-					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(1,7);
+					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(2,7);
 					ret.add(castleOption);
 				}
 			}
@@ -101,11 +101,11 @@ public class King extends Character
 					ret.add(castleOption);
 				}
 			}
-			else if (map.getCharMap()[0][3] == 'K' && map.getMap()[0][3].player == 1 && map.getCharMap()[0][0] == 'R' && map.getMap()[0][0].player == 1 && this.player == 1 && moveCount == 0)
+			if (map.getCharMap()[0][4] == 'K' && map.getMap()[0][4].player == 1 && map.getCharMap()[0][0] == 'R' && map.getMap()[0][0].player == 1 && this.player == 1 && moveCount == 0)
 			{
-				if (map.getCharMap()[0][1] == '_' && map.getCharMap()[0][2] == '_')
+				if (map.getCharMap()[0][1] == '_' && map.getCharMap()[0][2] == '_' && map.getCharMap()[0][3] == '_')
 				{
-					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(0,7);
+					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(2,0);
 					ret.add(castleOption);
 				}
 			}

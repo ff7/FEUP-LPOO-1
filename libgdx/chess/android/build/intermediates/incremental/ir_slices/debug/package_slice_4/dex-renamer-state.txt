@@ -1,4 +1,4 @@
-#Tue May 22 16:40:26 WEST 2018
+#Tue May 29 01:36:37 WEST 2018
 base.0=/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/transforms/dexMerger/debug/4
 path.0=classes.dex
 renamed.0=classes.dex

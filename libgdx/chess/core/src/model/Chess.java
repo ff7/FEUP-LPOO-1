@@ -10,15 +10,16 @@ import view.mainMenuGraphics;
 
 public class Chess extends Game {
 	SpriteBatch batch;
+	boolean singlePlayer;
+	String stockfishPath = null;
+
 
 	@Override
 	public void create () {
 		
 		batch = new SpriteBatch();
 		this.setScreen(new mainMenuGraphics(this));
-		//this.setScreen(new Graphics(this));
 	}
-
 
 	
 	@Override
@@ -37,10 +38,31 @@ public class Chess extends Game {
 	public void resize(int width, int height){
 	}
 
+
+	public void setSinglePlayer(boolean singlePlayer)
+	{
+		this.singlePlayer = singlePlayer;
+	}
+
+	public void setStockfishPath(String stockfishPath)
+	{
+		this.stockfishPath = stockfishPath;
+	}
+
+
 	public SpriteBatch getBatch()
 	{
 		return this.batch;
 	}
 
+	public boolean getSinglePlayer()
+	{
+		return singlePlayer;
+	}
+
+	public String getStockfishPath()
+	{
+		return stockfishPath;
+	}
 
 }

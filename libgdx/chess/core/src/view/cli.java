@@ -12,7 +12,7 @@ public class cli
 	
 	public static void main(String[] args) throws IOException
 	{
-		GameState gs = new GameState(false);
+		GameState gs = new GameState(false, null);
 		
 		gs.getMap().getMap()[3][3].setPlayer(0);	//Queen
 		gs.getMap().getMap()[5][1].setPlayer(0);	//Queen

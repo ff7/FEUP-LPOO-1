@@ -30,16 +30,12 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	
 	Character selected;
 
-	public Graphics(Chess game, boolean singlePlayer)
+	public Graphics(Chess game)
 	{
 		this.game = game;
 		this.batch = game.getBatch();
 
-		try {
-			gamestate = new GameState(singlePlayer);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		gamestate = new GameState(game.getSinglePlayer(), game.getStockfishPath());
 
 		selected = null;
 		mousehandler = new MouseHandler(this);

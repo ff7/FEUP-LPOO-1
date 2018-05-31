@@ -57,6 +57,12 @@ public class Map {
 	public Map(Character[][] map)
 	{
 		this.map = map;
+		for (int i = 0; i < map.length; i++)
+		{
+			for (int j = 0; j < map[i].length; j++) {
+				map[i][j].setPos(new Pair<Integer, Integer>(j, i));
+			}
+		}
 	}
 	
 	public char[][] getCharMap()

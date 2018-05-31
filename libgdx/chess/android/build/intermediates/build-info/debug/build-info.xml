@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="arm64-v8a,armeabi-v7a,armeabi"
-    api-level="25"
+    abi="x86"
+    api-level="28"
     build-mode="FULL"
     density="420dpi"
     format="10"
     plugin-version="3.1.2"
-    timestamp="1527554196367"
+    timestamp="1527809713693"
     token="-5127436778768590270"
     verifier="FULL_BUILD_REQUESTED" >
 
@@ -18,19 +18,25 @@
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="64" />
+        duration="47" />
     <task
         name="verifier"
-        duration="10" />
+        duration="14" />
 
     <artifact
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/dep/dependencies.apk"
         type="SPLIT" />
     <artifact
+        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
+        type="SPLIT" />
+    <artifact
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_4.apk"
         type="SPLIT" />
     <artifact
-        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
+        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
         type="SPLIT" />
     <artifact
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_1.apk"
@@ -39,13 +45,10 @@
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_3.apk"
         type="SPLIT" />
     <artifact
-        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
         type="SPLIT" />
     <artifact
-        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
         type="SPLIT" />
     <artifact
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_8.apk"
@@ -54,24 +57,30 @@
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
     <artifact
-        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
-        type="SPLIT" />
-    <artifact
         location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/instant-run-apk/debug/android-debug.apk"
         type="SPLIT_MAIN" />
+    <artifact
+        location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1527554196367"
+        timestamp="1527809713693"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
+            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
+            type="SPLIT" />
+        <artifact
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
+            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
         <artifact
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_1.apk"
@@ -80,13 +89,10 @@
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
+            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_8.apk"
@@ -95,11 +101,11 @@
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
-            type="SPLIT" />
-        <artifact
             location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/instant-run-apk/debug/android-debug.apk"
             type="SPLIT_MAIN" />
+        <artifact
+            location="/home/pedro/Desktop/git/FEUP-LPOO/libgdx/chess/android/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+            type="SPLIT" />
     </build>
 
 </instant-run>

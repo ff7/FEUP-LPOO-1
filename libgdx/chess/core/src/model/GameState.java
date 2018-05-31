@@ -18,7 +18,7 @@ public class GameState
 	public boolean gameOver = false;
 	public int winner = 2;
 
-	private boolean singlePlayer;
+	public int opponentType;
 	private String stockfishPath;
 
 	private Process stockfish;
@@ -27,13 +27,16 @@ public class GameState
 
 	private ArrayList<String> moves;
 
-	public GameState(boolean singlePlayer, String stockfishPath)
+	private Server server;
+	private Client client;
+
+	public GameState(int opponentType, String stockfishPath)
 	{
 		map = new Map();
-		this.singlePlayer = singlePlayer;
+		this.opponentType = opponentType;
 		this.stockfishPath = stockfishPath;
 
-		if (singlePlayer)
+		if (opponentType == 0)
 		{
 			try
 			{
@@ -59,6 +62,31 @@ public class GameState
 		}
 	}
 
+	public GameState(int opponentType, String stockfishPath, Server server)
+	{
+		map = new Map();
+		this.opponentType = opponentType;
+		this.stockfishPath = stockfishPath;
+		this.server = server;
+
+//		this.player = 1; //Client plays firsts
+
+		server.setGameState(this);
+		server.start();
+	}
+
+	public GameState(int opponentType, String stockfishPath, Client client)
+	{
+		map = new Map();
+		this.opponentType = opponentType;
+		this.stockfishPath = stockfishPath;
+		this.client = client;
+
+		this.player = 1; //Server plays firsts
+
+		client.setGameState(this);
+		client.start();
+	}
 
 	public void update(int player, int x1, int y1, int x2, int y2)
 	{
@@ -79,29 +107,59 @@ public class GameState
 
 	public void move(Character ch1, Character ch2) // Moves ch1 to ch2
 	{
-		if (singlePlayer)
+		if (opponentType == 0)
+		{
 			moves.add(getMoveSymbol(ch1, ch2));
+			map.move(ch1, ch2);
+			swapPlayer();
 
-		map.move(ch1, ch2);
+			if (player == 1)
+			{
+				try {
+					moveAI();
 
-		if (player == 0 && singlePlayer) {
-			try {
-				moveAI();
-
-			} catch (IOException e) {
-				e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				printAIAnswer();
 			}
-			printAIAnswer();
+		}
+
+		if (opponentType == 1)
+		{
+			map.move(ch1, ch2);
+			swapPlayer();
+		}
+
+		if (opponentType == 2)
+		{
+			if (player == 0)
+			{
+				if (client != null)
+				{
+					client.sendMessage(getInvertedMoveSymbol(ch1, ch2));
+					map.move(ch1, ch2);
+					swapPlayer();
+				}
+				else if (server != null)
+				{
+					server.sendMessage(getInvertedMoveSymbol(ch1, ch2));
+					map.move(ch1, ch2);
+					swapPlayer();
+				}
+			}
 		}
 	}
 
-	private void move(String symbol)
+	public void move(String symbol)
 	{
 		int x1 = symbol.substring(0,1).charAt(0) - 'a', y1 = 8 - Integer.parseInt(symbol.substring(1,2)), x2 = symbol.substring(2,3).charAt(0) - 'a', y2 = 8 - Integer.parseInt(symbol.substring(3,4));
 
-		swapPlayer();
+		if (opponentType == 0)
+			moves.add(getMoveSymbol(map.getMap()[y1][x1], map.getMap()[y2][x2]));
 
-		move(x1, y1, x2, y2);
+		map.move(map.getMap()[y1][x1], map.getMap()[y2][x2]);
+		swapPlayer();
 	}
 
 	private void printAIBoard() throws IOException
@@ -139,7 +197,6 @@ public class GameState
 	{
 		updateAIBoard();
 		goAI();
-
 
 		ArrayList<String> answer = getAIAnswer();
 
@@ -206,6 +263,24 @@ public class GameState
 		str += 8 - ch1.getPos().getSecond();
 		str += (char)('a' + ch2.getPos().getFirst());
 		str += 8 - ch2.getPos().getSecond();
+
+//		System.out.println("Move symbol = " + str);
+
+		return str;
+	}
+
+	public String getInvertedMoveSymbol(Character ch1, Character ch2)
+	{
+//		getMoveSymbol(ch1, ch2);
+
+		String str = "";
+
+		str += (char)('h' - ch1.getPos().getFirst());
+		str += ch1.getPos().getSecond() + 1;
+		str += (char)('h' - ch2.getPos().getFirst());
+		str += ch2.getPos().getSecond() + 1;
+
+//		System.out.println("Inverted move symbol = " + str);
 
 		return str;
 	}
@@ -575,8 +650,18 @@ public class GameState
 	{
 		String str = new String();
 
-
-
 		return str;
+	}
+
+	public void exit()
+	{
+		if (server != null)
+			server.closeServer();
+
+		if (client != null)
+			client.closeConnection();
+
+		if (opponentType == 0)
+			stockfish.destroy();
 	}
 }

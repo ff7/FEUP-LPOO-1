@@ -10,7 +10,7 @@ import view.mainMenuGraphics;
 
 public class Chess extends Game {
 	SpriteBatch batch;
-	boolean singlePlayer;
+	int opponentType = 0; // 0 = Single Player, 1 = Same device, 2 = Other Device
 	String stockfishPath = null;
 
 
@@ -39,9 +39,9 @@ public class Chess extends Game {
 	}
 
 
-	public void setSinglePlayer(boolean singlePlayer)
+	public void setOpponentType(int opponentType)
 	{
-		this.singlePlayer = singlePlayer;
+		this.opponentType = opponentType;
 	}
 
 	public void setStockfishPath(String stockfishPath)
@@ -55,9 +55,9 @@ public class Chess extends Game {
 		return this.batch;
 	}
 
-	public boolean getSinglePlayer()
+	public int getOpponentType()
 	{
-		return singlePlayer;
+		return opponentType;
 	}
 
 	public String getStockfishPath()

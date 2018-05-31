@@ -106,13 +106,15 @@ public class Map {
 	}
 	
 	public void move(Character ch1, Character ch2)
-	{		
+	{
+		Pair<Integer, Integer> temp = new Pair(ch1.getPos().getFirst(), ch1.getPos().getSecond());
+
 		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()] = map[ch1.getPos().getSecond()][ch1.getPos().getFirst()];
+
+		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()].setPos(ch2.getPos());
 		
-		map[ch1.getPos().getSecond()][ch1.getPos().getFirst()] = new Floor(ch1.getPos().getFirst(), ch1.getPos().getSecond());
-		
-		ch1.pos = ch2.pos;
-		
+		map[temp.getSecond()][temp.getFirst()] = new Floor(temp.getFirst(), temp.getSecond());
+
 		if (ch1 instanceof Pawn)
 		{
 			Pawn p = (Pawn)(ch1);

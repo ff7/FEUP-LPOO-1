@@ -54,14 +54,11 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
         {
             if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.44 * height && y < 0.54 * height) //Single Player Menu
             {
-                game.setSinglePlayer(true);
+                game.setOpponentType(0);
                 game.setScreen(new Graphics(game));
             }
             else if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.64 * height && y < 0.74 * height) //MultiPlayer Menu
-            {
-                game.setSinglePlayer(false);
                 game.setScreen(new playerMenuGraphics(game));
-            }
             else if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.86 * height && y < 0.96 * height) //Exit Menu
                 Gdx.app.exit();
             return true;

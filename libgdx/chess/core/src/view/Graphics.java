@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import controller.MouseHandler;
 import model.Character;
 import model.Chess;
+import model.Client;
 import model.GameState;
 import model.Pair;
+import model.Server;
 
 public class Graphics extends ScreenAdapter implements InputProcessor
 {
@@ -35,11 +37,35 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 		this.game = game;
 		this.batch = game.getBatch();
 
-		gamestate = new GameState(game.getSinglePlayer(), game.getStockfishPath());
+		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath());
 
 		selected = null;
 		mousehandler = new MouseHandler(this);
 	    Gdx.input.setInputProcessor(this);
+	}
+
+	public Graphics(Chess game, Server server)
+	{
+		this.game = game;
+		this.batch = game.getBatch();
+
+		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath(), server);
+
+		selected = null;
+		mousehandler = new MouseHandler(this);
+		Gdx.input.setInputProcessor(this);
+	}
+
+	public Graphics(Chess game, Client client)
+	{
+		this.game = game;
+		this.batch = game.getBatch();
+
+		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath(), client);
+
+		selected = null;
+		mousehandler = new MouseHandler(this);
+		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
@@ -124,7 +150,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 		}
 		else if (selected == null || !possible.contains(piece.getPos()))
 		{
-			if (piece.getPlayer() != gamestate.player)
+			if (piece.getPlayer() != gamestate.player || (gamestate.opponentType == 2 && gamestate.player == 1))
 			{
 				selected = null;
 				possible = null;
@@ -136,10 +162,9 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 		}
 		else
 		{
-			if (!piece.equals(selected))
-			{
+			if (!piece.equals(selected) && (gamestate.opponentType != 2 || gamestate.player == 0))
+            {
 				gamestate.move(selected, piece);
-				gamestate.swapPlayer();
 				gamestate.updatePawns();
 				gamestate.updateCastling();
 				gamestate.updateGameStatus();
@@ -168,7 +193,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 				winner = "Black Pieces";
 			System.out.println("This game is finished. " + winner + " won!");
 
-			game.setScreen(new mainMenuGraphics(game));
+			exit();
 		}
 	}
 
@@ -177,11 +202,18 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 
 		if (keycode == Input.Keys.ESCAPE)
 		{
-			game.setScreen(new mainMenuGraphics(game));
+			exit();
 			return true;
 		}
 
 		return false;
+	}
+
+	public void exit()
+	{
+		gamestate.exit();
+
+		game.setScreen(new mainMenuGraphics(game));
 	}
 
 

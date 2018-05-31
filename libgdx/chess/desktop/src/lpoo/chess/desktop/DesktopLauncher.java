@@ -2,7 +2,6 @@ package lpoo.chess.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-
 import model.Chess;
 
 public class DesktopLauncher {
@@ -14,7 +13,11 @@ public class DesktopLauncher {
 		config.width = 504;
 
 		Chess chess = new model.Chess();
-		chess.setStockfishPath("binaries/stockfish");
+
+		if (System.getProperty("os.name").equals("Mac OS X"))
+			chess.setStockfishPath("binaries/stockfish_mac");
+		else
+			chess.setStockfishPath("binaries/stockfish");
 
 		new LwjglApplication(chess, config);
 	}

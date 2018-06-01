@@ -12,6 +12,8 @@ public class GameState
 {
 	public int gameStatus = 0; // -1 = game over, 0 = normal, 1 = win
 
+	public boolean test = false;
+
 	protected Map map;
 	public int player = 0;
 	public boolean gameOver = false;
@@ -85,6 +87,13 @@ public class GameState
 
 		client.setGameState(this);
 		client.start();
+	}
+
+	public GameState(int opponentType, String stockfishPath, boolean testFlag)
+	{
+		map = new Map(testFlag);
+		this.opponentType = opponentType;
+		this.stockfishPath = stockfishPath;
 	}
 
 	public void update(int player, int x1, int y1, int x2, int y2)

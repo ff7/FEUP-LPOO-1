@@ -74,17 +74,14 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 
 		if (gamestate.opponentType == 2)
 		{
-            if (gamestate.server == null && gamestate.client == null)
-                System.out.println("PEIDO GRANDE!");
-
 			if (gamestate.server != null && !gamestate.server.isBound())
 			{
-				exit();
+				exit(2);
 			}
 
 			if (gamestate.client != null && !gamestate.client.isBound())
 			{
-				exit();
+				exit(2);
 			}
 		}
 
@@ -210,7 +207,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 				winner = "Black Pieces";
 			System.out.println("This game is finished. " + winner + " won!");
 
-			exit();
+			exit(gamestate.winner);
 		}
 	}
 
@@ -219,18 +216,28 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 
 		if (keycode == Input.Keys.ESCAPE)
 		{
-			exit();
+			exit(2);
 			return true;
 		}
 
 		return false;
 	}
 
-	public void exit()
+	public void exit(int winner)
 	{
 		gamestate.exit();
 
-		game.setScreen(new mainMenuGraphics(game));
+		if (winner  == 0)
+		{
+			game.setScreen(new whiteVictory(game));
+		}
+		else if (winner == 1)
+		{
+			game.setScreen(new blackVictory(game));
+		}
+		else {
+			game.setScreen(new mainMenuGraphics(game));
+		}
 	}
 
 

@@ -64,6 +64,8 @@ public class Pawn extends Character
 	
 	public void loadTexture()
 	{
+		filename = new Pawn().filename;
+
 		if (player == 0)//White
 		{
 			filename += "white/";

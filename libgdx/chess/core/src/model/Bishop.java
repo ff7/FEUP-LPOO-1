@@ -83,6 +83,8 @@ public class Bishop extends Character
 	
 	public void loadTexture()
 	{
+		filename = new Bishop().filename;
+
 		if (player == 0)//White
 		{
 			filename += "white/";

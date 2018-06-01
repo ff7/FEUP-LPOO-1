@@ -85,6 +85,8 @@ public class Knight extends Character
 	
 	public void loadTexture()
 	{
+		filename = new Knight().filename;
+
 		if (player == 0)//White
 		{
 			filename += "white/";

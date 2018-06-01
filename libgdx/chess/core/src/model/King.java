@@ -117,6 +117,8 @@ public class King extends Character
 	
 	public void loadTexture()
 	{
+		filename = new King().filename;
+
 		if (player == 0)//White
 		{
 			filename += "white/";

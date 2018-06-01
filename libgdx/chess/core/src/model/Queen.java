@@ -102,6 +102,8 @@ public class Queen extends Character
 	
 	public void loadTexture()
 	{
+		filename = new Queen().filename;
+
 		if (player == 0)//White
 		{
 			filename += "white/";

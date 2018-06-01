@@ -87,6 +87,13 @@ public class GameState
 		client.start();
 	}
 
+	public GameState(int opponentType, String stockfishPath, boolean testFlag)
+	{
+		map = new Map(testFlag);
+		this.opponentType = opponentType;
+		this.stockfishPath = stockfishPath;
+	}
+
 	public void update(int player, int x1, int y1, int x2, int y2)
 	{
 		if (gameStatus != 0)

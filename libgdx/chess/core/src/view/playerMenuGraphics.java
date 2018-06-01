@@ -38,7 +38,6 @@ public class playerMenuGraphics extends ScreenAdapter implements InputProcessor 
         int height = Gdx.graphics.getHeight();
         batch.begin();
         batch.draw(img, 0,0,width, height);
-        //font.draw(batch, "Time to Chess", 250, 400);
         batch.end();
     }
 

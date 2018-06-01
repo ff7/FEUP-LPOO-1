@@ -52,6 +52,13 @@ public abstract class Character {
 			this.player = player;
 			loadTexture();
 		}
+
+		public void setPlayer(int player, boolean testFlag)
+		{
+			this.player = player;
+			if (!testFlag)
+				loadTexture();
+		}
 		
 		public void setPos(Pair<Integer, Integer> pos)
 		{

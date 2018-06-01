@@ -53,6 +53,27 @@ public class Map {
 		}
 		
 	};
+
+	public Map(boolean testFlag)
+	{
+		for (int i = 0; i < map.length; i++)
+		{
+			for (int j = 0; j < map[i].length; j++)
+			{
+				map[i][j].setPos(new Pair<Integer, Integer>(j, i));
+
+				if (i == 0 || i == 1)
+				{
+					map[i][j].setPlayer(1, testFlag);
+				}
+				else if (i == 6 || i == 7)
+				{
+					map[i][j].setPlayer(0, testFlag);
+				}
+			}
+		}
+
+	};
 	
 	public Map(Character[][] map)
 	{

@@ -25,10 +25,10 @@ public class CharacterTest {
 
             };
 
-    private Character[][] successfulCheckMapMate =
+    private Character[][] successfulCheckMateMap =
             {
 
-                    {new Floor(), new Floor(), new Floor(), new Queen(), new Knight(), new Bishop(), new Knight(), new Rook()},
+                    {new Floor(), new Floor(), new Floor(), new Queen(), new King(), new Bishop(), new Knight(), new Rook()},
                     {new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Pawn(), new Pawn(), new Pawn()},
                     {new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
                     {new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
@@ -42,14 +42,28 @@ public class CharacterTest {
     private Character[][] successFulCheckMap =
             {
 
-                    {new Floor(), new Floor(), new Floor(), new Floor(), new Knight(), new Bishop(), new Knight(), new Rook()},
+                    {new Floor(), new Floor(), new Floor(), new Floor(), new King(), new Bishop(), new Knight(), new Rook()},
                     {new Floor(), new Floor(), new Floor(), new Queen(), new Floor(), new Pawn(), new Pawn(), new Pawn()},
-                    {new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
                     {new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+                    {new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
                     {new Pawn(), new Floor(), new Pawn(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
                     {new Floor(), new Floor(), new Pawn(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
                     {new Pawn(), new Pawn(), new Floor(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn()},
                     {new Rook(), new Knight(), new Bishop(), new Floor(), new King(), new Bishop(), new Floor(), new Rook()}
+
+            };
+
+    private Character[][] castlingMap =
+            {
+
+                    {new Floor(), new Floor(), new Floor(), new Floor(), new King(), new Bishop(), new Knight(), new Rook()},
+                    {new Floor(), new Floor(), new Floor(), new Queen(), new Floor(), new Pawn(), new Pawn(), new Pawn()},
+                    {new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+                    {new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+                    {new Pawn(), new Floor(), new Pawn(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+                    {new Floor(), new Floor(), new Pawn(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
+                    {new Pawn(), new Pawn(), new Floor(), new Pawn(), new Pawn(), new Pawn(), new Pawn(), new Pawn()},
+                    {new Rook(), new Knight(), new Bishop(), new Floor(), new King(), new Floor(), new Floor(), new Rook()}
 
             };
 
@@ -59,8 +73,7 @@ public class CharacterTest {
         {
             for (int j = 0; j < map[i].length; j++)
             {
-//                if (map[i][j].getChar() != '_')
-                    map[i][j].setPos(new Pair<Integer, Integer>(j,i));
+                map[i][j].setPos(new Pair<Integer, Integer>(j,i));
             }
         }
     }
@@ -182,6 +195,39 @@ public class CharacterTest {
         Chess chess = new model.Chess();
         chess.setStockfishPath("binaries/stockfish");
         GameState gs = new GameState(1, chess.getStockfishPath(), true);
+
+        gs.getMap().setMap(successFulCheckMap);
+        initializeMap(gs.getMap().getMap());
+
+        gs.getMap().getMap()[0][3].setPlayer(0, true);
+        gs.getMap().getMap()[0][4].setPlayer(1, true);
+        gs.getMap().getMap()[0][5].setPlayer(1, true);
+        gs.getMap().getMap()[0][6].setPlayer(1, true);
+        gs.getMap().getMap()[0][7].setPlayer(1, true);
+        gs.getMap().getMap()[1][5].setPlayer(1, true);
+        gs.getMap().getMap()[1][6].setPlayer(1, true);
+        gs.getMap().getMap()[1][7].setPlayer(1, true);
+        gs.getMap().getMap()[3][2].setPlayer(0, true);
+        gs.getMap().getMap()[4][0].setPlayer(1, true);
+        gs.getMap().getMap()[4][2].setPlayer(1, true);
+        gs.getMap().getMap()[5][2].setPlayer(1, true);
+
+        gs.getMap().getMap()[6][0].setPlayer(0, true);
+        gs.getMap().getMap()[6][1].setPlayer(0, true);
+        gs.getMap().getMap()[6][3].setPlayer(0, true);
+        gs.getMap().getMap()[6][4].setPlayer(0, true);
+        gs.getMap().getMap()[6][5].setPlayer(0, true);
+        gs.getMap().getMap()[6][6].setPlayer(0, true);
+        gs.getMap().getMap()[6][7].setPlayer(0, true);
+        gs.getMap().getMap()[7][0].setPlayer(0, true);
+        gs.getMap().getMap()[7][1].setPlayer(0, true);
+        gs.getMap().getMap()[7][2].setPlayer(0, true);
+        gs.getMap().getMap()[7][4].setPlayer(0, true);
+        gs.getMap().getMap()[7][5].setPlayer(0, true);
+        gs.getMap().getMap()[7][7].setPlayer(0, true);
+
+        gs.swapPlayer();
+        assertTrue(gs.verifyCheck(gs.otherPlayer(), gs.getMap().getKingsPosition(gs.player)));
     }
 
     @Test
@@ -191,8 +237,7 @@ public class CharacterTest {
         chess.setStockfishPath("binaries/stockfish");
         GameState gs = new GameState(1, chess.getStockfishPath(), true);
 
-        gs.getMap().setMap(successfulCheckMapMate);
-        gs.swapPlayer();
+        gs.getMap().setMap(successfulCheckMateMap);
         initializeMap(gs.getMap().getMap());
 
         gs.getMap().getMap()[0][3].setPlayer(0, true);
@@ -222,17 +267,11 @@ public class CharacterTest {
         gs.getMap().getMap()[7][5].setPlayer(0, true);
         gs.getMap().getMap()[7][7].setPlayer(0, true);
 
+        gs.swapPlayer();
         assertTrue(gs.verifyCheckMate(gs.otherPlayer(), gs.getMap().getKingsPosition(gs.player)));
 
     }
 
-    @Test
-    public void trimGetPossible()
-    {
-        Chess chess = new model.Chess();
-        chess.setStockfishPath("binaries/stockfish");
-        GameState gs = new GameState(1, chess.getStockfishPath(), true);
-    }
 
     @Test
     public void updateGameStatus()
@@ -245,20 +284,65 @@ public class CharacterTest {
         assertFalse(gs.gameOver);
     }
 
-    @Test
-    public void updateCastling()
-    {
-        Chess chess = new model.Chess();
-        chess.setStockfishPath("binaries/stockfish");
-        GameState gs = new GameState(1, chess.getStockfishPath(), true);
-    }
+//    @Test
+//    public void gamestateTest()
+//    {
+//        Chess chess = new model.Chess();
+//        chess.setStockfishPath("binaries/stockfish");
+//        GameState gs = new GameState(1, chess.getStockfishPath());
+//        GameState gs2 = new GameState(1, chess.getStockfishPath(),new Server());
+//        GameState gs3 = new GameState(1, chess.getStockfishPath(),new Client("0.0.0.0"));
+//    }
 
-    @Test
-    public void updatePawns()
-    {
-        Chess chess = new model.Chess();
-        chess.setStockfishPath("binaries/stockfish");
-        GameState gs = new GameState(1, chess.getStockfishPath(), true);
-    }
+//    @Test
+//    public void updateCastling()
+//    {
+//        Chess chess = new model.Chess();
+//        chess.setStockfishPath("binaries/stockfish");
+//        GameState gs = new GameState(1, chess.getStockfishPath(), true);
+//
+//
+//        gs.getMap().setMap(castlingMap);
+//        initializeMap(gs.getMap().getMap());
+//
+//        gs.getMap().getMap()[0][3].setPlayer(0, true);
+//        gs.getMap().getMap()[0][4].setPlayer(1, true);
+//        gs.getMap().getMap()[0][5].setPlayer(1, true);
+//        gs.getMap().getMap()[0][6].setPlayer(1, true);
+//        gs.getMap().getMap()[0][7].setPlayer(1, true);
+//        gs.getMap().getMap()[1][5].setPlayer(1, true);
+//        gs.getMap().getMap()[1][6].setPlayer(1, true);
+//        gs.getMap().getMap()[1][7].setPlayer(1, true);
+//        gs.getMap().getMap()[3][2].setPlayer(0, true);
+//        gs.getMap().getMap()[4][0].setPlayer(1, true);
+//        gs.getMap().getMap()[4][2].setPlayer(1, true);
+//        gs.getMap().getMap()[5][2].setPlayer(1, true);
+//
+//        gs.getMap().getMap()[6][0].setPlayer(0, true);
+//        gs.getMap().getMap()[6][1].setPlayer(0, true);
+//        gs.getMap().getMap()[6][3].setPlayer(0, true);
+//        gs.getMap().getMap()[6][4].setPlayer(0, true);
+//        gs.getMap().getMap()[6][5].setPlayer(0, true);
+//        gs.getMap().getMap()[6][6].setPlayer(0, true);
+//        gs.getMap().getMap()[6][7].setPlayer(0, true);
+//        gs.getMap().getMap()[7][0].setPlayer(0, true);
+//        gs.getMap().getMap()[7][1].setPlayer(0, true);
+//        gs.getMap().getMap()[7][2].setPlayer(0, true);
+//        gs.getMap().getMap()[7][4].setPlayer(0, true);
+//        gs.getMap().getMap()[7][7].setPlayer(0, true);
+//
+//        gs.move(gs.getMap().getMap()[7][4], gs.getMap().getMap()[7][6]);
+//        gs.updateCastling();
+//        assertEquals(gs.getMap().getMap()[7][6].getChar(), 'K');
+//        assertEquals(gs.getMap().getMap()[7][5].getChar(), 'R');
+//    }
+//
+//    @Test
+//    public void updatePawns()
+//    {
+//        Chess chess = new model.Chess();
+//        chess.setStockfishPath("binaries/stockfish");
+//        GameState gs = new GameState(1, chess.getStockfishPath(), true);
+//    }
 
 }

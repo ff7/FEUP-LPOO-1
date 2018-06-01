@@ -12,6 +12,8 @@ public class GameState
 {
 	public int gameStatus = 0; // -1 = game over, 0 = normal, 1 = win
 
+	public boolean test = false;
+
 	protected Map map;
 	public int player = 0;
 	public boolean gameOver = false;

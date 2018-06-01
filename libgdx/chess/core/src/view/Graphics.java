@@ -69,10 +69,11 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 
 	@Override
 	public void render(float delta)
-	{		
+	{
+		endGame();
 		batch.begin();
 
-		if (gamestate.opponentType == 2)
+		if (gamestate.opponentType == 2 && !gamestate.gameOver)
 		{
 			if (gamestate.server != null && !gamestate.server.isBound())
 			{
@@ -233,17 +234,28 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	{
 		gamestate.exit();
 
-		if (winner  == 0)
+		System.out.println(winner);
+		if (gamestate.opponentType == 1) {
+			if (winner == 0) {
+				game.setScreen(new whiteVictory(game));
+			} else if (winner == 1) {
+				game.setScreen(new blackVictory(game));
+			} else {
+				game.setScreen(new mainMenuGraphics(game));
+			}
+		}
+		else
 		{
-			game.setScreen(new whiteVictory(game));
+			if (winner == 0) {
+				game.setScreen(new youWon(game));
+			} else if (winner == 1) {
+				game.setScreen(new youLost(game));
+			} else {
+				game.setScreen(new mainMenuGraphics(game));
+			}
 		}
-		else if (winner == 1)
-		{
-			game.setScreen(new blackVictory(game));
-		}
-		else {
-			game.setScreen(new mainMenuGraphics(game));
-		}
+
+		gamestate.exit();
 	}
 
 

@@ -151,6 +151,11 @@ public class GameState
 
 		map.move(map.getMap()[y1][x1], map.getMap()[y2][x2]);
 		swapPlayer();
+
+
+		this.updatePawns();
+		this.updateCastling();
+		this.updateGameStatus();
 	}
 
 	private void printAIBoard() throws IOException

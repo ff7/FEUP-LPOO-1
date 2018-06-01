@@ -176,34 +176,28 @@ public class Server implements Runnable{
 
 	public String getIPAddress()
 	{
-		while (true)
+		try
 		{
-			if (server != null && server.getInetAddress() != null)
+			Enumeration e = null;
+			e = NetworkInterface.getNetworkInterfaces();
+			while (e.hasMoreElements())
 			{
-				try
+				NetworkInterface n = (NetworkInterface) e.nextElement();
+				Enumeration ee = n.getInetAddresses();
+				while (ee.hasMoreElements())
 				{
-					Enumeration e = null;
-					e = NetworkInterface.getNetworkInterfaces();
-					while (e.hasMoreElements())
-					{
-						NetworkInterface n = (NetworkInterface) e.nextElement();
-						Enumeration ee = n.getInetAddresses();
-						while (ee.hasMoreElements())
-						{
-							InetAddress i = (InetAddress) ee.nextElement();
-							if (i.isSiteLocalAddress())
-								return i.getHostAddress();
-						}
-					}
+					InetAddress i = (InetAddress) ee.nextElement();
+					if (i.isSiteLocalAddress())
+						return i.getHostAddress();
 				}
-				catch (SocketException e1)
-				{
-					e1.printStackTrace();
-				}
-
-				return "";
 			}
 		}
+		catch (SocketException e1)
+		{
+			e1.printStackTrace();
+		}
+
+		return "";
 	}
 
 	@Override

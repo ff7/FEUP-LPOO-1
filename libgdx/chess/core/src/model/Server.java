@@ -2,8 +2,7 @@ package model;
 
 import java.io.*;
 import java.net.*;
-
-import view.hostMenu;
+import java.util.Enumeration;
 
 public class Server implements Runnable{
 
@@ -167,12 +166,35 @@ public class Server implements Runnable{
 		}
 	}
 
-	public String getIPAdress()
+	public String getIPAddress()
 	{
 		while (true)
 		{
 			if (server != null && server.getInetAddress() != null)
-				return server.getInetAddress().getHostName();
+			{
+				try
+				{
+					Enumeration e = null;
+					e = NetworkInterface.getNetworkInterfaces();
+					while(e.hasMoreElements())
+					{
+						NetworkInterface n = (NetworkInterface) e.nextElement();
+						Enumeration ee = n.getInetAddresses();
+						while (ee.hasMoreElements())
+						{
+							InetAddress i = (InetAddress) ee.nextElement();
+							if (i.isSiteLocalAddress())
+								return i.getHostAddress();
+						}
+					}
+				}
+				catch (SocketException e1)
+				{
+					e1.printStackTrace();
+				}
+
+				return "";
+			}
 		}
 	}
 

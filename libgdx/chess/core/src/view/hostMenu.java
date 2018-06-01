@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 import model.Chess;
 import model.Server;
 
@@ -37,7 +42,11 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         server = new Server();
         server.start();
 
-        IPAdress = server.getIPAdress();
+        IPAdress = server.getIPAddress();
+
+
+
+
 
         Gdx.input.setInputProcessor(this);
     }

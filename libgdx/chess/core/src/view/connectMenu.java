@@ -33,6 +33,7 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
         bitmapfont.getData().setScale((float)(0.8* Gdx.graphics.getWidth()/504));
 
         Gdx.input.setInputProcessor(this);
+        Gdx.input.getTextInput(this, "Server IP", "", "");
     }
 
     @Override
@@ -77,8 +78,6 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
         client = new Client(IPAdress);
         client.startRunning();
 
-        if (client.isBound())
-            startGame();
     }
 
     public void startGame()
@@ -88,25 +87,6 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
 
     @Override
     public boolean keyDown(int keycode) {
-
-        if (keycode == Input.Keys.ENTER)
-        {
-            connect();
-            return true;
-        }
-
-
-        if (keycode == Input.Keys.BACKSPACE && IPAdress.length() > 0)
-        {
-            IPAdress = IPAdress.substring(0, IPAdress.length()-1);
-            return true;
-        }
-        if ((keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9) || keycode == Input.Keys.PERIOD)
-        {
-            IPAdress += Input.Keys.toString(keycode);
-            return true;
-        }
-
         return false;
     }
 
@@ -153,8 +133,10 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     }
 
     @Override
-    public void input(String text) {
+    public void input(String text)
+    {
         IPAdress = text;
+        connect();
     }
 
     @Override

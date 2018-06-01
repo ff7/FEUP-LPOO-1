@@ -9,11 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-
 import model.Chess;
 import model.Server;
 
@@ -37,16 +32,12 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         bitmapfont = new BitmapFont(Gdx.files.internal("fonts/Caveat.fnt"));
         bitmapfont.setColor(1, 0, 0, 1);
         bitmapfont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        bitmapfont.getData().setScale((float)0.8);
+        bitmapfont.getData().setScale((float)(0.8* Gdx.graphics.getWidth()/504));
 
         server = new Server();
         server.start();
 
         IPAdress = server.getIPAddress();
-
-
-
-
 
         Gdx.input.setInputProcessor(this);
     }

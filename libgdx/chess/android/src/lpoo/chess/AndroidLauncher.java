@@ -39,7 +39,7 @@ public class AndroidLauncher extends AndroidApplication {
 			file = new File(stockfishPath);
 			file.delete();
 
-			is = getAssets().open("binaries/Stockfish-9-armv7");
+			is = getAssets().open("binaries/stockfish_android");
 			os = new FileOutputStream(file);
 			buffer = new byte[is.available()];
 			is.read(buffer);

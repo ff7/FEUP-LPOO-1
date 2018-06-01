@@ -1,6 +1,5 @@
 package view;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.*;
@@ -72,6 +71,24 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	public void render(float delta)
 	{		
 		batch.begin();
+
+		if (gamestate.opponentType == 2)
+		{
+            if (gamestate.server == null && gamestate.client == null)
+                System.out.println("PEIDO GRANDE!");
+
+			if (gamestate.server != null && !gamestate.server.isBound())
+			{
+				exit();
+			}
+
+			if (gamestate.client != null && !gamestate.client.isBound())
+			{
+				exit();
+			}
+		}
+
+
 			
 		Character[][] map = gamestate.getMap().getMap();
 		

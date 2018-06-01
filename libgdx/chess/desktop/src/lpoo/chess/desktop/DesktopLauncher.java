@@ -14,10 +14,14 @@ public class DesktopLauncher {
 
 		Chess chess = new model.Chess();
 
-		if (System.getProperty("os.name").equals("Mac OS X"))
+		String os = System.getProperty("os.name").toLowerCase();
+
+		if (os.indexOf("mac") >= 0) //Has "mac" in it
 			chess.setStockfishPath("binaries/stockfish_mac");
+		else if (os.indexOf("win") >= 0) //Has "win" in it
+			chess.setStockfishPath("binaries/stockfish_windows");
 		else
-			chess.setStockfishPath("binaries/stockfish");
+			chess.setStockfishPath("binaries/stockfish_linux");
 
 		new LwjglApplication(chess, config);
 	}

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.util.Scanner;
 
 public class GameState
 {
@@ -27,8 +26,8 @@ public class GameState
 
 	private ArrayList<String> moves;
 
-	private Server server;
-	private Client client;
+	public Server server;
+	public Client client;
 
 	public GameState(int opponentType, String stockfishPath)
 	{
@@ -264,23 +263,17 @@ public class GameState
 		str += (char)('a' + ch2.getPos().getFirst());
 		str += 8 - ch2.getPos().getSecond();
 
-//		System.out.println("Move symbol = " + str);
-
 		return str;
 	}
 
 	public String getInvertedMoveSymbol(Character ch1, Character ch2)
 	{
-//		getMoveSymbol(ch1, ch2);
-
 		String str = "";
 
 		str += (char)('h' - ch1.getPos().getFirst());
 		str += ch1.getPos().getSecond() + 1;
 		str += (char)('h' - ch2.getPos().getFirst());
 		str += ch2.getPos().getSecond() + 1;
-
-//		System.out.println("Inverted move symbol = " + str);
 
 		return str;
 	}
@@ -645,13 +638,6 @@ public class GameState
 		return arr.contains(pos);
 	}
 
-	@Override
-	public String toString()
-	{
-		String str = new String();
-
-		return str;
-	}
 
 	public void exit()
 	{

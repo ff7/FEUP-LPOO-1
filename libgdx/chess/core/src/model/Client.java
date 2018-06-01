@@ -1,11 +1,7 @@
 package model;
 
-import com.badlogic.gdx.Game;
-
 import java.io.*;
 import java.net.*;
-
-import view.connectMenu;
 
 public class Client implements Runnable{
 
@@ -39,12 +35,11 @@ public class Client implements Runnable{
 				setupStreams();
 				read = true;
 			}
-
-
 		}
 		catch(EOFException eofException)
 		{
 			showMessage("\n Client terminated the connection");
+
 		}
 		catch(IOException ioException)
 		{
@@ -62,9 +57,14 @@ public class Client implements Runnable{
 		{
 			connection = new Socket(InetAddress.getByName(serverIP), 6789);
 		}
-		catch (ConnectException ex)
+		catch (ConnectException ex1)
 		{
 			showMessage("Failed to connect !");
+			return;
+		}
+		catch (UnknownHostException ex2)
+		{
+			showMessage("Invalid IP address!");
 			return;
 		}
 
@@ -79,39 +79,25 @@ public class Client implements Runnable{
 		input = new ObjectInputStream(connection.getInputStream());
 		showMessage("\n The streams are now set up! \n");
 	}
-	
-	//while chatting with server
-	private void whileChatting() throws IOException
-	{
-		do
-			{
-			try
-			{
-				message = (String) input.readObject();
-				showMessage("\n" + message);
 
-				if (gameState != null)
-					gameState.move(message);
-			}
-			catch(ClassNotFoundException classNotFoundException)
-			{
-				showMessage("Unknown data received!");
-			}
-		}
-		while(!message.equals("SERVER - END"));
-	}
 
-	//during the chat conversation
 	public String waitAnswer() throws IOException
 	{
-		String message = null;
+		String message = "";
 
-		try{
+		try
+		{
 			message = (String) input.readObject();
-			System.out.println("\n" + message);
-
-		}catch(ClassNotFoundException classNotFoundException){
-			System.out.println("The user has sent an unknown object!");
+			showMessage("SERVER - " + message + "\n");
+		}
+		catch(ClassNotFoundException classNotFoundException)
+		{
+			showMessage("The user has sent an unknown object!");
+		}
+		catch (IOException ioex)
+		{
+			showMessage("Connection interrupted!");
+			closeConnection();
 		}
 
 		return message;
@@ -122,11 +108,15 @@ public class Client implements Runnable{
 		if (connection == null)
 			return false;
 
+		if (connection.isClosed())
+			return false;
+
 		return (connection.isBound());
 	}
 	
 	//Close connection
-	public void closeConnection(){
+	public void closeConnection()
+    {
 		showMessage("\n Closing the connection!");
 		try
 		{
@@ -147,17 +137,21 @@ public class Client implements Runnable{
 	
 	//send message to server
 	public void sendMessage(String message){
-		try{
+		try
+		{
 			output.writeObject(message);
 			output.flush();
 			showMessage("\nCLIENT - " + message);
-		}catch(IOException ioException){
+		}
+		catch(IOException ioException)
+		{
 			showMessage("\n Oops! Something went wrong!");
 		}
 	}
 	
 	//update chat window
-	private void showMessage(final String message){
+	private void showMessage(String message)
+	{
 		System.out.println(message);
 	}
 
@@ -165,27 +159,29 @@ public class Client implements Runnable{
 	@Override
 	public void run()
 	{
-		String answer = "Hortalicas";
-
 		if (read)
 		{
-			System.out.println("Entrou no read");
+			String foobar = "";
 
 			while (isBound())
 			{
 				if (gameState != null)
 				{
-					try {
-						answer = waitAnswer();
+					try
+					{
+						foobar = waitAnswer();
 
-						System.out.println("answer = " + answer);
-
-						gameState.move(answer);
-					} catch (IOException e) {
+						if (foobar.length() == 4)
+							gameState.move(foobar);
+						else
+						{
+							return;
+						}
+					}
+					catch (IOException e)
+					{
 						e.printStackTrace();
 					}
-
-
 				}
 			}
 		}
@@ -196,7 +192,7 @@ public class Client implements Runnable{
 
 	public void start()
 	{
-		System.out.println("Starting " +  threadName);
+		showMessage("Starting " +  threadName);
 
 //		if (t == null)
 //		{

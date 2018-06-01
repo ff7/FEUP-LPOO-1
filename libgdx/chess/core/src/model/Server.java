@@ -31,9 +31,12 @@ public class Server implements Runnable{
 
 	
 	public void startRunning() {
-		try {
+		try
+		{
 			server = new ServerSocket(port, 100); //6789 is a dummy port for testing, this can be changed. The 100 is the maximum people waiting to connect.
-			try {
+
+			try
+			{
 				if (connection == null)
 					waitForConnection();
 
@@ -42,18 +45,17 @@ public class Server implements Runnable{
 					setupStreams();
 					read = true;
 				}
-
-
-			} catch (EOFException eofException) {
-				System.out.println("\n Server ended the connection! ");
 			}
-
+			catch (EOFException eofException)
+			{
+				showMessage("\n Server ended the connection! ");
+				closeServer();
+			}
 		}
 		catch (BindException bindException)
 		{
-			System.out.println("Server already hosted!");
+			showMessage("Server already hosted!");
 			closeServer();
-			t.interrupt();
 		}
 		catch (IOException ioException)
 		{
@@ -65,7 +67,7 @@ public class Server implements Runnable{
 	//wait for connection, then display connection information
 	private void waitForConnection() throws IOException
 	{
-		System.out.println(" Waiting for someone to connect... \n");
+		showMessage(" Waiting for someone to connect... \n");
 
 		try
 		{
@@ -73,11 +75,11 @@ public class Server implements Runnable{
 		}
 		catch (SocketException socketException)
 		{
-			System.out.println("Server closed before anyone connected\n");
+			showMessage("Server closed before anyone connected\n");
 			return;
 		}
 
-		System.out.println(" Now connected to " + connection.getInetAddress().getHostName());
+		showMessage(" Now connected to " + connection.getInetAddress().getHostName());
 	}
 
 	public boolean isBound()
@@ -93,34 +95,26 @@ public class Server implements Runnable{
 
 		input = new ObjectInputStream(connection.getInputStream());
 
-		System.out.println("\n Streams are now setup \n");
-	}
-	
-	//during the chat conversation
-	private void whileChatting() throws IOException
-	{
-		String message = " You are now connected! ";
-		sendMessage(message);
-		do{
-			try{
-				message = (String) input.readObject();
-				System.out.println("\n" + message);
-			}catch(ClassNotFoundException classNotFoundException){
-				System.out.println("The user has sent an unknown object!");
-			}
-		}while(!message.equals("CLIENT - END"));
+		showMessage("\n Streams are now setup \n");
 	}
 
-	//during the chat conversation
-	public String waitAnswer() throws IOException
+	public String waitAnswer()
 	{
 		String message = "";
 
-		try{
+		try
+		{
 			message = (String) input.readObject();
-			System.out.println("\n" + message);
-		}catch(ClassNotFoundException classNotFoundException){
-			System.out.println("The user has sent an unknown object!");
+			showMessage("CLIENT - " + message + "\n");
+		}
+		catch(ClassNotFoundException classNotFoundException)
+		{
+			showMessage("The user has sent an unknown object!");
+		}
+		catch (IOException ioex)
+		{
+			showMessage("Connection interruped!\n");
+			closeServer();
 		}
 
 		return message;
@@ -128,8 +122,9 @@ public class Server implements Runnable{
 	
 	public void closeConnection()
 	{
-		System.out.println("\n Closing Connections... \n");
-		try{
+		showMessage("\n Closing Connections... \n");
+		try
+		{
 			if (output != null)
 				output.close(); //Closes the output path to the client
 
@@ -137,8 +132,14 @@ public class Server implements Runnable{
 				input.close(); //Closes the input path to the server, from the client.
 
 			if (connection != null)
-				connection.close(); //Closes the connection between you can the client
-		}catch(IOException ioException){
+            {
+                connection.close(); //Closes the connection between you can the client
+                connection = null;
+            }
+
+		}
+		catch(IOException ioException)
+		{
 			ioException.printStackTrace();
 		}
 	}
@@ -147,22 +148,29 @@ public class Server implements Runnable{
 	{
 		closeConnection();
 
-		try {
+		try
+		{
 			if (server != null)
 				server.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 	
 	//Send a mesage to the client
-	public void sendMessage(String message){
-		try{
+	public void sendMessage(String message)
+	{
+		try
+		{
 			output.writeObject(message);
 			output.flush();
-			System.out.println("\nSERVER -" + message);
-		}catch(IOException ioException){
-			System.out.println("\n ERROR: CANNOT SEND MESSAGE, PLEASE RETRY");
+			showMessage("\nSERVER -" + message);
+		}
+		catch(IOException ioException)
+		{
+			showMessage("\n ERROR: CANNOT SEND MESSAGE, PLEASE RETRY");
 		}
 	}
 
@@ -176,7 +184,7 @@ public class Server implements Runnable{
 				{
 					Enumeration e = null;
 					e = NetworkInterface.getNetworkInterfaces();
-					while(e.hasMoreElements())
+					while (e.hasMoreElements())
 					{
 						NetworkInterface n = (NetworkInterface) e.nextElement();
 						Enumeration ee = n.getInetAddresses();
@@ -201,27 +209,20 @@ public class Server implements Runnable{
 	@Override
 	public void run()
 	{
-		String answer = "Hortalicas";
-
         if (read)
         {
-			System.out.println("Entrou no read");
+            String foobar = "";
 
 			while (isBound())
             {
                 if (gameState != null)
                 {
-                    try {
-                        answer = waitAnswer();
+					foobar = waitAnswer();
 
-                        System.out.println("answer = " + answer);
-
-                        gameState.move(answer);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
+					if (foobar.length() == 4)
+						gameState.move(foobar);
+					else
+						return;
                 }
             }
         }
@@ -232,7 +233,7 @@ public class Server implements Runnable{
 
 	public void start()
 	{
-		System.out.println("Starting " +  threadName);
+		showMessage("Starting " +  threadName);
 
 //		if (t == null)
 //        {
@@ -244,6 +245,11 @@ public class Server implements Runnable{
 	public void setGameState(GameState gameState)
 	{
 		this.gameState = gameState;
+	}
+
+	private void showMessage(String message)
+	{
+		System.out.println(message);
 	}
 
 }

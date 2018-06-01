@@ -178,4 +178,32 @@ public class Map {
 		pos.setSecond(y);
 		return pos;
 	}
+
+	public void invert()
+	{
+		map[0][3] = new King(1, 3, 0);
+		map[0][4] = new Queen(1, 4, 0);
+
+		map[7][3] = new King(0, 3, 7);
+		map[7][4] = new Queen(0, 4, 7);
+
+		for (int i = 0; i < map.length; i++)
+		{
+			for (int j = 0; j < map[i].length; j++)
+			{
+				if (map[i][j].player == 1)
+				{
+					map[i][j].setPlayer(0);
+					map[i][j].player = 1;
+				}
+				else if (map[i][j].player == 0)
+				{
+					map[i][j].setPlayer(1);
+					map[i][j].player = 0;
+				}
+
+			}
+		}
+	}
+
 }

@@ -157,6 +157,9 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	{
 		Character piece = getPiece(x, y);
 
+		if (piece == null)
+		    return;
+
 		if (piece.equals(selected))
 		{
 			selected = null;
@@ -193,7 +196,10 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 
 	public Character getPiece(int x, int y)
 	{
-		return gamestate.getMap().getMap()[y/heightInc][x/widthInc];
+		if (y/heightInc >= 0 && y/heightInc <= 7 && x/widthInc >= 0 && x/widthInc <= 7)
+			return gamestate.getMap().getMap()[y/heightInc][x/widthInc];
+
+		return null;
 	}
 	
 	public void endGame()

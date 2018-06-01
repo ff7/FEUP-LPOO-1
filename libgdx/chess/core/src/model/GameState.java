@@ -70,8 +70,6 @@ public class GameState
 		this.stockfishPath = stockfishPath;
 		this.server = server;
 
-//		this.player = 1; //Client plays firsts
-
 		server.setGameState(this);
 		server.start();
 	}
@@ -84,6 +82,7 @@ public class GameState
 		this.client = client;
 
 		this.player = 1; //Server plays firsts
+		map.invert();
 
 		client.setGameState(this);
 		client.start();
@@ -96,22 +95,6 @@ public class GameState
 		this.stockfishPath = stockfishPath;
 	}
 
-	public void update(int player, int x1, int y1, int x2, int y2)
-	{
-		if (gameStatus != 0)
-			return;
-
-	}
-
-	public void move(int x1, int y1, int x2, int y2)
-	{
-		move(map.getMap()[y1][x1], map.getMap()[y2][x2]);
-	}
-
-	public void move(Character ch, int x, int y)
-	{
-		move(ch, map.getMap()[y][x]);
-	}
 
 	public void move(Character ch1, Character ch2) // Moves ch1 to ch2
 	{

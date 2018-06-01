@@ -49,7 +49,7 @@ public class Client implements Runnable{
 	}
 	
 	//connect to server
-	private void connectToServer() throws IOException
+	public void connectToServer() throws IOException
 	{
 		showMessage("Attempting connection... \n");
 
@@ -72,7 +72,7 @@ public class Client implements Runnable{
 	}
 	
 	//set up streams
-	private void setupStreams() throws IOException
+	public void setupStreams() throws IOException
 	{
 		output = new ObjectOutputStream(connection.getOutputStream());
 		output.flush();

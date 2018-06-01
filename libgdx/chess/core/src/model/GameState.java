@@ -8,11 +8,14 @@ import java.util.HashMap;
 import java.io.IOException;
 import java.io.BufferedReader;
 
+/**
+ *
+ * Represents a GameState, which represents the pieces interactions.
+ *
+ */
+
 public class GameState
 {
-	public int gameStatus = 0; // -1 = game over, 0 = normal, 1 = win
-
-	public boolean test = false;
 
 	protected Map map;
 	public int player = 0;
@@ -30,6 +33,14 @@ public class GameState
 
 	public Server server;
 	public Client client;
+
+
+	/**
+	 * Constructs a GameState with the initial chess map accordingly to the the amount of players selected
+	 *
+	 * @param opponentType Opponent type selected: 0 for Player vs AI, 1 for two Players in the same devices, 2 for two Players in different devices.
+	 * @param stockfishPath path to the process that launches AI.
+	 */
 
 	public GameState(int opponentType, String stockfishPath)
 	{
@@ -63,6 +74,13 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Constructs a GameState with the initial chess map accordingly to the the amount of players selected
+	 *
+	 * @param opponentType Opponent type selected: 0 for Player vs AI, 1 for two Players in the same devices, 2 for two Players in different devices.
+	 * @param stockfishPath path to the process that launches AI.
+	 * @param server Server which hosts the game.
+	 */
 	public GameState(int opponentType, String stockfishPath, Server server)
 	{
 		map = new Map();
@@ -74,6 +92,13 @@ public class GameState
 		server.start();
 	}
 
+	/**
+	 * Constructs a GameState with the initial chess map accordingly to the the amount of players selected
+	 *
+	 * @param opponentType Opponent type selected: 0 for Player vs AI, 1 for two Players in the same devices, 2 for two Players in different devices.
+	 * @param stockfishPath path to the process that launches AI.
+	 * @param client Client that connects to the server.
+	 */
 	public GameState(int opponentType, String stockfishPath, Client client)
 	{
 		map = new Map();
@@ -88,14 +113,51 @@ public class GameState
 		client.start();
 	}
 
+	/**
+	 * Constructs a GameState with the initial chess map accordingly to the the amount of players selected
+	 *
+	 * @param opponentType Opponent type selected: 0 for Player vs AI, 1 for two Players in the same devices, 2 for two Players in different devices.
+	 * @param stockfishPath path to the process that launches AI.
+	 * @param testFlag Flag necessary to test the game.
+	 */
 	public GameState(int opponentType, String stockfishPath, boolean testFlag)
 	{
 		map = new Map(testFlag);
 		this.opponentType = opponentType;
 		this.stockfishPath = stockfishPath;
+
+		if (opponentType == 0)
+		{
+			try
+			{
+				stockfish = Runtime.getRuntime().exec(stockfishPath);
+				reader = new BufferedReader(new InputStreamReader(stockfish.getInputStream()));
+				writer = new BufferedWriter(new OutputStreamWriter(stockfish.getOutputStream()));
+
+				moves = new ArrayList<String>();
+
+				String foobar = "uci";
+				foobar += "\nucinewgame";
+				foobar += "\nisready\n";
+
+				writer.write(foobar, 0, foobar.length());
+				writer.flush();
+
+				printAIAnswer();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
-
+	/**
+	 * Moves one character from one position in the map to another one
+	 *
+	 * @param ch1 Previous position character.
+	 * @param ch2 New position character.
+	 */
 	public void move(Character ch1, Character ch2) // Moves ch1 to ch2
 	{
 		if (opponentType == 0)
@@ -142,6 +204,11 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Moves one character from one position in the map to another one
+	 *
+	 * @param symbol UCI
+	 */
 	public void move(String symbol)
 	{
 		int x1 = symbol.substring(0,1).charAt(0) - 'a', y1 = 8 - Integer.parseInt(symbol.substring(1,2)), x2 = symbol.substring(2,3).charAt(0) - 'a', y2 = 8 - Integer.parseInt(symbol.substring(3,4));
@@ -158,7 +225,7 @@ public class GameState
 		this.updateGameStatus();
 	}
 
-	private void printAIBoard() throws IOException
+	public void printAIBoard() throws IOException
 	{
 		String foobar = "d\n";
 
@@ -168,7 +235,7 @@ public class GameState
 		printAIAnswer();
 	}
 
-	private void updateAIBoard() throws IOException
+	public void updateAIBoard() throws IOException
 	{
 		String foobar = "position startpos moves";
 
@@ -189,7 +256,7 @@ public class GameState
 		writer.flush();
 	}
 
-	private void moveAI() throws IOException
+	public void moveAI() throws IOException
 	{
 		updateAIBoard();
 		goAI();
@@ -210,7 +277,7 @@ public class GameState
 
 
 
-	private ArrayList<String> getAIAnswer() throws IOException
+	public ArrayList<String> getAIAnswer() throws IOException
 	{
 		ArrayList<String> ret = new ArrayList<String>();
 
@@ -227,7 +294,7 @@ public class GameState
 		return ret;
 	}
 
-	private void printAIAnswer()
+	public void printAIAnswer()
 	{
 
 		ArrayList<String> answer = new ArrayList<String>();
@@ -243,7 +310,7 @@ public class GameState
 		}
 	}
 
-	private void printAIAnswer(ArrayList<String> answer)
+	public void printAIAnswer(ArrayList<String> answer)
 	{
 		for (int i = 0; i < answer.size(); i++)
 		{

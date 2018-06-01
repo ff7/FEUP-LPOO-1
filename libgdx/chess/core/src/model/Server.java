@@ -65,7 +65,7 @@ public class Server implements Runnable{
 	}
 
 	//wait for connection, then display connection information
-	private void waitForConnection() throws IOException
+	public void waitForConnection() throws IOException
 	{
 		showMessage(" Waiting for someone to connect... \n");
 
@@ -88,7 +88,7 @@ public class Server implements Runnable{
 	}
 
 	//get stream to send and receive data
-	private void setupStreams() throws IOException
+	public void setupStreams() throws IOException
 	{
 		output = new ObjectOutputStream(connection.getOutputStream());
 		output.flush();

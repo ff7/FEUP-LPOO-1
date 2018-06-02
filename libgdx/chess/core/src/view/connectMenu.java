@@ -34,6 +34,7 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
 
         Gdx.input.setInputProcessor(this);
         Gdx.input.getTextInput(this, "Server IP", "", "");
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
@@ -86,7 +87,14 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     }
 
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyDown(int keycode)
+    {
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
+        {
+            game.setScreen(new networkMenu(game));
+            return true;
+        }
+
         return false;
     }
 

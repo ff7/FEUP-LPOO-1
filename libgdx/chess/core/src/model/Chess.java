@@ -8,6 +8,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import view.Graphics;
 import view.mainMenuGraphics;
 
+
+/**
+ * Game class, basically the highest scope of the program. Keeps the opponentType and the stockfishPath to be accessible to every menu.
+ * 
+ */
 public class Chess extends Game {
 	SpriteBatch batch;
 	int opponentType = 0; // 0 = Single Player, 1 = Same device, 2 = Other Device

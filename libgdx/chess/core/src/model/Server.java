@@ -4,6 +4,11 @@ import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
 
+/**
+ *
+ * Class for instanciating servers on another thread. Works with a ServerSocket, a Socket and IOStreams.
+ *
+ */
 public class Server implements Runnable{
 
 	public Thread t;
@@ -18,22 +23,35 @@ public class Server implements Runnable{
 	private GameState gameState;
 	private boolean read = false;
 
-	//constructor
+	/**
+	 * Constructs a server on port 6789.
+	 * 
+	 * 
+	 */
 	public Server()
 	{
 		port = 6789;
 	}
 
+	/**
+	 * Opens a server on a specific port.
+	 * 
+	 * @param port port on with to open the server on.
+	 * 
+	 */
 	public Server(int port)
 	{
 		this.port = port;
 	}
 
-	
+	/**
+	 * Instanciates the ServerSocket as well as the Socket and the IOStreams.
+	 * 
+	 */
 	public void startRunning() {
 		try
 		{
-			server = new ServerSocket(port, 100); //6789 is a dummy port for testing, this can be changed. The 100 is the maximum people waiting to connect.
+			server = new ServerSocket(port, 100);
 
 			try
 			{
@@ -64,6 +82,11 @@ public class Server implements Runnable{
 
 	}
 
+	/**
+	 * Waits for an incomming connection, freezing the thread execution.
+	 * 
+	 * @throws IOException Caused when the server closes befora estabilishing a connection
+	 */
 	//wait for connection, then display connection information
 	public void waitForConnection() throws IOException
 	{
@@ -87,7 +110,11 @@ public class Server implements Runnable{
 		return (connection != null);
 	}
 
-	//get stream to send and receive data
+	/**
+	 * Sets up the IOStreams.
+	 * 
+	 * @throws IOException Thrown when invalid connection
+	 */
 	public void setupStreams() throws IOException
 	{
 		output = new ObjectOutputStream(connection.getOutputStream());
@@ -98,6 +125,11 @@ public class Server implements Runnable{
 		showMessage("\n Streams are now setup \n");
 	}
 
+	/**
+	 * Waits for a message from the client, freezing thread execution. This is the main reason multithreading was implemented.
+	 * 
+	 * @return The message sent by the client
+	 */
 	public String waitAnswer()
 	{
 		String message = "";
@@ -120,6 +152,10 @@ public class Server implements Runnable{
 		return message;
 	}
 	
+	/**
+	 * Close the IOStreams and the Socket.
+	 *
+	 */
 	public void closeConnection()
 	{
 		showMessage("\n Closing Connections... \n");
@@ -144,6 +180,12 @@ public class Server implements Runnable{
 		}
 	}
 
+
+	/**
+	 * Closes the IOStreams, the Socket and the ServerSocket.
+	 * 
+	 * 
+	 */
 	public void closeServer()
 	{
 		closeConnection();
@@ -159,7 +201,11 @@ public class Server implements Runnable{
 		}
 	}
 	
-	//Send a mesage to the client
+	/**
+	 * Sends a message to the client.
+	 * 
+	 * @param message The server's messsage
+	 */
 	public void sendMessage(String message)
 	{
 		try
@@ -174,6 +220,11 @@ public class Server implements Runnable{
 		}
 	}
 
+	/**
+	 * Gets the IP Address of the local network (LAN)
+	 * 
+	 * @return The IP Address or an empty String
+	 */
 	public String getIPAddress()
 	{
 		try
@@ -225,6 +276,10 @@ public class Server implements Runnable{
 
 	}
 
+	/**
+	 * Starts thread execution.
+	 * 
+	 */
 	public void start()
 	{
 		showMessage("Starting " +  threadName);

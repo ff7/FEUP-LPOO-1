@@ -41,6 +41,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 		selected = null;
 		mousehandler = new MouseHandler(this);
 	    Gdx.input.setInputProcessor(this);
+	    Gdx.input.setCatchBackKey(true);
 	}
 
 	public Graphics(Chess game, Server server)
@@ -221,7 +222,7 @@ public class Graphics extends ScreenAdapter implements InputProcessor
 	@Override
 	public boolean keyDown(int keycode) {
 
-		if (keycode == Input.Keys.ESCAPE)
+		if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
 		{
 			exit(2);
 			return true;

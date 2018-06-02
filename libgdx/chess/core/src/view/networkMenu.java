@@ -22,7 +22,9 @@ public class networkMenu extends ScreenAdapter implements InputProcessor {
         img = new Texture("images/menus/multiPlayerMenu.png");
         this.game = game;
         this.batch = game.getBatch();
+
         Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
@@ -56,8 +58,14 @@ public class networkMenu extends ScreenAdapter implements InputProcessor {
 
 
     @Override
-    public boolean keyDown(int keycode) {
-        // TODO Auto-generated method stub
+    public boolean keyDown(int keycode)
+    {
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
+        {
+            game.setScreen(new playerMenuGraphics(game));
+            return true;
+        }
+
         return false;
     }
 

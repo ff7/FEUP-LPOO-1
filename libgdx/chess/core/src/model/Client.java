@@ -3,6 +3,12 @@ package model;
 import java.io.*;
 import java.net.*;
 
+
+/**
+ *
+ * Class for instanciating clients on another thread. Works with a Socket and IOStreams.
+ *
+ */
 public class Client implements Runnable{
 
 	private Thread t;
@@ -17,14 +23,23 @@ public class Client implements Runnable{
 	private GameState gameState;
 	private boolean read = false;
 
-	//constructor
+
+	/**
+	 * Constructs a client on a specific address.
+	 * 
+	 *
+	 * @param host Server's IP Address
+	 */
 	public Client(String host)
 	{
 		serverIP = host;
 	}
 
 	
-	//connect to server
+	/**
+	 * Instanciates the Socket and the IOStreams.
+	 * 
+	 */
 	public void startRunning(){
 		try
 		{
@@ -48,7 +63,11 @@ public class Client implements Runnable{
 
 	}
 	
-	//connect to server
+	/**
+	 * Attempts to connection to a server on the specified IP Address
+	 * 
+	 * 
+	 */
 	public void connectToServer() throws IOException
 	{
 		showMessage("Attempting connection... \n");
@@ -71,7 +90,10 @@ public class Client implements Runnable{
 		showMessage("Connection Established! Connected to: " + connection.getInetAddress().getHostName());
 	}
 	
-	//set up streams
+	/**
+	 * Initializes the IOStreams.
+	 * 
+	 */
 	public void setupStreams() throws IOException
 	{
 		output = new ObjectOutputStream(connection.getOutputStream());
@@ -80,7 +102,11 @@ public class Client implements Runnable{
 		showMessage("\n The streams are now set up! \n");
 	}
 
-
+	/**
+	 * Waits for a message from the server, freezing thread execution. This is the main reason multithreading was implemented.
+	 * 
+	 * @return The message sent by the server
+	 */
 	public String waitAnswer() throws IOException
 	{
 		String message = "";
@@ -114,7 +140,10 @@ public class Client implements Runnable{
 		return (connection.isBound());
 	}
 	
-	//Close connection
+	/**
+	 * Close the IOStreams and the Socket.
+	 *
+	 */
 	public void closeConnection()
     {
 		showMessage("\n Closing the connection!");
@@ -135,7 +164,11 @@ public class Client implements Runnable{
 		}
 	}
 	
-	//send message to server
+	/**
+	 * Sends a message to the server.
+	 * 
+	 * @param message The client's messsage
+	 */
 	public void sendMessage(String message){
 		try
 		{
@@ -149,7 +182,6 @@ public class Client implements Runnable{
 		}
 	}
 	
-	//update chat window
 	private void showMessage(String message)
 	{
 		System.out.println(message);
@@ -190,6 +222,10 @@ public class Client implements Runnable{
 
 	}
 
+	/**
+	 * Starts thread execution.
+	 * 
+	 */
 	public void start()
 	{
 		showMessage("Starting " +  threadName);

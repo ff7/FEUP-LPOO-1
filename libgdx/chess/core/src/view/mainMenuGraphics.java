@@ -27,7 +27,9 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
         this.batch = game.getBatch();
 
         font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
+
         Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
@@ -69,8 +71,14 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
 
 
     @Override
-    public boolean keyDown(int keycode) {
-        // TODO Auto-generated method stub
+    public boolean keyDown(int keycode)
+    {
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
+        {
+            System.exit(0);
+            return true;
+        }
+
         return false;
     }
 

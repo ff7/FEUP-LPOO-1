@@ -2,10 +2,21 @@ package model;
 
 import java.util.ArrayList;
 
+
+/**
+ *
+ * Represents a Queen.
+ *
+ */
 public class Queen extends Character
 {
 	int moveCount = 0;
-	
+
+	/**
+	 *
+	 * Constructs a Queen.
+	 *
+	 */
 	public Queen()
 	{
 		super('Q');
@@ -16,6 +27,14 @@ public class Queen extends Character
 		super(player, x, y, 'Q');
 	}
 
+	/**
+	 *
+	 * Returns the possible movements of a specific character
+	 *
+	 * @param map Game Map.
+	 *
+	 * @return a pair with position after a move.
+	 */
 	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
@@ -99,7 +118,11 @@ public class Queen extends Character
 		
 		return ret;
 	}
-	
+
+	/**
+	 *
+	 *  Loads the corresponding character texture
+	 */
 	public void loadTexture()
 	{
 		filename = new Queen().filename;

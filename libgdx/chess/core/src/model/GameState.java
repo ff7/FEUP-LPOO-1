@@ -207,7 +207,7 @@ public class GameState
 	/**
 	 * Moves one character from one position in the map to another one
 	 *
-	 * @param symbol UCI
+	 * @param symbol Universal Chess Interface notation movement.
 	 */
 	public void move(String symbol)
 	{
@@ -225,6 +225,10 @@ public class GameState
 		this.updateGameStatus();
 	}
 
+	/**
+	 * Prints the map used by the AI
+	 *
+	 */
 	public void printAIBoard() throws IOException
 	{
 		String foobar = "d\n";
@@ -235,6 +239,10 @@ public class GameState
 		printAIAnswer();
 	}
 
+	/**
+	 * Updates the AI Map accordingly to the best decision
+	 *
+	 */
 	public void updateAIBoard() throws IOException
 	{
 		String foobar = "position startpos moves";
@@ -248,6 +256,10 @@ public class GameState
 		writer.flush();
 	}
 
+	/**
+	 * Begins the AI best decision selector process
+	 *
+	 */
 	public void goAI() throws IOException
 	{
 		String foobar = "go\n";
@@ -256,6 +268,10 @@ public class GameState
 		writer.flush();
 	}
 
+	/**
+	 * Moves a piece accordingly to the best movement decision.
+	 *
+	 */
 	public void moveAI() throws IOException
 	{
 		updateAIBoard();
@@ -276,7 +292,11 @@ public class GameState
 	}
 
 
-
+	/**
+	 * Moves a piece accordingly to the best movement decision.
+	 *
+	 * @return The best moves from the AI.
+	 */
 	public ArrayList<String> getAIAnswer() throws IOException
 	{
 		ArrayList<String> ret = new ArrayList<String>();
@@ -294,6 +314,10 @@ public class GameState
 		return ret;
 	}
 
+	/**
+	 * Prints the AI decision the console.
+	 *
+	 */
 	public void printAIAnswer()
 	{
 
@@ -310,6 +334,11 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Prints the AI decisions to the console.
+	 *
+	 * @param answer AI best mpvements.
+	 */
 	public void printAIAnswer(ArrayList<String> answer)
 	{
 		for (int i = 0; i < answer.size(); i++)
@@ -318,6 +347,13 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Prints the AI decisions to the console.
+	 *
+	 * @param ch1 AI best mpvements.
+	 * @param ch2
+	 * @return Universal Chess Interface notation corresponding to the map coordinates notation for the white pieces
+	 */
 	public String getMoveSymbol(Character ch1, Character ch2)
 	{
 		String str = "";
@@ -330,6 +366,13 @@ public class GameState
 		return str;
 	}
 
+	/**
+	 * Prints the AI decisions to the console.
+	 *
+	 * @param ch1 AI best mpvements.
+	 * @param ch2
+	 * @return Universal Chess Interface notation corresponding to the map coordinates notation for the black pieces
+	 */
 	public String getInvertedMoveSymbol(Character ch1, Character ch2)
 	{
 		String str = "";
@@ -347,6 +390,11 @@ public class GameState
 		return map;
 	}
 
+	/**
+	 * Returns the opposite player in the current game map
+	 *
+	 * @return The opposite player.
+	 */
 	public int otherPlayer()
 	{
 		if (player == 0)
@@ -354,6 +402,10 @@ public class GameState
 		return 0;
 	}
 
+	/**
+	 * Switches the current came player
+	 *
+	 */
 	public void swapPlayer()
 	{
 		if (player == 0)
@@ -366,7 +418,10 @@ public class GameState
 		}
 	}
 
-
+	/**
+	 * Checks if any pawn needs to be promoted to queen.
+	 *
+	 */
 	public void updatePawns()
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
@@ -393,6 +448,10 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Checks if there is any castle to be done.
+	 *
+	 */
 	public void updateCastling() // Jogada especial em que o rei troca de posicao com a torre
 	{
 		if (this.getMap().getCharMap()[7][6] == 'K' && this.getMap().getMap()[7][6].player == 0)
@@ -433,6 +492,10 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Updates the current gameStatus by verifying checks and check-mates
+	 *
+	 */
 	public void updateGameStatus() // Trata de ver se ha cheques e cheque-mates
 	{
 		Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
@@ -453,6 +516,13 @@ public class GameState
 		}
 	}
 
+	/**
+	 * Verifies any check to a specific king.
+	 *
+	 * @param p player that makes the check.
+	 * @param kingPos position of the threatened king.
+	 * @return true if check, false otherwise
+	 */
 	public boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
@@ -471,6 +541,13 @@ public class GameState
 		return false;
 	}
 
+	/**
+	 * Verifies if the game is over by checking any check-mate to a specific king
+	 *
+	 * @param p player that makes the check.
+	 * @param kingPos position of the threatened king.
+	 * @return true if check-mate, false otherwise
+	 */
 	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
 	{
 		System.out.println(isKingCornered(p, kingPos) + "-" + isKingIndefensible(p, kingPos));
@@ -481,6 +558,13 @@ public class GameState
 		return false;
 	}
 
+	/**
+	 * Verifies if the threatened king has no place to move
+	 *
+	 * @param p player that makes the check.
+	 * @param kingPos position of the threatened king.
+	 * @return true if king cannot move, false otherwise.
+	 */
 	public boolean isKingCornered(int p, Pair<Integer, Integer> kingPos) // True se o rei esta encurralado
 	{
 		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
@@ -518,6 +602,13 @@ public class GameState
 		return true;
 	}
 
+	/**
+	 * Verifies if there is any piece capable of defending the king that is in check.
+	 *
+	 * @param p player that makes the check.
+	 * @param kingPos position of the threatened king.
+	 * @return true if king is indefensible, false otherwise.
+	 */
 	public boolean isKingIndefensible(int p, Pair<Integer, Integer> kingPos) // True se nenhuma peca conseguir evitar o cheque mate
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
@@ -555,6 +646,13 @@ public class GameState
 		return true;
 	}
 
+	/**
+	 * Trims a certain piece character moves accordingly to the checks and possible-checks in the current gamestate.
+	 *
+	 * @param ch player which possible moves will be trimmed.
+	 * @param arr character possible moves.
+	 * @return the trimmed possible moves of the character.
+	 */
 	public ArrayList<Pair<Integer, Integer>> trimGetPossible(Character ch, ArrayList<Pair<Integer, Integer>> arr)
 	{
 		if (ch.getChar() == 'K') // O rei nao pode movimentar-se para um eventual check
@@ -697,12 +795,22 @@ public class GameState
 		return arr;
 	}
 
+	/**
+	 * Checks if a current character position is among a set of another character possible moves.
+	 *
+	 * @param pos first character actual position
+	 * @param arr first character possible moves.
+	 * @return true if position is contained, false otherwise.
+	 */
 	public boolean isPossible(Pair<Integer, Integer> pos, ArrayList<Pair<Integer, Integer>> arr)
 	{
 		return arr.contains(pos);
 	}
 
 
+	/**
+	 * Closes the server and the client connections
+	 */
 	public void exit()
 	{
 		if (server != null)

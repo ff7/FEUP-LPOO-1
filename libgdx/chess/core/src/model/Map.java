@@ -2,6 +2,11 @@ package model;
 
 //import java.util.ArrayList;
 
+/**
+ *
+ * Represents a Map
+ *
+ */
 public class Map {
 
 	private Character[][] map =  
@@ -32,7 +37,12 @@ public class Map {
 //				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()}
 //	
 //			};
-		
+
+	/**
+	 *
+	 * Constructs a Map.
+	 *
+	 */
 	public Map() 
 	{
 		for (int i = 0; i < map.length; i++)
@@ -85,7 +95,14 @@ public class Map {
 			}
 		}
 	}
-	
+
+	/**
+	 *
+	 * Returns the corresponding map but in chars
+	 *
+	 * @return a char map.
+	 *
+	 */
 	public char[][] getCharMap()
 	{
 		char[][] ret = new char[8][8];
@@ -116,12 +133,25 @@ public class Map {
 	{
 		return (x >= 0 && x < map[0].length && y >= 0 && y < map.length);
 	}
-	
+
+	/**
+	 *
+	 * Checks if the character is within bounds
+	 *
+	 * @param pair player position.
+	 * @return true if character is within the bounds, false otherwise.
+	 *
+	 */
 	public boolean isWithinBounds(Pair<Integer, Integer> pair)
 	{
 		return (pair.getFirst() >= 0 && pair.getFirst() < map[0].length && pair.getSecond() >= 0 && pair.getSecond() < map.length);
 	}
-	
+
+	/**
+	 *
+	 * Prints the map to the console
+	 *
+	 */
 	public void printMap()
 	{
 		char[][] charMap = this.getCharMap();
@@ -131,7 +161,14 @@ public class Map {
 			System.out.println(charMap[i]);
 		}
 	}
-	
+
+	/**
+	 *
+	 * Moves a character from one position to another
+	 *
+	 * @param ch1 character old postion
+	 * @param ch2 character new position
+	 */
 	public void move(Character ch1, Character ch2)
 	{
 		Pair<Integer, Integer> temp = new Pair(ch1.getPos().getFirst(), ch1.getPos().getSecond());
@@ -158,7 +195,15 @@ public class Map {
 			r.moveCount++;
 		}
 	}
-	
+
+	/**
+	 *
+	 * Returns the kings position of a certain player
+	 *
+	 * @param player character team
+	 * @return the kings position of a certain player.
+	 *
+	 */
 	public Pair<Integer, Integer> getKingsPosition(int player)
 	{
 		int x = 0, y = 0; // Initialized to 0 to remove the warning
@@ -179,6 +224,11 @@ public class Map {
 		return pos;
 	}
 
+	/**
+	 *
+	 * Inverts the map accordingly to the black pieces.
+	 *
+	 */
 	public void invert()
 	{
 		map[0][3] = new King(1, 3, 0);

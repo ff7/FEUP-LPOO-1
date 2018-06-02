@@ -2,10 +2,20 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * Represents a Floor.
+ *
+ */
 public class Floor extends Character
 {
 	int moveCount = 0;
-	
+
+	/**
+	 *
+	 * Constructs a Floor.
+	 *
+	 */
 	public Floor()
 	{
 		super('_');
@@ -17,7 +27,15 @@ public class Floor extends Character
 		this();
 		setPos(new Pair<Integer, Integer>(x, y));
 	}
-	
+
+	/**
+	 *
+	 * Returns the possible movements of a specific character
+	 *
+	 * @param map Game Map.
+	 *
+	 * @return a pair with position after a move.
+	 */
 	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{

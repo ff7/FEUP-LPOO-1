@@ -3,10 +3,20 @@ package model;
 //import java.awt.RadialGradientPaint;
 import java.util.ArrayList;
 
+/**
+ *
+ * Represents a King.
+ *
+ */
 public class King extends Character
 {
 	public int moveCount = 0;
-	
+
+	/**
+	 *
+	 * Represents a King.
+	 *
+	 */
 	public King()
 	{
 		super('K');
@@ -17,6 +27,14 @@ public class King extends Character
 		super(player, x, y, 'K');
 	}
 
+	/**
+	 *
+	 * Returns the possible movements of a specific character
+	 *
+	 * @param map Game Map.
+	 *
+	 * @return a pair with position after a move.
+	 */
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
 		ArrayList<Pair<Integer, Integer>> ret = new ArrayList<Pair<Integer, Integer>>();
@@ -114,7 +132,11 @@ public class King extends Character
 		
 		return ret;
 	}
-	
+
+	/**
+	 *
+	 *  Loads the corresponding character texture
+	 */
 	public void loadTexture()
 	{
 		filename = new King().filename;

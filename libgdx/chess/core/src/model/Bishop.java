@@ -2,10 +2,21 @@ package model;
 
 import java.util.ArrayList;
 
+
+/**
+ *
+ * Represents a Bishop.
+ *
+ */
 public class Bishop extends Character
 {
 	int moveCount = 0;
-	
+
+	/**
+	 *
+	 * Constructs Bishop
+	 *
+	 */
 	public Bishop()
 	{
 		super('B');
@@ -16,6 +27,15 @@ public class Bishop extends Character
 		super(player, x, y, 'B');
 	}
 
+
+	/**
+	 *
+	 * Returns the possible movements of a specific character
+	 *
+	 * @param map Game Map.
+	 *
+	 * @return a pair with position after a move.
+	 */
 	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
@@ -80,7 +100,11 @@ public class Bishop extends Character
 		
 		return ret;
 	}
-	
+
+	/**
+	 *
+	 *  Loads the corresponding character texture
+	 */
 	public void loadTexture()
 	{
 		filename = new Bishop().filename;

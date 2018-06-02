@@ -2,10 +2,20 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * Represents a Pawn.
+ *
+ */
 public class Pawn extends Character
 {
 	int moveCount = 0;
-	
+
+	/**
+	 *
+	 * Constructs a Pawn.
+	 *
+	 */
 	public Pawn()
 	{
 		super('p');
@@ -18,6 +28,14 @@ public class Pawn extends Character
 //		super.setTexture("src/lpoo/chess/gui/images/pawn.png");
 	}
 
+	/**
+	 *
+	 * Returns the possible movements of a specific character
+	 *
+	 * @param map Game Map.
+	 *
+	 * @return a pair with position after a move.
+	 */
 	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
@@ -61,7 +79,11 @@ public class Pawn extends Character
 		
 		return ret;
 	}
-	
+
+	/**
+	 *
+	 *  Loads the corresponding character texture
+	 */
 	public void loadTexture()
 	{
 		filename = new Pawn().filename;

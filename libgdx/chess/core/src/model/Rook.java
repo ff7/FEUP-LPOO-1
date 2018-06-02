@@ -2,10 +2,20 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * Represents a Rook.
+ *
+ */
 public class Rook extends Character
 {
 	int moveCount = 0;
-	
+
+	/**
+	 *
+	 * Represents a Rook.
+	 *
+	 */
 	public Rook()
 	{
 		super('R');
@@ -37,7 +47,15 @@ public class Rook extends Character
 		
 		return null;
 	}
-	
+
+	/**
+	 *
+	 * Returns the possible movements of a specific character
+	 *
+	 * @param map Game Map.
+	 *
+	 * @return a pair with position after a move.
+	 */
 	@Override
 	public ArrayList<Pair<Integer, Integer>> getPossible(Map map)
 	{
@@ -102,8 +120,11 @@ public class Rook extends Character
 		
 		return ret;
 	}
-	
-	
+
+	/**
+	 *
+	 *  Loads the corresponding character texture
+	 */
 	public void loadTexture()
 	{
 		filename = new Rook().filename;

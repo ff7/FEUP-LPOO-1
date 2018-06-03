@@ -62,3 +62,11 @@
   
  
 ## List of Tests
+
+ *Character Moves
+ *Unsuccessful check
+ *Unsucessful checkmate
+ *Sucessful check
+ *Sucessful checkmate
+ *Game Over
+ *AI moves

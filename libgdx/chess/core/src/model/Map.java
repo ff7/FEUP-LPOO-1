@@ -1,7 +1,5 @@
 package model;
 
-//import java.util.ArrayList;
-
 /**
  *
  * Represents a Map
@@ -171,7 +169,7 @@ public class Map {
 	 */
 	public void move(Character ch1, Character ch2)
 	{
-		Pair<Integer, Integer> temp = new Pair(ch1.getPos().getFirst(), ch1.getPos().getSecond());
+		Pair<Integer, Integer> temp = new Pair<Integer, Integer>(ch1.getPos().getFirst(), ch1.getPos().getSecond());
 
 		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()] = map[ch1.getPos().getSecond()][ch1.getPos().getFirst()];
 

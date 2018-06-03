@@ -16,23 +16,28 @@ public class MouseHandler implements InputProcessor
 		this.graphics = graphics;
 	}
 
-	
+
 	@Override
-	public boolean touchDown(int x, int y, int pointer, int button)
-	{
+	public boolean touchDown(int x, int y, int pointer, int button){
+
 		if (button == Input.Buttons.LEFT)
 		{
+			graphics.click(x,y);
 			return true;
 		}
-		
+
 		return false;
 	}
 
-
-
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+
+		if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
+		{
+			graphics.exit(2);
+			return true;
+		}
+
 		return false;
 	}
 
@@ -49,6 +54,7 @@ public class MouseHandler implements InputProcessor
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 
 	@Override

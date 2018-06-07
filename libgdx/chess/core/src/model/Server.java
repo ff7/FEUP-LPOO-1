@@ -73,7 +73,7 @@ public class Server implements Runnable{
 		catch (BindException bindException)
 		{
 			showMessage("Server already hosted!");
-			closeServer();
+			return;
 		}
 		catch (IOException ioException)
 		{

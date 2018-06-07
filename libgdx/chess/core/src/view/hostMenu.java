@@ -32,7 +32,7 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         bitmapfont = new BitmapFont(Gdx.files.internal("fonts/Caveat.fnt"));
         bitmapfont.setColor(1, 0, 0, 1);
         bitmapfont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        bitmapfont.getData().setScale((float)(0.8* Gdx.graphics.getWidth()/504));
+        bitmapfont.getData().setScale((float)(1* Gdx.graphics.getWidth()/504));
 
         server = new Server();
         server.start();
@@ -50,7 +50,7 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         int height = Gdx.graphics.getHeight();
         batch.begin();
         batch.draw(img, 0,0,width, height);
-        bitmapfont.draw(batch, "Your ip adress is : " + IPAdress, (int)(0.25*width), (int)(0.62*height));
+        bitmapfont.draw(batch, "Your ip adress is : " + IPAdress, (int)(0.13*width), (int)(0.62*height));
 
         if (server.isBound())
             startGame();

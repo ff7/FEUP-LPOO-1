@@ -18,7 +18,6 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     private Chess game;
     private SpriteBatch batch;
     private Texture img;
-    private BitmapFont bitmapfont;
     private String IPAdress = "";
     private Client client;
 
@@ -27,10 +26,6 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
         img = new Texture("images/menus/connectMenu.png");
         this.game = game;
         batch = game.getBatch();
-        bitmapfont = new BitmapFont(Gdx.files.internal("fonts/Caveat.fnt"));
-        bitmapfont.setColor(0, 0, 0, 1);
-        bitmapfont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        bitmapfont.getData().setScale((float)(0.8* Gdx.graphics.getWidth()/504));
 
         Gdx.input.setInputProcessor(this);
         Gdx.input.getTextInput(this, "Server IP", "", "");
@@ -42,9 +37,10 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
+
         batch.begin();
-        batch.draw(img, 0,0,width, height);
-        bitmapfont.draw(batch, IPAdress, (int)(0.25*width), (int)(0.62*height));
+
+        batch.draw(img, 0, 0, width, height);
 
         if (client != null && client.isBound())
             startGame();
@@ -59,8 +55,13 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        if (button == Input.Buttons.LEFT) {
-            if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.82 * height && y < 0.92 * height) //Go Back
+        if (button == Input.Buttons.LEFT)
+        {
+            if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)480/1344 * height && y < (float)617/1344 * height) //Text box
+            {
+                Gdx.input.getTextInput(this, "Server IP", "", "");
+            }
+            else if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)1035/1344 * height && y < (float)1172/1344 * height) //Go Back
             {
                 if (client != null)
                     client.closeConnection();
@@ -70,6 +71,7 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
 
             return true;
         }
+
         return false;
     }
 

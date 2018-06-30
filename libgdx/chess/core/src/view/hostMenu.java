@@ -32,7 +32,7 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         bitmapfont = new BitmapFont(Gdx.files.internal("fonts/Caveat.fnt"));
         bitmapfont.setColor(1, 0, 0, 1);
         bitmapfont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        bitmapfont.getData().setScale((float)(1* Gdx.graphics.getWidth()/504));
+        bitmapfont.getData().setScale((float)(1/2.5* Gdx.graphics.getWidth()/504));
 
         server = new Server();
         server.start();
@@ -50,7 +50,7 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         int height = Gdx.graphics.getHeight();
         batch.begin();
         batch.draw(img, 0,0,width, height);
-        bitmapfont.draw(batch, "Your ip adress is : " + IPAdress, (int)(0.13*width), (int)(0.62*height));
+        bitmapfont.draw(batch, "Your ip adress is : " + IPAdress, (int)(0.18*width), (int)(0.62*height));
 
         if (server.isBound())
             startGame();
@@ -65,14 +65,17 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        if (button == Input.Buttons.LEFT) {
-            if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.82 * height && y < 0.92 * height) //Go Back
+        if (button == Input.Buttons.LEFT)
+        {
+            if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)1035/1344 * height && y < (float)1172/1344 * height) //Go Back
             {
                 server.closeServer();
                 game.setScreen(new networkMenu(game));
             }
+
             return true;
         }
+
         return false;
     }
 

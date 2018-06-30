@@ -44,12 +44,13 @@ public class networkMenu extends ScreenAdapter implements InputProcessor {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        if (button == Input.Buttons.LEFT) {
-            if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.41 * height && y < 0.51 * height) //Connect
+        if (button == Input.Buttons.LEFT)
+        {
+            if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)575/1344 * height && y < (float)711/1344 * height) //Connect
                 game.setScreen(new connectMenu(game));
-            else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.62 * height && y < 0.72 * height) //Host
+            else if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)828/1344 * height && y < (float)964/1344 * height) //Host
                 game.setScreen(new hostMenu(game));
-            else if (x > 0.19 * width && x < (0.19 + 0.58) * width && y > 0.82 * height && y < 0.92 * height) //Go Back
+            else if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)1095/1344 * height && y < (float)1231/1344 * height) //Go Back
                 game.setScreen(new playerMenuGraphics(game));
             return true;
         }

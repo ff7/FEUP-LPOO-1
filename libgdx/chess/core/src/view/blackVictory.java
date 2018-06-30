@@ -18,15 +18,12 @@ public class blackVictory extends ScreenAdapter implements InputProcessor {
     private SpriteBatch batch;
     private Texture img;
 
-    private BitmapFont font;
-
     public blackVictory(Chess game)
     {
         img = new Texture("images/menus/blackVictory.png");
         this.game = game;
         this.batch = game.getBatch();
 
-        font = new BitmapFont(Gdx.files.internal("myFont.fnt"));
         Gdx.input.setInputProcessor(this);
     }
 
@@ -35,12 +32,12 @@ public class blackVictory extends ScreenAdapter implements InputProcessor {
     {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-        batch.begin();
-        batch.draw(img, 0,0,width, height);;
-        //font.getData().setScale(2);
-        //font.draw(batch, "Time to Chess", 180, 450);
-        batch.end();
 
+        batch.begin();
+
+        batch.draw(img, 0,0,width, height);
+
+        batch.end();
     }
 
 
@@ -52,10 +49,15 @@ public class blackVictory extends ScreenAdapter implements InputProcessor {
 
         if (button == Input.Buttons.LEFT)
         {
-            if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.64 * height && y < 0.74 * height) //MultiPlayer Menu
+            if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)743/1344 * height && y < (float)880/1344 * height) //Main Menu
+            {
                 game.setScreen(new mainMenuGraphics(game));
-            else if (x > 0.21 * width && x < (0.21 + 0.58) * width && y > 0.86 * height && y < 0.96 * height) //Exit Menu
+            }
+            else if (x > (float)213/1000 * width && x < (float)786/1000 * width && y > (float)1035/1344 * height && y < (float)1172/1344 * height) //Exit
+            {
                 Gdx.app.exit();
+            }
+
             return true;
         }
 

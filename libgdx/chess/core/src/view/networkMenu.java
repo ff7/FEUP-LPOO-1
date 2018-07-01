@@ -30,10 +30,10 @@ public class networkMenu extends ScreenAdapter implements InputProcessor {
     @Override
     public void render(float delta)
     {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
         batch.begin();
-        batch.draw(img, 0,0,width, height);
+
+        batch.draw(img, 0, 0, game.width, game.height);
+
         batch.end();
     }
 

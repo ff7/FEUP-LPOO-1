@@ -16,20 +16,19 @@ import model.Server;
 
 public class Graphics extends ScreenAdapter
 {
-	SpriteBatch batch;
-	GameState gamestate;
-	MouseHandler mousehandler;
-	Chess game;
+	private SpriteBatch batch;
+	private GameState gamestate;
+	private Chess game;
+
+	private int widthInc, heightInc;
 	
-	int width = -1, height, widthInc, heightInc;
-	
-	Texture blackFloor = new Texture("images/black/floor.png");
-	Texture whiteFloor = new Texture("images/white/floor.png");
-	Texture redFloor = new Texture("images/highlight.png");
-	
-	ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
-	
-	Character selected;
+	private Texture blackFloor = new Texture("images/black/floor.png");
+	private Texture whiteFloor = new Texture("images/white/floor.png");
+	private Texture redFloor = new Texture("images/highlight.png");
+
+	private ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
+
+	private Character selected;
 
 	public Graphics(Chess game)
 	{
@@ -38,8 +37,10 @@ public class Graphics extends ScreenAdapter
 
 		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath());
 
+		widthInc = game.width / gamestate.getMap().getMap()[0].length;
+		heightInc = game.height / gamestate.getMap().getMap().length;
+
 		selected = null;
-		mousehandler = new MouseHandler(this);
 	    Gdx.input.setInputProcessor(new MouseHandler(this));
 	    Gdx.input.setCatchBackKey(true);
 	}
@@ -52,7 +53,6 @@ public class Graphics extends ScreenAdapter
 		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath(), server);
 
 		selected = null;
-		mousehandler = new MouseHandler(this);
 		Gdx.input.setInputProcessor(new MouseHandler(this));
 	}
 
@@ -64,7 +64,6 @@ public class Graphics extends ScreenAdapter
 		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath(), client);
 
 		selected = null;
-		mousehandler = new MouseHandler(this);
 		Gdx.input.setInputProcessor(new MouseHandler(this));
 	}
 
@@ -87,18 +86,7 @@ public class Graphics extends ScreenAdapter
 			}
 		}
 
-
-			
 		Character[][] map = gamestate.getMap().getMap();
-		
-		if (width == -1)
-		{
-			width = Gdx.graphics.getWidth();
-			height = Gdx.graphics.getHeight();
-			widthInc = width / map[0].length; // Increment of the width, aka image width.
-			heightInc = height / map.length; // Increment of the height, aka image height.
-			
-		}
 		
 		
 		for (int i = 0; i < map.length; i++)
@@ -107,16 +95,16 @@ public class Graphics extends ScreenAdapter
 			{
 				if ((i+j) % 2 == 0)
 				{
-					batch.draw(blackFloor, j*widthInc, height - (i+1)*heightInc, widthInc, heightInc);
+					batch.draw(blackFloor, j*widthInc, game.height - (i+1)*heightInc, widthInc, heightInc);
 				}
 				else
 				{
-					batch.draw(whiteFloor, j*widthInc, height - (i+1)*heightInc, widthInc, heightInc);
+					batch.draw(whiteFloor, j*widthInc, game.height - (i+1)*heightInc, widthInc, heightInc);
 				}
 				
 				if (map[i][j].getTexture() != null)
 				{
-					batch.draw(map[i][j].getTexture(), j*widthInc, height - (i+1)*heightInc, widthInc, heightInc);
+					batch.draw(map[i][j].getTexture(), j*widthInc, game.height - (i+1)*heightInc, widthInc, heightInc);
 				}
 			}
 		}
@@ -129,11 +117,11 @@ public class Graphics extends ScreenAdapter
 				x = possible.get(i).getFirst();
 				y = possible.get(i).getSecond();
 								
-				batch.draw(redFloor, x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+				batch.draw(redFloor, x*widthInc, game.height - (y+1)*heightInc, widthInc, heightInc);
 				
 				if (map[y][x].getTexture() != null)
 				{
-					batch.draw(map[y][x].getTexture(), x*widthInc, height - (y+1)*heightInc, widthInc, heightInc);
+					batch.draw(map[y][x].getTexture(), x*widthInc, game.height - (y+1)*heightInc, widthInc, heightInc);
 				}
 			}
 		}
@@ -186,8 +174,11 @@ public class Graphics extends ScreenAdapter
 
 	public Character getPiece(int x, int y)
 	{
-		if (y/heightInc >= 0 && y/heightInc <= 7 && x/widthInc >= 0 && x/widthInc <= 7)
-			return gamestate.getMap().getMap()[y/heightInc][x/widthInc];
+		int widthInc2 = Gdx.graphics.getWidth() / gamestate.getMap().getMap()[0].length;
+		int heightInc2 = Gdx.graphics.getHeight() / gamestate.getMap().getMap().length;
+
+		if (y/heightInc2 >= 0 && y/heightInc2 <= 7 && x/widthInc2 >= 0 && x/widthInc2 <= 7)
+			return gamestate.getMap().getMap()[y/heightInc2][x/widthInc2];
 
 		return null;
 	}

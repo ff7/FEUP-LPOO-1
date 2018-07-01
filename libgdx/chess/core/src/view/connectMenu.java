@@ -18,7 +18,7 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     private Chess game;
     private SpriteBatch batch;
     private Texture img;
-    private String IPAdress = "";
+    private String IPAddress = "";
     private Client client;
 
     public connectMenu(Chess game)
@@ -35,12 +35,9 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     @Override
     public void render(float delta)
     {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-
         batch.begin();
 
-        batch.draw(img, 0, 0, width, height);
+        batch.draw(img, 0, 0, game.width, game.height);
 
         if (client != null && client.isBound())
             startGame();
@@ -78,7 +75,7 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
 
     public void connect()
     {
-        client = new Client(IPAdress);
+        client = new Client(IPAddress);
         client.startRunning();
 
     }
@@ -145,7 +142,7 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
     @Override
     public void input(String text)
     {
-        IPAdress = text;
+        IPAddress = text;
         connect();
     }
 

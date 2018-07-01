@@ -13,14 +13,14 @@ import model.Chess;
 import model.Server;
 
 
-public class hostMenu extends ScreenAdapter implements InputProcessor, Input.TextInputListener {
+public class hostMenu extends ScreenAdapter implements InputProcessor {
 
     private Chess game;
     private SpriteBatch batch;
     private Texture img;
     private BitmapFont bitmapfont;
     private Server server;
-    private String IPAdress;
+    private String IPAddress;
     public boolean startGame = false;
 
 
@@ -37,7 +37,7 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         server = new Server();
         server.start();
 
-        IPAdress = server.getIPAddress();
+        IPAddress = server.getIPAddress();
 
         Gdx.input.setInputProcessor(this);
         Gdx.input.setCatchBackKey(true);
@@ -46,11 +46,11 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
     @Override
     public void render(float delta)
     {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
         batch.begin();
-        batch.draw(img, 0,0,width, height);
-        bitmapfont.draw(batch, "Your ip adress is : " + IPAdress, (int)(0.18*width), (int)(0.62*height));
+
+        batch.draw(img, 0, 0, game.width, game.height);
+
+        bitmapfont.draw(batch, "Your ip adress is : " + IPAddress, (int)(0.18*game.width), (int)(0.62*game.height));
 
         if (server.isBound())
             startGame();
@@ -139,13 +139,4 @@ public class hostMenu extends ScreenAdapter implements InputProcessor, Input.Tex
         return false;
     }
 
-    @Override
-    public void input(String text) {
-        IPAdress = text;
-    }
-
-    @Override
-    public void canceled() {
-
-    }
 }

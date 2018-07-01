@@ -1,6 +1,7 @@
 package model;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -17,11 +18,16 @@ public class Chess extends Game {
 	SpriteBatch batch;
 	int opponentType = 0; // 0 = Single Player, 1 = Same device, 2 = Other Device
 	String stockfishPath = null;
+	public int width;
+	public int height;
 
 
 	@Override
 	public void create () {
-		
+
+		width = Gdx.graphics.getWidth();
+		height = Gdx.graphics.getHeight();
+
 		batch = new SpriteBatch();
 		this.setScreen(new mainMenuGraphics(this));
 	}

@@ -169,10 +169,7 @@ public class GameState
 				{
 					e.printStackTrace();
 				}
-
-
 			}
-
 		}
 
 		if (opponentType == 1)

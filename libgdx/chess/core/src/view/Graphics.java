@@ -177,7 +177,7 @@ public class Graphics extends ScreenAdapter
 	public Character getPiece(int x, int y)
 	{
 		int widthInc2 = Gdx.graphics.getWidth() / gamestate.getMap().getMap()[0].length;
-		int heightInc2 = Gdx.graphics.getWidth() / gamestate.getMap().getMap().length;
+		int heightInc2 = Gdx.graphics.getHeight() / gamestate.getMap().getMap().length;
 
 		if (y/heightInc2 >= 0 && y/heightInc2 <= 7 && x/widthInc2 >= 0 && x/widthInc2 <= 7)
 			return gamestate.getMap().getMap()[y/heightInc2][x/widthInc2];

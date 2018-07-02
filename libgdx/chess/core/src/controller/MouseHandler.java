@@ -18,8 +18,8 @@ public class MouseHandler implements InputProcessor
 
 
 	@Override
-	public boolean touchDown(int x, int y, int pointer, int button){
-
+	public boolean touchDown(int x, int y, int pointer, int button)
+	{
 		if (button == Input.Buttons.LEFT)
 		{
 			graphics.click(x,y);
@@ -30,7 +30,8 @@ public class MouseHandler implements InputProcessor
 	}
 
 	@Override
-	public boolean keyDown(int keycode) {
+	public boolean keyDown(int keycode)
+	{
 
 		if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
 		{

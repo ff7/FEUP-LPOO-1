@@ -31,13 +31,15 @@ public class Chess extends Game
 	@Override
 	public void create ()
 	{
-		width = Gdx.graphics.getWidth();
-		height = Gdx.graphics.getHeight();
-		fitPort = new FitViewport(500, 500);
-		stretchPort = new StretchViewport(500, 500);
 		batch = new SpriteBatch();
 
-		this.setScreen(new mainMenuGraphics(this));
+		width = Gdx.graphics.getWidth();
+		height = Gdx.graphics.getHeight();
+
+		fitPort = new FitViewport(500, 500);
+		stretchPort = new StretchViewport(500, 500);
+
+		setScreen(new mainMenuGraphics(this));
 	}
 
 	
@@ -46,7 +48,6 @@ public class Chess extends Game
 	{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
 		super.render();
 	}

@@ -140,7 +140,12 @@ public class Graphics extends ScreenAdapter
 		Character piece = getPiece(x, y);
 
 		if (piece == null)
-		    return;
+		{
+			selected = null;
+			possible = null;
+			return;
+		}
+
 
 		if (piece.equals(selected))
 		{
@@ -178,13 +183,18 @@ public class Graphics extends ScreenAdapter
 
 	public Character getPiece(int x, int y)
 	{
-		int widthInc2 = Gdx.graphics.getWidth() / gamestate.getMap().getMap()[0].length;
-		int heightInc2 = Gdx.graphics.getHeight() / gamestate.getMap().getMap().length;
+		int min = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		int Inc = min / gamestate.getMap().getMap().length;
 
-		if (y/heightInc2 >= 0 && y/heightInc2 <= 7 && x/widthInc2 >= 0 && x/widthInc2 <= 7)
-			return gamestate.getMap().getMap()[y/heightInc2][x/widthInc2];
+		if (Gdx.graphics.getHeight() > Gdx.graphics.getWidth()) // Subtract black bars from coordinates
+			y -= (Gdx.graphics.getHeight() - Gdx.graphics.getWidth())/2;
+		else
+			x -= (Gdx.graphics.getWidth() - Gdx.graphics.getHeight())/2;
 
-		return null;
+		if (x / Inc >= 0 && x / Inc <= 7 && y / Inc >= 0 && y / Inc <= 7)
+			return gamestate.getMap().getMap()[y / Inc][x / Inc];
+		else
+			return null;
 	}
 	
 	public void endGame()

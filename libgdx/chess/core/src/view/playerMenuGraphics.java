@@ -35,7 +35,7 @@ public class playerMenuGraphics extends ScreenAdapter implements InputProcessor 
     {
         batch.begin();
 
-        batch.draw(img, 0, 0, game.width, game.width);
+        batch.draw(img, 0, 0, game.width, game.height);
 
         batch.end();
     }

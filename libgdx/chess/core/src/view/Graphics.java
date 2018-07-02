@@ -33,38 +33,40 @@ public class Graphics extends ScreenAdapter
 	public Graphics(Chess game)
 	{
 		this.game = game;
-		this.batch = game.getBatch();
 
 		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath());
 
-		widthInc = game.width / gamestate.getMap().getMap()[0].length;
-		heightInc = game.height / gamestate.getMap().getMap().length;
-
-		selected = null;
-	    Gdx.input.setInputProcessor(new MouseHandler(this));
-	    Gdx.input.setCatchBackKey(true);
+		initialize();
 	}
 
 	public Graphics(Chess game, Server server)
 	{
 		this.game = game;
-		this.batch = game.getBatch();
 
 		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath(), server);
 
-		selected = null;
-		Gdx.input.setInputProcessor(new MouseHandler(this));
+		initialize();
 	}
 
 	public Graphics(Chess game, Client client)
 	{
 		this.game = game;
-		this.batch = game.getBatch();
 
 		gamestate = new GameState(game.getOpponentType(), game.getStockfishPath(), client);
 
+		initialize();
+	}
+
+	public void initialize()
+	{
+		this.batch = game.getBatch();
+
+		widthInc = game.width / gamestate.getMap().getMap()[0].length;
+		heightInc = game.height / gamestate.getMap().getMap().length;
+
 		selected = null;
 		Gdx.input.setInputProcessor(new MouseHandler(this));
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
@@ -175,7 +177,7 @@ public class Graphics extends ScreenAdapter
 	public Character getPiece(int x, int y)
 	{
 		int widthInc2 = Gdx.graphics.getWidth() / gamestate.getMap().getMap()[0].length;
-		int heightInc2 = Gdx.graphics.getHeight() / gamestate.getMap().getMap().length;
+		int heightInc2 = Gdx.graphics.getWidth() / gamestate.getMap().getMap().length;
 
 		if (y/heightInc2 >= 0 && y/heightInc2 <= 7 && x/widthInc2 >= 0 && x/widthInc2 <= 7)
 			return gamestate.getMap().getMap()[y/heightInc2][x/widthInc2];

@@ -16,14 +16,12 @@ import java.io.BufferedReader;
 
 public class GameState
 {
-
 	protected Map map;
 	public int player = 0;
 	public boolean gameOver = false;
 	public int winner = 2;
 
 	public int opponentType;
-	private String stockfishPath;
 
 	private Process stockfish;
 	private BufferedReader reader;
@@ -46,7 +44,6 @@ public class GameState
 	{
 		map = new Map();
 		this.opponentType = opponentType;
-		this.stockfishPath = stockfishPath;
 
 		if (opponentType == 0)
 		{
@@ -65,7 +62,6 @@ public class GameState
 				writer.write(foobar, 0, foobar.length());
 				writer.flush();
 
-				printAIAnswer();
 			}
 			catch (IOException e)
 			{
@@ -85,7 +81,6 @@ public class GameState
 	{
 		map = new Map();
 		this.opponentType = opponentType;
-		this.stockfishPath = stockfishPath;
 		this.server = server;
 
 		server.setGameState(this);
@@ -103,7 +98,6 @@ public class GameState
 	{
 		map = new Map();
 		this.opponentType = opponentType;
-		this.stockfishPath = stockfishPath;
 		this.client = client;
 
 		this.player = 1; //Server plays firsts
@@ -124,7 +118,6 @@ public class GameState
 	{
 		map = new Map(testFlag);
 		this.opponentType = opponentType;
-		this.stockfishPath = stockfishPath;
 
 		if (opponentType == 0)
 		{
@@ -143,7 +136,6 @@ public class GameState
 				writer.write(foobar, 0, foobar.length());
 				writer.flush();
 
-				printAIAnswer();
 			}
 			catch (IOException e)
 			{
@@ -168,14 +160,19 @@ public class GameState
 
 			if (player == 1)
 			{
-				try {
+				try
+				{
 					moveAI();
-
-				} catch (IOException e) {
+					printAIAnswer();
+				}
+				catch (IOException e)
+				{
 					e.printStackTrace();
 				}
-				printAIAnswer();
+
+
 			}
+
 		}
 
 		if (opponentType == 1)
@@ -203,6 +200,8 @@ public class GameState
 			}
 		}
 	}
+
+
 
 	/**
 	 * Moves one character from one position in the map to another one
@@ -277,18 +276,35 @@ public class GameState
 		updateAIBoard();
 		goAI();
 
-		ArrayList<String> answer = getAIAnswer();
+		new java.util.Timer().schedule(new java.util.TimerTask() { //Allows the game to be played while an answer from the AI is waited for
+										   @Override
+										   public void run()
+										   {
+										   	try
+											{
+												ArrayList<String> answer = getAIAnswer();
 
-		printAIAnswer(answer);
+												printAIAnswer(answer);
 
-		String foobar = answer.get(answer.size()-1);
+												String foobar = answer.get(answer.size()-1);
 
-		foobar = foobar.substring(9, 13);
+												foobar = foobar.substring(9, 13);
 
-		move(foobar);
+												move(foobar);
 
-		updateAIBoard();
-		printAIBoard();
+												updateAIBoard();
+												printAIBoard();
+											}
+											catch (IOException e)
+											{
+												e.printStackTrace();
+											}
+
+										   }
+									   }, 1000
+		);
+
+
 	}
 
 
@@ -301,11 +317,6 @@ public class GameState
 	{
 		ArrayList<String> ret = new ArrayList<String>();
 
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		while (reader.ready())
 		{
 			ret.add(reader.readLine());
@@ -822,4 +833,5 @@ public class GameState
 		if (opponentType == 0)
 			stockfish.destroy();
 	}
+
 }

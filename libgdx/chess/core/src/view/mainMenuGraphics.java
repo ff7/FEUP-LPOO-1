@@ -70,7 +70,7 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
     {
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
         {
-            System.exit(0);
+            Gdx.app.exit();
             return true;
         }
 

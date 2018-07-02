@@ -284,11 +284,8 @@ public class Server implements Runnable{
 	{
 		showMessage("Starting " +  threadName);
 
-//		if (t == null)
-//        {
-            t = new Thread (this, threadName);
-            t.start();
-//        }
+		t = new Thread (this, threadName);
+		t.start();
 	}
 
 	public void setGameState(GameState gameState)

@@ -601,7 +601,7 @@ public class GameState
 
 		for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet())
 		{
-			if (entry.getValue() == false)
+			if (!entry.getValue())
 			{
 				System.out.println(entry.getKey().getFirst() + ":" + entry.getKey().getSecond());
 				return false;

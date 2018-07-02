@@ -2,7 +2,8 @@ package view;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -67,6 +68,8 @@ public class Graphics extends ScreenAdapter
 		selected = null;
 		Gdx.input.setInputProcessor(new MouseHandler(this));
 		Gdx.input.setCatchBackKey(true);
+
+		game.fitPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
@@ -130,7 +133,6 @@ public class Graphics extends ScreenAdapter
 
 		batch.end();
 	}
-	
 
 	
 	public void click(int x, int y)

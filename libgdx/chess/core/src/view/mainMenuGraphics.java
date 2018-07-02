@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import model.Chess;
@@ -26,6 +25,8 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
 
         Gdx.input.setInputProcessor(this);
         Gdx.input.setCatchBackKey(true);
+
+        game.stretchPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override

@@ -26,7 +26,7 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
         Gdx.input.setInputProcessor(this);
         Gdx.input.setCatchBackKey(true);
 
-        game.stretchPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.stretchPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Prompts stretchPort to update
     }
 
     @Override
@@ -37,7 +37,6 @@ public class mainMenuGraphics extends ScreenAdapter implements InputProcessor {
         batch.draw(img, 0, 0, game.width, game.height);
 
         batch.end();
-
     }
 
 

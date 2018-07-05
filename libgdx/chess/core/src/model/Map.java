@@ -20,21 +20,6 @@ public class Map {
 						{new Rook(), new Knight(), new Bishop(), new Queen(), new King(), new Bishop(), new Knight(), new Rook()}
 			
 					};
-					
-		
-//	private Character[][] map =  
-//		{
-//				
-//				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
-//				{new Floor(), new Floor(), new Floor(), new Bishop(), new Floor(), new Queen(), new Floor(), new Floor()},
-//				{new Floor(), new Floor(), new Knight(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()},
-//				{new Knight(), new Floor(), new Floor(), new Floor(), new Knight(), new King(), new Floor(), new Floor()},
-//				{new Floor(), new Floor(), new King(), new Pawn(), new Floor(), new Floor(), new Bishop(), new Floor()},
-//				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Pawn(), new Floor(), new Floor()},
-//				{new Rook(), new Floor(), new Pawn(), new Floor(), new Pawn(), new Floor(), new Floor(), new Rook()},
-//				{new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor(), new Floor()}
-//	
-//			};
 
 	/**
 	 *
@@ -60,7 +45,7 @@ public class Map {
 			}
 		}
 		
-	};
+	}
 
 	public Map(boolean testFlag)
 	{
@@ -81,11 +66,25 @@ public class Map {
 			}
 		}
 
-	};
-	
-	public Map(Character[][] map)
+	}
+
+
+	public Map(Map mapa)
 	{
-		this.map = map;
+		for (int i = 0; i < mapa.map.length; i++)
+		{
+			for (int j = 0; j < mapa.map[i].length; j++)
+			{
+				map[i][j] = mapa.map[i][j];
+			}
+		}
+
+		updatePositions();
+	}
+
+
+	public void updatePositions()
+	{
 		for (int i = 0; i < map.length; i++)
 		{
 			for (int j = 0; j < map[i].length; j++) {

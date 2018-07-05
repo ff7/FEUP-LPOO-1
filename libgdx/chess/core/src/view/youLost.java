@@ -24,17 +24,16 @@ public class youLost extends ScreenAdapter implements InputProcessor {
         this.batch = game.getBatch();
 
         Gdx.input.setInputProcessor(this);
+
+        game.stretchPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Prompts stretchPort to update
     }
 
     @Override
     public void render(float delta)
     {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-
         batch.begin();
 
-        batch.draw(img, 0,0,width, height);
+        batch.draw(img, 0, 0, game.width, game.height);
 
         batch.end();
     }

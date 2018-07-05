@@ -57,6 +57,7 @@ public class GameState
 
 				String foobar = "uci";
 				foobar += "\nucinewgame";
+				foobar += "\nsetoption name Skill Level value 0";
 				foobar += "\nisready\n";
 
 				writer.write(foobar, 0, foobar.length());
@@ -196,8 +197,11 @@ public class GameState
 				}
 			}
 		}
-	}
 
+		updatePawns();
+		updateCastling();
+		updateGameStatus();
+	}
 
 
 	/**
@@ -215,53 +219,9 @@ public class GameState
 		map.move(map.getMap()[y1][x1], map.getMap()[y2][x2]);
 		swapPlayer();
 
-
-		this.updatePawns();
-		this.updateCastling();
-		this.updateGameStatus();
-	}
-
-	/**
-	 * Prints the map used by the AI
-	 *
-	 */
-	public void printAIBoard() throws IOException
-	{
-		String foobar = "d\n";
-
-		writer.write(foobar, 0, foobar.length());
-		writer.flush();
-
-		printAIAnswer();
-	}
-
-	/**
-	 * Updates the AI Map accordingly to the best decision
-	 *
-	 */
-	public void updateAIBoard() throws IOException
-	{
-		String foobar = "position startpos moves";
-
-		for (int i = 0; i < moves.size(); i++) {
-			foobar += " " + moves.get(i);
-		}
-		foobar += "\n";
-
-		writer.write(foobar, 0, foobar.length());
-		writer.flush();
-	}
-
-	/**
-	 * Begins the AI best decision selector process
-	 *
-	 */
-	public void goAI() throws IOException
-	{
-		String foobar = "go\n";
-
-		writer.write(foobar, 0, foobar.length());
-		writer.flush();
+		updatePawns();
+		updateCastling();
+		updateGameStatus();
 	}
 
 	/**
@@ -288,9 +248,6 @@ public class GameState
 												foobar = foobar.substring(9, 13);
 
 												move(foobar);
-
-												updateAIBoard();
-												printAIBoard();
 											}
 											catch (IOException e)
 											{
@@ -304,6 +261,48 @@ public class GameState
 
 	}
 
+    /**
+     * Prints the map used by the AI
+     *
+     */
+    public void printAIBoard() throws IOException
+    {
+        String foobar = "d\n";
+
+        writer.write(foobar, 0, foobar.length());
+        writer.flush();
+
+        printAIAnswer();
+    }
+
+    /**
+     * Updates the AI Map accordingly to the best decision
+     *
+     */
+    public void updateAIBoard() throws IOException
+    {
+        String foobar = "position startpos moves";
+
+        for (int i = 0; i < moves.size(); i++) {
+            foobar += " " + moves.get(i);
+        }
+        foobar += "\n";
+
+        writer.write(foobar, 0, foobar.length());
+        writer.flush();
+    }
+
+    /**
+     * Begins the AI best decision selector process
+     *
+     */
+    public void goAI() throws IOException
+    {
+        String foobar = "go\n";
+
+        writer.write(foobar, 0, foobar.length());
+        writer.flush();
+    }
 
 	/**
 	 * Moves a piece accordingly to the best movement decision.
@@ -328,11 +327,14 @@ public class GameState
 	 */
 	public void printAIAnswer()
 	{
-
 		ArrayList<String> answer = new ArrayList<String>();
-		try {
+
+		try
+		{
 			answer = getAIAnswer();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -345,7 +347,7 @@ public class GameState
 	/**
 	 * Prints the AI decisions to the console.
 	 *
-	 * @param answer AI best mpvements.
+	 * @param answer AI best movements.
 	 */
 	public void printAIAnswer(ArrayList<String> answer)
 	{
@@ -358,7 +360,7 @@ public class GameState
 	/**
 	 * Prints the AI decisions to the console.
 	 *
-	 * @param ch1 AI best mpvements.
+	 * @param ch1 AI best movements.
 	 * @param ch2
 	 * @return Universal Chess Interface notation corresponding to the map coordinates notation for the white pieces
 	 */
@@ -377,7 +379,7 @@ public class GameState
 	/**
 	 * Prints the AI decisions to the console.
 	 *
-	 * @param ch1 AI best mpvements.
+	 * @param ch1 AI best movements.
 	 * @param ch2
 	 * @return Universal Chess Interface notation corresponding to the map coordinates notation for the black pieces
 	 */
@@ -417,13 +419,9 @@ public class GameState
 	public void swapPlayer()
 	{
 		if (player == 0)
-		{
 			player = 1;
-		}
 		else
-		{
 			player = 0;
-		}
 	}
 
 	/**
@@ -476,7 +474,7 @@ public class GameState
 			if (this.getMap().getCharMap()[7][3] == '_' && this.getMap().getCharMap()[7][1] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0 && this.getMap().getMap()[7][0].moveCount == 0)
 			{
 				this.getMap().getMap()[7][3] = new Rook(0, 3,7);
-                this.getMap().getMap()[7][2] = new King(0, 2,7);
+				this.getMap().getMap()[7][2] = new King(0, 2,7);
 				this.getMap().getMap()[7][0] = new Floor(0,7);
 			}
 		}
@@ -558,8 +556,11 @@ public class GameState
 	 */
 	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
 	{
-		System.out.println(isKingCornered(p, kingPos) + "-" + isKingIndefensible(p, kingPos));
-		if (isKingCornered(p, kingPos) && isKingIndefensible(p, kingPos))
+		boolean cornered = isKingCornered(p, kingPos), indefensible = isKingIndefensible(p, kingPos);
+
+		System.out.println(cornered + "-" + indefensible);
+
+		if (cornered && indefensible)
 		{
 			return true;
 		}

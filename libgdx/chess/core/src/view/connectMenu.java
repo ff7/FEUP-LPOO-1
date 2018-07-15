@@ -29,6 +29,8 @@ public class connectMenu extends ScreenAdapter implements InputProcessor, Input.
         Gdx.input.setInputProcessor(this);
         Gdx.input.getTextInput(this, "Server IP", "", "");
         Gdx.input.setCatchBackKey(true);
+
+        Gdx.graphics.requestRendering();
     }
 
     @Override

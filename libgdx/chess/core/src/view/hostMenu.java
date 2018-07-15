@@ -41,6 +41,8 @@ public class hostMenu extends ScreenAdapter implements InputProcessor {
 
         Gdx.input.setInputProcessor(this);
         Gdx.input.setCatchBackKey(true);
+
+        Gdx.graphics.requestRendering();
     }
 
     @Override

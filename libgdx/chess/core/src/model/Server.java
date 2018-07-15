@@ -1,5 +1,7 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.*;
 import java.net.*;
 import java.util.Enumeration;
@@ -103,6 +105,7 @@ public class Server implements Runnable{
 		}
 
 		showMessage(" Now connected to " + connection.getInetAddress().getHostName());
+		Gdx.graphics.requestRendering();
 	}
 
 	public boolean isBound()
@@ -199,6 +202,8 @@ public class Server implements Runnable{
 		{
 			e.printStackTrace();
 		}
+
+		Gdx.graphics.requestRendering();
 	}
 	
 	/**

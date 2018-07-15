@@ -70,11 +70,15 @@ public class Graphics extends ScreenAdapter
 		Gdx.input.setCatchBackKey(true);
 
 		game.fitPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		Gdx.graphics.requestRendering();
 	}
 
 	@Override
 	public void render(float delta)
 	{
+		System.out.println("Render delta = " + delta);
+
 		endGame();
 		batch.begin();
 
@@ -212,9 +216,8 @@ public class Graphics extends ScreenAdapter
 
 	public void exit(int winner)
 	{
-		gamestate.exit();
-
 		System.out.println(winner);
+
 		if (gamestate.opponentType == 1) {
 			if (winner == 0) {
 				game.setScreen(new whiteVictory(game));
@@ -236,6 +239,8 @@ public class Graphics extends ScreenAdapter
 		}
 
 		gamestate.exit();
+
+		Gdx.graphics.requestRendering();
 	}
 
 }

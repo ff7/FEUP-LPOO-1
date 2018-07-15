@@ -39,6 +39,9 @@ public class Chess extends Game
 		fitPort = new FitViewport(500, 500);
 		stretchPort = new StretchViewport(500, 500);
 
+		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.requestRendering();
+
 		setScreen(new mainMenuGraphics(this));
 	}
 

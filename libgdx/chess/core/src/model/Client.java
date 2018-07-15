@@ -1,5 +1,7 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.*;
 import java.net.*;
 
@@ -88,6 +90,7 @@ public class Client implements Runnable{
 		}
 
 		showMessage("Connection Established! Connected to: " + connection.getInetAddress().getHostName());
+		Gdx.graphics.requestRendering();
 	}
 	
 	/**
@@ -96,10 +99,17 @@ public class Client implements Runnable{
 	 */
 	public void setupStreams() throws IOException
 	{
-		output = new ObjectOutputStream(connection.getOutputStream());
-		output.flush();
-		input = new ObjectInputStream(connection.getInputStream());
-		showMessage("\n The streams are now set up! \n");
+		try
+		{
+			output = new ObjectOutputStream(connection.getOutputStream());
+			output.flush();
+			input = new ObjectInputStream(connection.getInputStream());
+			showMessage("\n The streams are now set up! \n");
+		}
+		catch (SocketException e)
+		{
+			closeConnection();
+		}
 	}
 
 	/**
@@ -162,6 +172,8 @@ public class Client implements Runnable{
 		{
 			ioException.printStackTrace();
 		}
+
+		Gdx.graphics.requestRendering();
 	}
 	
 	/**

@@ -26,6 +26,8 @@ public class youWon extends ScreenAdapter implements InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         game.stretchPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Prompts stretchPort to update
+
+        Gdx.graphics.requestRendering();
     }
 
     @Override

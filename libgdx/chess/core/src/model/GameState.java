@@ -1,5 +1,7 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -200,6 +202,8 @@ public class GameState
 		updatePawns();
 		updateCastling();
 		updateGameStatus();
+
+		Gdx.graphics.requestRendering();
 	}
 
 
@@ -221,6 +225,8 @@ public class GameState
 		updatePawns();
 		updateCastling();
 		updateGameStatus();
+
+		Gdx.graphics.requestRendering();
 	}
 
 	/**

@@ -57,7 +57,7 @@ public class GameState
 
 				String foobar = "uci";
 				foobar += "\nucinewgame";
-				foobar += "\nsetoption name Skill Level value 0";
+//				foobar += "\nsetoption name Skill Level value 0";
 				foobar += "\nisready\n";
 
 				writer.write(foobar, 0, foobar.length());
@@ -164,7 +164,6 @@ public class GameState
 				try
 				{
 					moveAI();
-					printAIAnswer();
 				}
 				catch (IOException e)
 				{
@@ -252,6 +251,19 @@ public class GameState
 											catch (IOException e)
 											{
 												e.printStackTrace();
+											}
+											catch (StringIndexOutOfBoundsException e)
+											{
+												e.printStackTrace();
+
+												try
+												{
+													moveAI();
+												}
+												catch (IOException e2)
+												{
+													e2.printStackTrace();
+												}
 											}
 
 										   }

@@ -154,7 +154,7 @@ public class Graphics extends ScreenAdapter
 		}
 		else if (selected == null || !possible.contains(piece.getPos()))
 		{
-			if (piece.getPlayer() != gamestate.player || (gamestate.opponentType == 2 && gamestate.player == 1) /*|| (gamestate.opponentType == 0 && gamestate.player == 1)*/)
+			if (piece.getPlayer() != gamestate.player || (gamestate.opponentType == 2 && gamestate.player == 1) || (gamestate.opponentType == 0 && gamestate.player == 1))
 			{
 				selected = null;
 				possible = null;
@@ -166,7 +166,7 @@ public class Graphics extends ScreenAdapter
 		}
 		else
 		{
-			if (!piece.equals(selected) && (gamestate.opponentType != 2 || gamestate.player == 0) /*&& (gamestate.opponentType != 0 || gamestate.player == 0)*/)
+			if (!piece.equals(selected) && (gamestate.opponentType != 2 || gamestate.player == 0) && (gamestate.opponentType != 0 || gamestate.player == 0))
             {
 				gamestate.move(selected, piece);
 				endGame();

@@ -29,7 +29,7 @@ public class GameState
 	private BufferedReader reader;
 	private BufferedWriter writer;
 
-	private ArrayList<String> moves;
+	private ArrayList<String> moves = new ArrayList<String>();
 
 	public Server server;
 	public Client client;
@@ -55,11 +55,9 @@ public class GameState
 				reader = new BufferedReader(new InputStreamReader(stockfish.getInputStream()));
 				writer = new BufferedWriter(new OutputStreamWriter(stockfish.getOutputStream()));
 
-				moves = new ArrayList<String>();
-
 				String foobar = "uci";
 				foobar += "\nucinewgame";
-//				foobar += "\nsetoption name Skill Level value 0";
+				foobar += "\nsetoption name Skill Level value 0";
 				foobar += "\nisready\n";
 
 				writer.write(foobar, 0, foobar.length());
@@ -155,9 +153,10 @@ public class GameState
 	 */
 	public void move(Character ch1, Character ch2) // Moves ch1 to ch2
 	{
+		moves.add(getMoveSymbol(ch1, ch2));
+
 		if (opponentType == 0)
 		{
-			moves.add(getMoveSymbol(ch1, ch2));
 			map.move(ch1, ch2);
 			swapPlayer();
 
@@ -233,7 +232,7 @@ public class GameState
 	 * Moves a piece accordingly to the best movement decision.
 	 *
 	 */
-	public void moveAI() throws IOException
+	private void moveAI() throws IOException
 	{
 		updateAIBoard();
 		goAI();
@@ -283,7 +282,7 @@ public class GameState
      * Prints the map used by the AI
      *
      */
-    public void printAIBoard() throws IOException
+	private void printAIBoard() throws IOException
     {
         String foobar = "d\n";
 
@@ -297,7 +296,7 @@ public class GameState
      * Updates the AI Map accordingly to the best decision
      *
      */
-    public void updateAIBoard() throws IOException
+	private void updateAIBoard() throws IOException
     {
         String foobar = "position startpos moves";
 
@@ -314,7 +313,7 @@ public class GameState
      * Begins the AI best decision selector process
      *
      */
-    public void goAI() throws IOException
+	private void goAI() throws IOException
     {
         String foobar = "go\n";
 
@@ -327,7 +326,7 @@ public class GameState
 	 *
 	 * @return The best moves from the AI.
 	 */
-	public ArrayList<String> getAIAnswer() throws IOException
+	private ArrayList<String> getAIAnswer() throws IOException
 	{
 		ArrayList<String> ret = new ArrayList<String>();
 
@@ -343,7 +342,7 @@ public class GameState
 	 * Prints the AI decision the console.
 	 *
 	 */
-	public void printAIAnswer()
+	private void printAIAnswer()
 	{
 		ArrayList<String> answer = new ArrayList<String>();
 
@@ -367,7 +366,7 @@ public class GameState
 	 *
 	 * @param answer AI best movements.
 	 */
-	public void printAIAnswer(ArrayList<String> answer)
+	private void printAIAnswer(ArrayList<String> answer)
 	{
 		for (int i = 0; i < answer.size(); i++)
 		{
@@ -382,7 +381,7 @@ public class GameState
 	 * @param ch2
 	 * @return Universal Chess Interface notation corresponding to the map coordinates notation for the white pieces
 	 */
-	public String getMoveSymbol(Character ch1, Character ch2)
+	private String getMoveSymbol(Character ch1, Character ch2)
 	{
 		String str = "";
 
@@ -401,7 +400,7 @@ public class GameState
 	 * @param ch2
 	 * @return Universal Chess Interface notation corresponding to the map coordinates notation for the black pieces
 	 */
-	public String getInvertedMoveSymbol(Character ch1, Character ch2)
+	private String getInvertedMoveSymbol(Character ch1, Character ch2)
 	{
 		String str = "";
 
@@ -418,12 +417,14 @@ public class GameState
 		return map;
 	}
 
-	/**
+    public ArrayList<String> getMoves() { return moves; }
+
+    /**
 	 * Returns the opposite player in the current game map
 	 *
 	 * @return The opposite player.
 	 */
-	public int otherPlayer()
+	private int otherPlayer()
 	{
 		if (player == 0)
 			return 1;
@@ -446,7 +447,7 @@ public class GameState
 	 * Checks if any pawn needs to be promoted to queen.
 	 *
 	 */
-	public void updatePawns()
+	private void updatePawns()
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
 		{
@@ -476,7 +477,7 @@ public class GameState
 	 * Checks if there is any castle to be done.
 	 *
 	 */
-	public void updateCastling() // Jogada especial em que o rei troca de posicao com a torre
+	private void updateCastling() // Jogada especial em que o rei troca de posicao com a torre
 	{
 		if (this.getMap().getCharMap()[7][6] == 'K' && this.getMap().getMap()[7][6].player == 0)
 		{
@@ -520,7 +521,7 @@ public class GameState
 	 * Updates the current gameStatus by verifying checks and check-mates
 	 *
 	 */
-	public void updateGameStatus() // Trata de ver se ha cheques e cheque-mates
+	private void updateGameStatus() // Trata de ver se ha cheques e cheque-mates
 	{
 		Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
 
@@ -547,7 +548,7 @@ public class GameState
 	 * @param kingPos position of the threatened king.
 	 * @return true if check, false otherwise
 	 */
-	public boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
+	private boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
 		{
@@ -572,17 +573,13 @@ public class GameState
 	 * @param kingPos position of the threatened king.
 	 * @return true if check-mate, false otherwise
 	 */
-	public boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
+	private boolean verifyCheckMate(int p, Pair<Integer, Integer> kingPos)
 	{
 		boolean cornered = isKingCornered(p, kingPos), indefensible = isKingIndefensible(p, kingPos);
 
 		System.out.println(cornered + "-" + indefensible);
 
-		if (cornered && indefensible)
-		{
-			return true;
-		}
-		return false;
+		return (cornered && indefensible);
 	}
 
 	/**
@@ -592,7 +589,7 @@ public class GameState
 	 * @param kingPos position of the threatened king.
 	 * @return true if king cannot move, false otherwise.
 	 */
-	public boolean isKingCornered(int p, Pair<Integer, Integer> kingPos) // True se o rei esta encurralado
+	private boolean isKingCornered(int p, Pair<Integer, Integer> kingPos) // True se o rei esta encurralado
 	{
 		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
 
@@ -636,7 +633,7 @@ public class GameState
 	 * @param kingPos position of the threatened king.
 	 * @return true if king is indefensible, false otherwise.
 	 */
-	public boolean isKingIndefensible(int p, Pair<Integer, Integer> kingPos) // True se nenhuma peca conseguir evitar o cheque mate
+	private boolean isKingIndefensible(int p, Pair<Integer, Integer> kingPos) // True se nenhuma peca conseguir evitar o cheque mate
 	{
 		for (int i = 0; i < this.getMap().getMap().length; i++)
 		{
@@ -829,7 +826,7 @@ public class GameState
 	 * @param arr first character possible moves.
 	 * @return true if position is contained, false otherwise.
 	 */
-	public boolean isPossible(Pair<Integer, Integer> pos, ArrayList<Pair<Integer, Integer>> arr)
+	private boolean isPossible(Pair<Integer, Integer> pos, ArrayList<Pair<Integer, Integer>> arr)
 	{
 		return arr.contains(pos);
 	}

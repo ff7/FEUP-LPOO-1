@@ -26,6 +26,7 @@ public class Graphics extends ScreenAdapter
 	private Texture blackFloor = new Texture("images/black/floor.png");
 	private Texture whiteFloor = new Texture("images/white/floor.png");
 	private Texture redFloor = new Texture("images/highlight.png");
+	private Texture greenFloor = new Texture("images/lastMoveHighlight.png");
 
 	private ArrayList<Pair<Integer, Integer>> possible = new ArrayList<Pair<Integer, Integer>>();
 
@@ -80,24 +81,12 @@ public class Graphics extends ScreenAdapter
 		System.out.println("Render delta = " + delta);
 
 		endGame();
+
 		batch.begin();
-
-		if (gamestate.opponentType == 2 && !gamestate.gameOver)
-		{
-			if (gamestate.server != null && !gamestate.server.isBound())
-			{
-				exit(2);
-			}
-
-			if (gamestate.client != null && !gamestate.client.isBound())
-			{
-				exit(2);
-			}
-		}
 
 		Character[][] map = gamestate.getMap().getMap();
 		
-		
+		//Draws black and white floor textures
 		for (int i = 0; i < map.length; i++)
 		{
 			for (int j = 0; j < map[i].length; j++)
@@ -110,14 +99,21 @@ public class Graphics extends ScreenAdapter
 				{
 					batch.draw(whiteFloor, j*widthInc, game.height - (i+1)*heightInc, widthInc, heightInc);
 				}
-				
-				if (map[i][j].getTexture() != null)
-				{
-					batch.draw(map[i][j].getTexture(), j*widthInc, game.height - (i+1)*heightInc, widthInc, heightInc);
-				}
 			}
 		}
-		
+
+		//Draws lastMove textures
+		if (gamestate.getMoves() != null && gamestate.getMoves().size() > 0)
+		{
+			String lastMove = gamestate.getMoves().get(gamestate.getMoves().size()-1);
+
+			int x1 = lastMove.substring(0,1).charAt(0) - 'a', y1 = 8 - Integer.parseInt(lastMove.substring(1,2)), x2 = lastMove.substring(2,3).charAt(0) - 'a', y2 = 8 - Integer.parseInt(lastMove.substring(3,4));
+
+			batch.draw(greenFloor, x1*widthInc, game.height - (y1+1)*heightInc, widthInc, heightInc);
+			batch.draw(greenFloor, x2*widthInc, game.height - (y2+1)*heightInc, widthInc, heightInc);
+		}
+
+		//Draws possible moves textures
 		if (possible != null)
 		{
 			int x, y;
@@ -131,6 +127,18 @@ public class Graphics extends ScreenAdapter
 				if (map[y][x].getTexture() != null)
 				{
 					batch.draw(map[y][x].getTexture(), x*widthInc, game.height - (y+1)*heightInc, widthInc, heightInc);
+				}
+			}
+		}
+
+		//Draws pieces
+		for (int i = 0; i < map.length; i++)
+		{
+			for (int j = 0; j < map[i].length; j++)
+			{
+				if (map[i][j].getTexture() != null)
+				{
+					batch.draw(map[i][j].getTexture(), j*widthInc, game.height - (i+1)*heightInc, widthInc, heightInc);
 				}
 			}
 		}
@@ -200,6 +208,12 @@ public class Graphics extends ScreenAdapter
 	
 	public void endGame()
 	{
+		if (gamestate.opponentType == 2 && !gamestate.gameOver)
+		{
+			if ((gamestate.server != null && !gamestate.server.isBound()) || (gamestate.client != null && !gamestate.client.isBound()))
+				exit(2);
+		}
+
 		if (gamestate.gameOver)
 		{
 			String winner;

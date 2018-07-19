@@ -20,6 +20,17 @@ public class Pair<T1, T2>
 			this.second = second;
 		}
 	}
+
+	public Pair(Pair<T1, T2> pair)
+	{
+		if (pair == null)
+			throw new IllegalArgumentException();
+		else
+		{
+			this.first = pair.first;
+			this.second = pair.second;
+		}
+	}
 	
 	public void setFirst(T1 first)
 	{

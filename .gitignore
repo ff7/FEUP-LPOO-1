@@ -1,6 +1,4 @@
-/bin/
-libgdx/chess/*/build/
-libgdx/chess/build/
-*.DS_Store
+**/build
+**/.DS_Store
 libgdx/chess/.gradle/*
 libgdx/chess/.idea/*

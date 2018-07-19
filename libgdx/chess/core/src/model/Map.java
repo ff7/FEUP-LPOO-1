@@ -141,7 +141,7 @@ public class Map {
 	 */
 	public boolean isWithinBounds(Pair<Integer, Integer> pair)
 	{
-		return (pair.getFirst() >= 0 && pair.getFirst() < map[0].length && pair.getSecond() >= 0 && pair.getSecond() < map.length);
+		return (isWithinBounds(pair.getFirst(), pair.getSecond()));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class Map {
 	{
 		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()] = ch1;
 
-		map[ch1.getPos().getSecond()][ch1.getPos().getFirst()] = new Floor(ch2.getPos().getFirst(), ch2.getPos().getSecond());
+		map[ch1.getPos().getSecond()][ch1.getPos().getFirst()] = new Floor(ch1.getPos().getFirst(), ch1.getPos().getSecond());
 
 		ch1.setPos(ch2.getPos());
 
@@ -185,24 +185,20 @@ public class Map {
 	 * @return the kings position of a certain player.
 	 *
 	 */
-	public Pair<Integer, Integer> getKingsPosition(int player)
+	public King getKing(int player)
 	{
-		int x = 0, y = 0; // Initialized to 0 to remove the warning
 		for (int i = 0; i < map.length; i++)
 		{
 			for (int j = 0; j < map[i].length; j++)
 			{
-				if (map[j][i].ch == 'K' && map[j][i].player == player) 
+				if (map[i][j] instanceof King && map[i][j].player == player)
 				{
-					x = i;
-					y = j;
+					return (King)map[i][j];
 				}		
 			}
 		}
-		Pair<Integer, Integer> pos = new Pair<Integer, Integer>();
-		pos.setFirst(x);
-		pos.setSecond(y);
-		return pos;
+
+		return null;
 	}
 
 	/**

@@ -19,8 +19,6 @@ public abstract class Character {
 
 		public int moveCount = 0;
 
-		public boolean isCheck = false;
-
 		public Character()
 		{
 

@@ -57,7 +57,7 @@ public class GameState
 
 				String foobar = "uci";
 				foobar += "\nucinewgame";
-				foobar += "\nsetoption name Skill Level value 0";
+//				foobar += "\nsetoption name Skill Level value 0";
 				foobar += "\nisready\n";
 
 				writer.write(foobar, 0, foobar.length());
@@ -234,6 +234,7 @@ public class GameState
 	private void moveAI() throws IOException
 	{
 		updateAIBoard();
+		printAIBoard();
 		goAI();
 
 		new java.util.Timer().schedule(new java.util.TimerTask() { //Allows the game to be played while an answer from the AI is waited for
@@ -287,8 +288,6 @@ public class GameState
 
         writer.write(foobar, 0, foobar.length());
         writer.flush();
-
-        printAIAnswer();
     }
 
     /**
@@ -427,7 +426,8 @@ public class GameState
 	{
 		if (player == 0)
 			return 1;
-		return 0;
+		else
+			return 0;
 	}
 
 	/**
@@ -448,26 +448,26 @@ public class GameState
 	 */
 	private void updatePawns()
 	{
-		for (int i = 0; i < this.getMap().getMap().length; i++)
-		{
-			for (int j = 0; j < this.getMap().getMap()[i].length; j++)
-			{
-				Character ch = this.getMap().getMap()[j][i];
+		Character ch;
 
-				if (ch.getPlayer() == 0)
+		for (int y = 0; y < map.getMap().length; y++)
+		{
+			for (int x = 0; x < map.getMap()[y].length; x++)
+			{
+				ch = map.getMap()[y][x];
+
+				if (ch instanceof Pawn)
 				{
-					if (ch.getChar() == 'p' && ch.getPos().getSecond() == 0)
+					if (ch.getPlayer() == 0 && ch.getPos().getSecond() == 0)
 					{
-						this.getMap().getMap()[j][i] = new Queen(0,ch.getPos().getFirst(), ch.getPos().getSecond());
+						map.getMap()[y][x] = new Queen(0, ch.getPos().getFirst(), ch.getPos().getSecond());
+					}
+					else if (ch.getPlayer() == 1 && ch.getPos().getSecond() == 7)
+					{
+						map.getMap()[y][x] = new Queen(1, ch.getPos().getFirst(), ch.getPos().getSecond());
 					}
 				}
-				else if (ch.getPlayer() == 1)
-				{
-					if (ch.getChar() == 'p' && ch.getPos().getSecond() == 7)
-					{
-						this.getMap().getMap()[j][i] = new Queen(1,ch.getPos().getFirst(), ch.getPos().getSecond());
-					}
-				}
+				
 			}
 		}
 	}
@@ -478,40 +478,49 @@ public class GameState
 	 */
 	private void updateCastling() // Jogada especial em que o rei troca de posicao com a torre
 	{
-		if (this.getMap().getCharMap()[7][6] == 'K' && this.getMap().getMap()[7][6].player == 0)
+		for (int y = 0; y < map.getMap().length; y++)
 		{
-			if (this.getMap().getCharMap()[7][5] == '_' && this.getMap().getCharMap()[7][7] == 'R' && this.getMap().getMap()[7][7].player == 0 && this.getMap().getMap()[7][7].moveCount == 0)
+			for (int x = 0; x < map.getMap()[y].length; x++)
 			{
-				this.getMap().getMap()[7][6] = new King(0, 6,7);
-				this.getMap().getMap()[7][5] = new Rook(0, 5,7);
-				this.getMap().getMap()[7][7] = new Floor(7,7);
-			}
-		}
-		if (this.getMap().getCharMap()[7][2] == 'K' && this.getMap().getMap()[7][2].player == 0)
-		{
-			if (this.getMap().getCharMap()[7][3] == '_' && this.getMap().getCharMap()[7][1] == '_' && this.getMap().getCharMap()[7][0] == 'R' && this.getMap().getMap()[7][0].player == 0 && this.getMap().getMap()[7][0].moveCount == 0)
-			{
-				this.getMap().getMap()[7][3] = new Rook(0, 3,7);
-				this.getMap().getMap()[7][2] = new King(0, 2,7);
-				this.getMap().getMap()[7][0] = new Floor(0,7);
-			}
-		}
-		if (this.getMap().getCharMap()[0][6] == 'K' && this.getMap().getMap()[0][6].player == 1)
-		{
-			if (this.getMap().getCharMap()[0][5] == '_' && this.getMap().getCharMap()[0][7] == 'R' && this.getMap().getMap()[0][7].player == 1 && this.getMap().getMap()[0][7].moveCount == 0)
-			{
-				this.getMap().getMap()[0][6] = new King(1, 6,0);
-				this.getMap().getMap()[0][5] = new Rook(1, 5,0);
-				this.getMap().getMap()[0][7] = new Floor(7,0);
-			}
-		}
-		if (this.getMap().getCharMap()[0][2] == 'K' && this.getMap().getMap()[0][2].player == 1)
-		{
-			if (this.getMap().getCharMap()[0][3] == '_' && this.getMap().getCharMap()[0][1] == '_' && this.getMap().getCharMap()[0][0] == 'R' && this.getMap().getMap()[0][0].player == 1 && this.getMap().getMap()[0][0].moveCount == 0)
-			{
-				this.getMap().getMap()[0][3] = new Rook(1, 3,0);
-				this.getMap().getMap()[0][2] = new King(1, 2,0);
-				this.getMap().getMap()[0][0] = new Floor(0,0);
+				if (map.getMap()[y][x] instanceof King && map.getMap()[y][x].moveCount == 1 && !((King)map.getMap()[y][x]).hasCastled)
+				{
+					if (map.getMap()[y][x-1] instanceof Rook && map.getMap()[y][x-1].moveCount == 0)
+					{
+						((King)map.getMap()[y][x]).hasCastled = true;
+
+						map.getMap()[y][x+1] = map.getMap()[y][x-1];
+						map.getMap()[y][x+1].setPos(new Pair<Integer, Integer>(x+1, y));
+
+						map.getMap()[y][x-1] = new Floor(x-1, y);
+					}
+					else if (map.isWithinBounds(x-2, y) && map.getMap()[y][x-1] instanceof Floor && map.getMap()[y][x-2] instanceof Rook && map.getMap()[y][x-2].moveCount == 0)
+					{
+						((King)map.getMap()[y][x]).hasCastled = true;
+
+						map.getMap()[y][x+1] = map.getMap()[y][x-2];
+						map.getMap()[y][x+1].setPos(new Pair<Integer, Integer>(x+1, y));
+
+						map.getMap()[y][x-2] = new Floor(x-2, y);
+					}
+					else if (map.getMap()[y][x+1] instanceof Rook && map.getMap()[y][x+1].moveCount == 0)
+					{
+						((King)map.getMap()[y][x]).hasCastled = true;
+
+						map.getMap()[y][x-1] = map.getMap()[y][x+1];
+						map.getMap()[y][x-1].setPos(new Pair<Integer, Integer>(x-1, y));
+
+						map.getMap()[y][x+1] = new Floor(x+1, y);
+					}
+					else if (map.isWithinBounds(x+2, y) && map.getMap()[y][x+1] instanceof Floor && map.getMap()[y][x+2] instanceof Rook && map.getMap()[y][x+2].moveCount == 0)
+					{
+						((King)map.getMap()[y][x]).hasCastled = true;
+
+						map.getMap()[y][x-1] = map.getMap()[y][x+2];
+						map.getMap()[y][x-1].setPos(new Pair<Integer, Integer>(x-1, y));
+
+						map.getMap()[y][x+2] = new Floor(x+2, y);
+					}
+				}
 			}
 		}
 	}
@@ -522,12 +531,12 @@ public class GameState
 	 */
 	private void updateGameStatus() // Trata de ver se ha cheques e cheque-mates
 	{
-		Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
+		King king = map.getKing(player);
 
-		if (verifyCheck(otherPlayer(), kingPos))
+		if (verifyCheck(otherPlayer(), king.getPos()))
 		{
-			this.getMap().getMap()[kingPos.getFirst()][kingPos.getSecond()].isCheck = true;
-			if (verifyCheckMate(otherPlayer(), kingPos))
+			king.isCheck = true;
+			if (verifyCheckMate(otherPlayer(), king.getPos()))
 			{
 				System.out.println("CheckMate");
 				winner = otherPlayer();
@@ -536,7 +545,7 @@ public class GameState
 		}
 		else
 		{
-			this.getMap().getMap()[kingPos.getFirst()][kingPos.getSecond()].isCheck = false;
+			king.isCheck = false;
 		}
 	}
 
@@ -549,13 +558,13 @@ public class GameState
 	 */
 	private boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
 	{
-		for (int i = 0; i < this.getMap().getMap().length; i++)
+		for (int i = 0; i < map.getMap().length; i++)
 		{
-			for (int j = 0; j < this.getMap().getMap()[i].length; j++)
+			for (int j = 0; j < map.getMap()[i].length; j++)
 			{
-				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null)
+				if (map.getMap()[j][i].getPossible(getMap()) != null)
 				{
-					if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(kingPos) && this.getMap().getMap()[j][i].getPlayer() == p)
+					if (map.getMap()[j][i].getPossible(getMap()).contains(kingPos) && map.getMap()[j][i].getPlayer() == p)
 					{
 						return true;
 					}
@@ -592,20 +601,20 @@ public class GameState
 	{
 		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
 
-		for (int k = 0; k < trimGetPossible(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()], this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap())).size(); k++)
+		for (int k = 0; k < trimGetPossible(map.getMap()[kingPos.getSecond()][kingPos.getFirst()], map.getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap())).size(); k++)
 		{
-			possibleMoves.put(this.getMap().getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
+			possibleMoves.put(map.getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
 		}
 
-		for (int i = 0; i < this.getMap().getMap().length; i++)
+		for (int i = 0; i < map.getMap().length; i++)
 		{
-			for (int j = 0; j < this.getMap().getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
+			for (int j = 0; j < map.getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
 			{
-				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null)
+				if (map.getMap()[j][i].getPossible(getMap()) != null)
 				{
 					for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet()) // Percorre os moves possiveis do rei em check
 					{
-						if (this.getMap().getMap()[j][i].getPossible(getMap()).contains(entry.getKey()) && this.getMap().getMap()[j][i].getPlayer() == p) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
+						if (map.getMap()[j][i].getPossible(getMap()).contains(entry.getKey()) && map.getMap()[j][i].getPlayer() == p) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
 						{
 							entry.setValue(true);
 						}
@@ -634,33 +643,33 @@ public class GameState
 	 */
 	private boolean isKingIndefensible(int p, Pair<Integer, Integer> kingPos) // True se nenhuma peca conseguir evitar o cheque mate
 	{
-		for (int i = 0; i < this.getMap().getMap().length; i++)
+		for (int i = 0; i < map.getMap().length; i++)
 		{
-			for (int j = 0; j < this.getMap().getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
+			for (int j = 0; j < map.getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
 			{
-				if (this.getMap().getMap()[j][i].getPossible(getMap()) != null && this.getMap().getMap()[j][i].getPlayer() == player && this.getMap().getMap()[j][i].getChar() != 'K')
+				if (map.getMap()[j][i].getPossible(getMap()) != null && map.getMap()[j][i].getPlayer() == player && map.getMap()[j][i].getChar() != 'K')
 				{
-					ArrayList<Pair<Integer, Integer>> arr = this.getMap().getMap()[j][i].getPossible(getMap());
+					ArrayList<Pair<Integer, Integer>> arr = map.getMap()[j][i].getPossible(getMap());
 
 					for (int k = 0 ; k < arr.size(); k++)
 					{
 						int xt = arr.get(k).getFirst(), yt = arr.get(k).getSecond();
 
-						Character temp = this.getMap().getMap()[yt][xt];
-						Character ch = this.getMap().getMap()[j][i];
+						Character temp = map.getMap()[yt][xt];
+						Character ch = map.getMap()[j][i];
 
-						this.getMap().getMap()[j][i] = new Floor();
-						this.getMap().getMap()[yt][xt] = ch;
+						map.getMap()[j][i] = new Floor();
+						map.getMap()[yt][xt] = ch;
 
 						if (!verifyCheck(otherPlayer(), kingPos))
 						{
-							this.getMap().getMap()[j][i] = ch;
-							this.getMap().getMap()[yt][xt] = temp;
+							map.getMap()[j][i] = ch;
+							map.getMap()[yt][xt] = temp;
 							System.out.println(ch.getChar() + ":" + xt +":" + yt);
 							return false;
 						}
-						this.getMap().getMap()[j][i] = ch;
-						this.getMap().getMap()[yt][xt] = temp;
+						map.getMap()[j][i] = ch;
+						map.getMap()[yt][xt] = temp;
 					}
 				}
 			}
@@ -685,10 +694,10 @@ public class GameState
 			{
 				Pair<Integer, Integer> kingPos = arr.get(i);
 				int xt = arr.get(i).getFirst(), yt = arr.get(i).getSecond();
-				Character temp = this.getMap().getMap()[yt][xt];
+				Character temp = map.getMap()[yt][xt];
 
-				this.getMap().getMap()[y][x] = new Floor();
-				this.getMap().getMap()[yt][xt] = ch;
+				map.getMap()[y][x] = new Floor();
+				map.getMap()[yt][xt] = ch;
 
 				if (verifyCheck(otherPlayer(), kingPos))
 				{
@@ -696,8 +705,8 @@ public class GameState
 					i--;
 				}
 
-				this.getMap().getMap()[y][x] = ch;
-				this.getMap().getMap()[yt][xt] = temp;
+				map.getMap()[y][x] = ch;
+				map.getMap()[yt][xt] = temp;
 			}
 
 			if (this.player == 0 ) // Caso especial do rei
@@ -794,23 +803,23 @@ public class GameState
 		else
 		{
 			int x = ch.getPos().getFirst(), y = ch.getPos().getSecond();
-			Pair<Integer, Integer> kingPos = this.getMap().getKingsPosition(player);
+			Pair<Integer, Integer> kingPos = map.getKing(player).getPos();
 
 			for (int i = 0; i < arr.size(); i++)
 			{
 				int xt = arr.get(i).getFirst(), yt = arr.get(i).getSecond();
-				Character temp = this.getMap().getMap()[yt][xt];
+				Character temp = map.getMap()[yt][xt];
 
-				this.getMap().getMap()[y][x] = new Floor();
-				this.getMap().getMap()[yt][xt] = ch;
+				map.getMap()[y][x] = new Floor();
+				map.getMap()[yt][xt] = ch;
 
 				if (verifyCheck(otherPlayer(), kingPos))
 				{
 					arr.remove(i);
 					i--;
 				}
-				this.getMap().getMap()[y][x] = ch;
-				this.getMap().getMap()[yt][xt] = temp;
+				map.getMap()[y][x] = ch;
+				map.getMap()[yt][xt] = temp;
 			}
 
 		}

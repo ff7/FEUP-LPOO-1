@@ -9,8 +9,6 @@ import java.util.ArrayList;
  */
 public class Floor extends Character
 {
-	int moveCount = 0;
-
 	/**
 	 *
 	 * Constructs a Floor.

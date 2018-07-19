@@ -10,8 +10,6 @@ import java.util.ArrayList;
  */
 public class Queen extends Character
 {
-	int moveCount = 0;
-
 	/**
 	 *
 	 * Constructs a Queen.

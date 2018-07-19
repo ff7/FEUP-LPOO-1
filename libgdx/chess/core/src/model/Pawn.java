@@ -9,8 +9,6 @@ import java.util.ArrayList;
  */
 public class Pawn extends Character
 {
-	int moveCount = 0;
-
 	/**
 	 *
 	 * Constructs a Pawn.
@@ -19,13 +17,11 @@ public class Pawn extends Character
 	public Pawn()
 	{
 		super('p');
-//		super.setTexture("src/lpoo/chess/gui/images/pawn.png");
 	}
 	
 	public Pawn(int player, int x, int y)
 	{
 		super(player, x, y, 'p');
-//		super.setTexture("src/lpoo/chess/gui/images/pawn.png");
 	}
 
 	/**

@@ -9,8 +9,6 @@ import java.util.ArrayList;
  */
 public class Knight extends Character
 {
-	int moveCount = 0;
-
 	/**
 	 *
 	 * Constructs a Knight.

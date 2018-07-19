@@ -168,29 +168,13 @@ public class Map {
 	 */
 	public void move(Character ch1, Character ch2)
 	{
-		Pair<Integer, Integer> temp = new Pair<Integer, Integer>(ch1.getPos().getFirst(), ch1.getPos().getSecond());
+		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()] = ch1;
 
-		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()] = map[ch1.getPos().getSecond()][ch1.getPos().getFirst()];
+		map[ch1.getPos().getSecond()][ch1.getPos().getFirst()] = new Floor(ch2.getPos().getFirst(), ch2.getPos().getSecond());
 
-		map[ch2.getPos().getSecond()][ch2.getPos().getFirst()].setPos(ch2.getPos());
-		
-		map[temp.getSecond()][temp.getFirst()] = new Floor(temp.getFirst(), temp.getSecond());
+		ch1.setPos(ch2.getPos());
 
-		if (ch1 instanceof Pawn)
-		{
-			Pawn p = (Pawn)(ch1);
-			p.moveCount++;
-		}
-		else if (ch1 instanceof  King)
-		{
-			King k = (King)(ch1);
-			k.moveCount++;
-		}
-		else if (ch1 instanceof  Rook)
-		{
-			Rook r = (Rook)(ch1);
-			r.moveCount++;
-		}
+		ch1.moveCount++;
 	}
 
 	/**

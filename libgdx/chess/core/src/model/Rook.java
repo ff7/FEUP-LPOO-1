@@ -9,8 +9,6 @@ import java.util.ArrayList;
  */
 public class Rook extends Character
 {
-	int moveCount = 0;
-
 	/**
 	 *
 	 * Represents a Rook.

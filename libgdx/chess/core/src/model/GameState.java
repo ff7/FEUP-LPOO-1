@@ -687,7 +687,7 @@ public class GameState
 	 */
 	public ArrayList<Pair<Integer, Integer>> trimGetPossible(Character ch, ArrayList<Pair<Integer, Integer>> arr)
 	{
-		if (ch.getChar() == 'K') // O rei nao pode movimentar-se para um eventual check
+		if (ch instanceof King) // O rei nao pode movimentar-se para um eventual check
 		{
 			int x = ch.getPos().getFirst(), y = ch.getPos().getSecond();
 			for (int i = 0; i < arr.size(); i++)
@@ -709,7 +709,7 @@ public class GameState
 				map.getMap()[yt][xt] = temp;
 			}
 
-			if (this.player == 0 ) // Caso especial do rei
+			if (this.player == 0 ) // Castling
 			{
 				if (map.getCharMap()[7][4] == 'K' )
 				{

@@ -96,39 +96,55 @@ public class King extends Character
 				ret.add(absolutePos);
 			}
 
-			if (map.getCharMap()[7][4] == 'K' && map.getMap()[7][4].player == 0 && map.getCharMap()[7][7] == 'R' && map.getMap()[7][7].player == 0 & this.player == 0 && moveCount == 0)
+		}
+
+		boolean flag = true;
+
+		if (moveCount == 0 && !hasCastled)
+		{
+			for (int i = 1; i <= 2; i++)
 			{
-				if (map.getCharMap()[7][5] == '_' && map.getCharMap()[7][6] == '_')
+				if (!map.isWithinBounds(pos.getFirst() + i, pos.getSecond()) || !(map.getMap()[pos.getSecond()][pos.getFirst() + i] instanceof Floor))
 				{
-					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(6,7);
-					ret.add(castleOption);
-				}
-			}
-			if (map.getCharMap()[7][4] == 'K' && map.getMap()[7][4].player == 0 && map.getCharMap()[7][0] == 'R' && map.getMap()[7][0].player == 0 && this.player == 0 && moveCount == 0)
-			{
-				if (map.getCharMap()[7][1] == '_' && map.getCharMap()[7][2] == '_' && map.getCharMap()[7][3] == '_')
-				{
-					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(2,7);
-					ret.add(castleOption);
+					flag = false;
+					break;
 				}
 			}
 
-			if (map.getCharMap()[0][4] == 'K' && map.getMap()[0][4].player == 1 && map.getCharMap()[0][7] == 'R' && map.getMap()[0][7].player == 1 && this.player == 1 && moveCount == 0)
+			if (flag)
 			{
-				if (map.getCharMap()[0][5] == '_' && map.getCharMap()[0][6] == '_')
+				if (map.isWithinBounds(pos.getFirst() + 3, pos.getSecond()) && map.getMap()[pos.getSecond()][pos.getFirst() + 3] instanceof Rook && map.getMap()[pos.getSecond()][pos.getFirst() + 3].moveCount == 0)
 				{
-					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(6,0);
-					ret.add(castleOption);
+					ret.add(new Pair<Integer, Integer>(pos.getFirst() + 2, pos.getSecond()));
+				}
+				else if (map.isWithinBounds(pos.getFirst() + 4, pos.getSecond()) && map.getMap()[pos.getSecond()][pos.getFirst() + 3] instanceof Floor && map.getMap()[pos.getSecond()][pos.getFirst() + 4] instanceof Rook && map.getMap()[pos.getSecond()][pos.getFirst() + 4].moveCount == 0)
+				{
+					ret.add(new Pair<Integer, Integer>(pos.getFirst() + 2, pos.getSecond()));
 				}
 			}
-			if (map.getCharMap()[0][4] == 'K' && map.getMap()[0][4].player == 1 && map.getCharMap()[0][0] == 'R' && map.getMap()[0][0].player == 1 && this.player == 1 && moveCount == 0)
+
+			flag = true;
+			for (int i = -1; i >= -2; i--)
 			{
-				if (map.getCharMap()[0][1] == '_' && map.getCharMap()[0][2] == '_' && map.getCharMap()[0][3] == '_')
+				if (!map.isWithinBounds(pos.getFirst() + i, pos.getSecond()) || !(map.getMap()[pos.getSecond()][pos.getFirst() + i] instanceof Floor))
 				{
-					Pair<Integer, Integer> castleOption = new Pair<Integer, Integer>(2,0);
-					ret.add(castleOption);
+					flag = false;
+					break;
 				}
 			}
+
+			if (flag)
+			{
+				if (map.isWithinBounds(pos.getFirst() - 3, pos.getSecond()) && map.getMap()[pos.getSecond()][pos.getFirst() - 3] instanceof Rook && map.getMap()[pos.getSecond()][pos.getFirst() - 3].moveCount == 0)
+				{
+					ret.add(new Pair<Integer, Integer>(pos.getFirst() - 2, pos.getSecond()));
+				}
+				else if (map.isWithinBounds(pos.getFirst() - 4, pos.getSecond()) && map.getMap()[pos.getSecond()][pos.getFirst() - 3] instanceof Floor && map.getMap()[pos.getSecond()][pos.getFirst() - 4] instanceof Rook && map.getMap()[pos.getSecond()][pos.getFirst() - 4].moveCount == 0)
+				{
+					ret.add(new Pair<Integer, Integer>(pos.getFirst() - 2, pos.getSecond()));
+				}
+			}
+
 		}
 		
 		

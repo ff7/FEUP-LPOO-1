@@ -217,9 +217,6 @@ public class GameState
 
 		int x1 = symbol.substring(0,1).charAt(0) - 'a', y1 = 8 - Integer.parseInt(symbol.substring(1,2)), x2 = symbol.substring(2,3).charAt(0) - 'a', y2 = 8 - Integer.parseInt(symbol.substring(3,4));
 
-		if (opponentType == 0)
-			moves.add(getMoveSymbol(map.getMap()[y1][x1], map.getMap()[y2][x2]));
-
 		map.move(map.getMap()[y1][x1], map.getMap()[y2][x2]);
 		swapPlayer();
 

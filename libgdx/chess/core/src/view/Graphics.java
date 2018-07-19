@@ -78,7 +78,7 @@ public class Graphics extends ScreenAdapter
 	@Override
 	public void render(float delta)
 	{
-		System.out.println("Render delta = " + delta);
+//		System.out.println("Render delta = " + delta);
 
 		endGame();
 

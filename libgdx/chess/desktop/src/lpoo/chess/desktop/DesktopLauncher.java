@@ -8,7 +8,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Title";
-//		config.useGL20 = true;
 		config.height = 504;
 		config.width = 504;
 

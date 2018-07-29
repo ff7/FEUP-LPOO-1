@@ -174,7 +174,7 @@ public class Graphics extends ScreenAdapter
 			}
 
 			selected = piece;
-			possible = gamestate.trimGetPossible(selected, selected.getPossible(gamestate.getMap()));
+			possible = gamestate.trimGetPossible(selected);
 		}
 		else
 		{

@@ -237,7 +237,7 @@ public class GameState
 		printAIBoard();
 		goAI();
 
-		new java.util.Timer().schedule(new java.util.TimerTask() { //Allows the game to be played while an answer from the AI is waited for
+		new java.util.Timer().schedule(new java.util.TimerTask() { //Allows the board to be drawn while an answer from the AI is waited for
 										   @Override
 										   public void run()
 										   {
@@ -601,7 +601,7 @@ public class GameState
 	{
 		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
 
-		for (int k = 0; k < trimGetPossible(map.getMap()[kingPos.getSecond()][kingPos.getFirst()], map.getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap())).size(); k++)
+		for (int k = 0; k < trimGetPossible(map.getMap()[kingPos.getSecond()][kingPos.getFirst()]).size(); k++)
 		{
 			possibleMoves.put(map.getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
 		}
@@ -682,11 +682,12 @@ public class GameState
 	 * Trims a certain piece character moves accordingly to the checks and possible-checks in the current gamestate.
 	 *
 	 * @param ch player which possible moves will be trimmed.
-	 * @param arr character possible moves.
 	 * @return the trimmed possible moves of the character.
 	 */
-	public ArrayList<Pair<Integer, Integer>> trimGetPossible(Character ch, ArrayList<Pair<Integer, Integer>> arr)
+	public ArrayList<Pair<Integer, Integer>> trimGetPossible(Character ch)
 	{
+		ArrayList<Pair<Integer, Integer>> arr = ch.getPossible(map);
+
 		if (ch instanceof King) // O rei nao pode movimentar-se para um eventual check
 		{
 			int x = ch.getPos().getFirst(), y = ch.getPos().getSecond();

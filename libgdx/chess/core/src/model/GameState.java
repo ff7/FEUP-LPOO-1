@@ -558,19 +558,17 @@ public class GameState
 	 */
 	private boolean verifyCheck(int p, Pair<Integer, Integer> kingPos)
 	{
-		for (int i = 0; i < map.getMap().length; i++)
+		for (int y = 0; y < map.getMap().length; y++)
 		{
-			for (int j = 0; j < map.getMap()[i].length; j++)
+			for (int x = 0; x < map.getMap()[y].length; x++)
 			{
-				if (map.getMap()[j][i].getPossible(getMap()) != null)
+				if (map.getMap()[y][x].getPossible(getMap()) != null && map.getMap()[y][x].getPossible(getMap()).contains(kingPos) && map.getMap()[y][x].getPlayer() == p)
 				{
-					if (map.getMap()[j][i].getPossible(getMap()).contains(kingPos) && map.getMap()[j][i].getPlayer() == p)
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -599,38 +597,49 @@ public class GameState
 	 */
 	private boolean isKingCornered(int p, Pair<Integer, Integer> kingPos) // True se o rei esta encurralado
 	{
-		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
+//		HashMap<Pair<Integer, Integer>, Boolean> possibleMoves = new HashMap<Pair<Integer, Integer>, Boolean>();
+//
+//		for (int k = 0; k < trimGetPossible(map.getMap()[kingPos.getSecond()][kingPos.getFirst()]).size(); k++)
+//		{
+//			possibleMoves.put(map.getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
+//		}
+//
+//		for (int i = 0; i < map.getMap().length; i++)
+//		{
+//			for (int j = 0; j < map.getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
+//			{
+//				if (map.getMap()[j][i].getPossible(getMap()) != null)
+//				{
+//					for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet()) // Percorre os moves possiveis do rei em check
+//					{
+//						if (map.getMap()[j][i].getPossible(getMap()).contains(entry.getKey()) && map.getMap()[j][i].getPlayer() == p) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
+//						{
+//							entry.setValue(true);
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//		for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet())
+//		{
+//			if (!entry.getValue())
+//			{
+//				System.out.println(entry.getKey().getFirst() + ":" + entry.getKey().getSecond());
+//				return false;
+//			}
+//		}
+//		return true;
 
-		for (int k = 0; k < trimGetPossible(map.getMap()[kingPos.getSecond()][kingPos.getFirst()]).size(); k++)
-		{
-			possibleMoves.put(map.getMap()[kingPos.getSecond()][kingPos.getFirst()].getPossible(getMap()).get(k), false);
-		}
 
-		for (int i = 0; i < map.getMap().length; i++)
-		{
-			for (int j = 0; j < map.getMap()[i].length; j++) // Estes 2 loops percorrem o mapa
-			{
-				if (map.getMap()[j][i].getPossible(getMap()) != null)
-				{
-					for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet()) // Percorre os moves possiveis do rei em check
-					{
-						if (map.getMap()[j][i].getPossible(getMap()).contains(entry.getKey()) && map.getMap()[j][i].getPlayer() == p) // Ve se ha pecas da equipa adversaria a fazer check aos moves do rei
-						{
-							entry.setValue(true);
-						}
-					}
-				}
-			}
-		}
+		ArrayList<Pair<Integer, Integer>> possibleMoves = trimGetPossible(map.getMap()[kingPos.getSecond()][kingPos.getFirst()]);
 
-		for (HashMap.Entry<Pair<Integer, Integer>, Boolean> entry : possibleMoves.entrySet())
+		for (int i = 0; i < possibleMoves.size(); i++)
 		{
-			if (!entry.getValue())
-			{
-				System.out.println(entry.getKey().getFirst() + ":" + entry.getKey().getSecond());
+			if (!verifyCheck(p, possibleMoves.get(i)))
 				return false;
-			}
 		}
+
 		return true;
 	}
 
